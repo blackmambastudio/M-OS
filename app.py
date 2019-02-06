@@ -6,6 +6,7 @@ import serial
 import pygame
 
 from scenes.TitleScene import TitleScene
+from comm import comm
 
 
 def run_game(width, height, fps, starting_scene):
@@ -48,4 +49,5 @@ def run_game(width, height, fps, starting_scene):
 
 
 if __name__ == '__main__':
+    comm.init_connections('COM5', 'COM6')
     run_game(400, 300, 60, TitleScene())
