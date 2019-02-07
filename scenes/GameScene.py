@@ -8,7 +8,7 @@ class GameScene(SceneBase):
     def ProcessInput(self, events, pressed_keys):
         pass
         
-    def Update(self):
+    def Update(self, dt):
         pass
     
     def Render(self, screen):

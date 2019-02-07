@@ -15,9 +15,9 @@ class TitleScene(SceneBase):
                 # Move to the next scene when the user pressed Enter
                 self.SwitchToScene(GameScene())
     
-    def Update(self):
-        pass
+    def Update(self, dt):
+        SceneBase.Update(self, dt)
     
     def Render(self, screen):
         # For the sake of brevity, the title scene is a blank red screen
-        screen.fill((255, 0, 0))
+        screen.fill((0x1B, 0x0C, 0x00))

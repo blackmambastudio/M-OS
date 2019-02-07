@@ -5,18 +5,26 @@ import time
 import serial
 import pygame
 
-from scenes.TitleScene import TitleScene
+
+from scenes.BootScene import BootScene
 from comm import comm
 
 
 def run_game(width, height, fps, starting_scene):
+    pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    active_scene = starting_scene
+    active_scene = starting_scene()
+
+    last_time = time.time()
 
     while active_scene != None:
+        current_time = time.time()
+        dt = current_time - last_time
+        last_time = current_time
+
         pressed_keys = pygame.key.get_pressed()
         
         # Event filtering 
@@ -39,7 +47,7 @@ def run_game(width, height, fps, starting_scene):
                 filtered_events.append(event)
         
         active_scene.ProcessInput(filtered_events, pressed_keys)
-        active_scene.Update()
+        active_scene.Update(dt)
         active_scene.Render(screen)
         
         active_scene = active_scene.next
@@ -50,4 +58,4 @@ def run_game(width, height, fps, starting_scene):
 
 if __name__ == '__main__':
     comm.init_connections('COM5', 'COM6')
-    run_game(400, 300, 60, TitleScene())
+    run_game(1280, 720, 60, BootScene)
