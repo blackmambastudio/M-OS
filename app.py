@@ -59,5 +59,5 @@ def run_game(width, height, fps, starting_scene):
 
 if __name__ == '__main__':
     comm.init_connections('COM5', 'COM6')
-    run_game(1280, 720, 60, TutorialScene)
-    #run_game(1280, 720, 60, BootScene)
+    #run_game(1280, 720, 60, TutorialScene)
+    run_game(1280, 720, 60, BootScene)
