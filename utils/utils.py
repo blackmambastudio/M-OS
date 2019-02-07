@@ -65,15 +65,25 @@ class Tween():
 
 
 class Sprite():
-    def __init__(self, path):
+    def __init__(self, path, x=0, y=0):
         self.image = get_image(path)
-        self.opacity = 1.0
-        self.position = (200.0, 450.0)
+        self.opacity = 255
         self.anchor = (0.5, 0.5)
+        self.SetPosition(x, y)
 
     def SetPosition(self, x, y):
+        self.x = x
+        self.y = y
         rect = self.image.get_rect()
-        self.position = (x - rect.width*self.anchor[0], y - rect.height*self.anchor[1])
+        self.position = (self.x - rect.width*self.anchor[0], self.y - rect.height*self.anchor[1])
 
     def RenderWithAlpha(self, screen):
         blit_alpha(screen, self.image, self.position, int(self.opacity))
+
+    def setAnchor(self, x, y):
+        self.anchor = (x, y)
+        self.SetPosition(self.x, self.y)
+
+    def SetOpacity(self, opacity):
+        self.opacity = opacity
+
