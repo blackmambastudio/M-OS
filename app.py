@@ -26,6 +26,7 @@ def run_game(width, height, fps, starting_scene):
         dt = current_time - last_time
         last_time = current_time
 
+        comm.read_response()
         pressed_keys = pygame.key.get_pressed()
         
         # Event filtering 
@@ -47,17 +48,20 @@ def run_game(width, height, fps, starting_scene):
             else:
                 filtered_events.append(event)
         
-        active_scene.ProcessInput(filtered_events, pressed_keys)
-        active_scene.Update(dt)
-        active_scene.Render(screen)
+        if active_scene:
+            active_scene.ProcessInput(filtered_events, pressed_keys)
+            active_scene.Update(dt)
+            active_scene.Render(screen)
         
         active_scene = active_scene.next
         
         pygame.display.flip()
         clock.tick(fps)
 
+    comm.close_connections()
+
 
 if __name__ == '__main__':
-    comm.init_connections('COM5', 'COM6')
+    comm.init_connections('COM5', 'COM15')
     #run_game(1280, 720, 60, TutorialScene)
     run_game(1280, 720, 60, BootScene)

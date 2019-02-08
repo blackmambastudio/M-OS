@@ -20,70 +20,77 @@ class SerialComm:
         data = self.comm.read(4)
         while len(data) > 0:
             to_int = [x for x in data]
-            data = ser.read(4)
+            data = self.comm.read(4)
 
     def write(self, command, payload):
         if not self.active: return
         if command in self.unavailable_commands: return
         data = [0x7E, command, len(payload)] + payload
-        comm.write(bytearray(data))
+        self.comm.write(bytearray(data))
+        self.comm.flush()
 
-    def activate_buttons(activate):
+    def activate_buttons(self, activate):
         message = [int(activate)]
         self.write(0x01, message)
 
-    def activate_tunners(activate):
+    def activate_tunners(self, activate):
         message = [int(activate)]
         self.write(0x02, message)
 
-    def set_independent_lights(independent):
+    def set_independent_lights(self, independent):
         message = [int(independent)]
         self.write(0x03, message)
     
-    def clean_matrix():
+    def clean_matrix(self):
         self.write(0x04, [0])
 
-    def set_led_brightness(value):
-        self.write(0x05, [value%255])
+    def set_led_brightness(self, value):
+        self.write(0x05, [value%256])
 
-    def set_buttons_backlight(backlight_colors):
+    def set_buttons_backlight(self, backlight_colors):
         message = [len(backlight_colors)%4] + backlight_colors
         self.write(0x10, message)
 
-    def switch_buttons_backlight(button_lights_on):
+    def switch_buttons_backlight(self, button_lights_on):
         message = [len(button_lights_on)%2] + button_lights_on
         self.write(0x11, message)
 
-    def set_led_light(colors):
-        message = [len(colors)%4] + colors
+    def set_led_light(self, colors):
+        message = [int(len(colors)/4)] + colors
         self.write(0x12, message)
 
-    def display_image(encoded_image):
+    def display_image(self, encoded_image):
         self.write(0x13, encoded_image)
 
-    def switch_button_mode(button_modes):
+    def switch_button_mode(self, button_modes):
         message = [len(button_modes)%2] + button_modes
         self.write(0x30, message)
 
-    def lock_buttons(button_locks):
+    def lock_buttons(self, button_locks):
         message = [len(button_locks)%2] + button_locks
         self.write(0x31, message)
     
-    def switch_buttons(button_status):
+    def switch_buttons(self, button_status):
         message = [len(button_status)%2] + button_status
         self.write(0x32, message)
 
+    def close_connection(self):
+        if self.active:
+            self.comm.close()
 
-material_comm = SerialComm([0x02, 0x04, 0x13])
-optimization_comm = SerialComm([])
+
+mat = SerialComm([0x02, 0x04, 0x13])
+opt = SerialComm([])
 
 
 def init_connections(port_material, port_optimization):
-    material_comm.open(port_material)
-    optimization_comm.open(port_optimization)
+    mat.open(port_material)
+    opt.open(port_optimization)
 
 def read_response():
-    material_comm.read()
-    optimization_comm.read()
+    mat.read()
+    opt.read()
     
-
+def close_connections():
+    mat.close_connection()
+    opt.close_connection()

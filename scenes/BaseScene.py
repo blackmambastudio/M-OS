@@ -23,6 +23,9 @@ class SceneBase:
         print("uh-oh, you didn't override this in the child class")
 
     def SwitchToScene(self, next_scene):
+        if next_scene == None:
+            self.next = None
+            return
         self.next = next_scene()
 
     def Terminate(self):

@@ -13,7 +13,7 @@ class TitleScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 # Move to the next scene when the user pressed Enter
-                self.SwitchToScene(GameScene())
+                self.SwitchToScene(GameScene)
     
     def Update(self, dt):
         SceneBase.Update(self, dt)

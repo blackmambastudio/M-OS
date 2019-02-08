@@ -87,3 +87,23 @@ class Sprite():
     def SetOpacity(self, opacity):
         self.opacity = opacity
 
+
+def get_image_matrix(path):
+    image = get_image(path)
+    temp = pygame.Surface((image.get_width(), image.get_height())).convert()
+    temp.blit(image, (0, 0))
+    image_matrix = [
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+    ]
+    for j in range(0, 8):
+        for i in range(0, 8):
+            color = temp.get_at((i, j))
+            image_matrix[j][i] = ((color.r>>4)<<8) + ((color.g>>4)<<4)+(color.b>>4)
+    return image_matrix
