@@ -63,9 +63,13 @@ def renderBuffer(image):
                 _backbuffer[j][i] = 0
 
 # assuming image = 8x8 pixels
-def drawImage(image):
+def drawImage(image, x=0, y=0):
     global _buffer
-    _buffer = image
+    for j in range(0, 8):
+        for i in range(0, 8):
+            if image[j][i] == 0 or j+y<0 or i+x<0 or j+y>=8 or i+x>=8: continue
+            _buffer[j+y][i+x] = image[j][i]
+        
 
 def render():
     global _buffer
@@ -96,7 +100,6 @@ def render():
         red = (color>>8)
         green = (color >> 4)&0xf
         blue = color&0xf
-        print(red, green, blue)
         encoded.append((red<<4) + red)
         encoded.append((green<<4) + green)
         encoded.append((blue<<4) + blue)
@@ -104,7 +107,6 @@ def render():
 
     if len(encoded) == 0:
         return
-    print(encoded)
     opt.display_image(encoded)
 
 
