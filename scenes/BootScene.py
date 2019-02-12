@@ -6,7 +6,7 @@ from .BaseScene import SceneBase
 from .TutorialScene import TutorialScene
 from utils import utils
 from utils import neopixelmatrix as graphics
-from utils.NeoSprite import NeoSprite, AnimatedNeoSprite
+from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite
 
 
 class BootScene(SceneBase):
@@ -22,7 +22,7 @@ class BootScene(SceneBase):
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
         #self.AddTrigger(15.5, self, 'SwitchToScene', TutorialScene)
 
-        self.comm.opt.set_led_brightness(80)
+        self.comm.opt.set_led_brightness(20)
         self.comm.opt.activate_buttons(True)
         self.comm.opt.set_independent_lights(False)
         #self.comm.opt.lock_buttons([3, 4])
@@ -46,8 +46,9 @@ class BootScene(SceneBase):
         self.testSprite = NeoSprite('assets/FUENTE.png')
         
         self.animated = AnimatedNeoSprite('assets/tilesprite.png')
-        self.animated.animation = [0,2,4,6,1,3,5,7,2,2]
+        #self.animated.animation = [0,2,4,6,1,3,5,7,2,2]
         self.animated.playing = True
+        self.label = TextNeoSprite("welcome to the mind modulation machine")
         
 
     def ProcessInput(self, events, pressed_keys):
@@ -71,18 +72,22 @@ class BootScene(SceneBase):
         self.cont += 1
         if self.cont%self.frequency == 0:
             self.cont = 0
-            self.testSprite.x -= 1
-            if self.testSprite.x <= -self.testSprite.width:
-                self.testSprite.x = 8
+            #self.testSprite.x -= 1
+            #if self.testSprite.x <= -self.testSprite.width:
+            #    self.testSprite.x = 8
 
-        #     self.hue += dt*255
-        #     if self.hue > 255:
-        #         self.hue = 0
-        #     color = graphics.wheel(int(self.hue))
-        #     graphics.setColorRGB(color)
-        #     self.SpinLine()
+            self.label.x -= 1
+            if self.label.x <= -self.label.width:
+                self.label.x = 7
 
-        #     self.DrawRect()
+            self.hue += dt*255
+            if self.hue > 255:
+                self.hue = 0
+            color = graphics.wheel(int(self.hue))
+            graphics.setColorRGB(color)
+            #self.SpinLine()
+
+            #self.DrawRect()
 
     
     def Render(self, screen):
@@ -94,8 +99,9 @@ class BootScene(SceneBase):
         #     graphics.plotLine(self.posi[0],self.posi[1],self.posf[0],self.posf[1])
         # else:
         #     graphics.drawRect(self.ratio, self.ratio, 8-self.ratio*2, 8-self.ratio*2)
-        #self.testSprite.render()
-        self.animated.render()
+        self.testSprite.render()
+        #self.animated.render()
+        self.label.render()
         #graphics.drawImage(self.frames[seglf.frame])
         #graphics.drawImage(self.test0, x=-1,y=self.frame+5)
         #graphics.drawImage(self.test0, x=0,y=self.frame)

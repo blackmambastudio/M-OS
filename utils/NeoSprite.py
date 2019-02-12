@@ -1,6 +1,7 @@
 
 from . import neopixelmatrix as Graphics
 from . import utils
+from .neofont import letters as font
 
 class NeoSprite():
     def __init__(self, path):
@@ -38,7 +39,6 @@ class AnimatedNeoSprite():
                 if self.index_animation >= len(self.animation):
                     self.index_animation = 0
                 self.frame = self.animation[self.index_animation]
-                print(self.index_animation, self.frame)
 
     def setFrameRate(self, framerate):
         if framerate == 0: return
@@ -49,3 +49,27 @@ class AnimatedNeoSprite():
 
     def render(self):
         Graphics.drawImage(self.frames[self.frame], self.x, self.y)
+
+
+class TextNeoSprite():
+    def __init__(self, text):
+        self.image = [[],[],[],[],[],[],[],[]]
+        for char in text:
+            letter = font[char]
+            char_spacing = 6
+            if char == ' ':
+                char_spacing = 2
+            for i in range(0, char_spacing):
+                for j in range(0,8):
+                    self.image[j].append((letter[j]>>(6-i))&1)
+                
+            for j in range(0,8):
+                self.image[j].append(0)
+        
+        self.x = 0
+        self.y = 0
+        self.width = len(self.image[0])
+        self.negative = True
+
+    def render(self):
+        Graphics.drawMonoPixels(self.image, self.x, self.y, self.negative)

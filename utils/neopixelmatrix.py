@@ -71,6 +71,15 @@ def drawImage(image, x=0, y=0):
         for i in range(0, 8):
             if i-x<0 or j-y<0 or j-y>=height or i-x>=width or image[j-y][i-x] == 0: continue
             _buffer[j][i] = image[j-y][i-x]
+
+def drawMonoPixels(pixels, x=0, y=0, negative=False):
+    global _buffer
+    width = len(pixels[0])
+    height = len(pixels)
+    for j in range(0, 8):
+        for i in range(0, 8):
+            if i-x<0 or j-y<0 or j-y>=height or i-x>=width or pixels[j-y][i-x] == 0: continue            
+            plot(i, j, negative)
         
 
 def render():
@@ -112,9 +121,12 @@ def render():
     opt.display_image(encoded)
 
 
-def plot(x, y):
+def plot(x, y, negative):
     global _buffer
-    _buffer[y][x] = _current_color
+    if negative:
+        _buffer[y][x] = 0
+    else:
+        _buffer[y][x] = _current_color
 
 def plotLineLow(x0,y0, x1,y1):
     dx = x1 - x0
@@ -183,10 +195,12 @@ def setColor(color):
     global _current_color
     _current_color = color
 
+# got a 3 value array, [r, g, b]
 def setColorRGB(color):
     global _current_color
     _current_color = ((color[0]>>4)<<8) + ((color[1]>>4)<<4) + (color[2]>>4)
 
+# returns a 
 def wheel(pos):
     pos = 255 - pos
     if(pos < 85):
