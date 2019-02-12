@@ -37,7 +37,7 @@ class BootScene(SceneBase):
         self.Line = True
 
         self.testSprite = NeoSprite('assets/FUENTE.png')
-        self.label = TextNeoSprite("  gurrupleta guaricha retrechera bergaja ")
+        self.label = TextNeoSprite("to be, or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles and by opposing end them. to die—to sleep, no more; and by a sleep to say we end the heart-ache and the thousand natural shocks that flesh is heir to: 'tis a consummation devoutly to be wish'd. to die, to sleep; to sleep, perchance to dream—ay, there's the rub: for in that sleep of death what dreams may come, when we have shuffled off this mortal coil, must give us pause—there's the respect that makes calamity of so long life. for who would bear the whips and scorns of time, th'oppressor's wrong, the proud man's contumely, the pangs of dispriz'd love, the law's delay, the insolence of office, and the spurns that patient merit of th'unworthy takes, when he himself might his quietus make with a bare bodkin? who would fardels bear, to grunt and sweat under a weary life, but that the dread of something after death, the undiscovere'd country, from whose bourn no traveller returns, puzzles the will, and makes us rather bear those ills we have than fly to others that we know not of? thus conscience does make cowards of us all, and thus the native hue of resolution is sicklied o'er with the pale cast of thought, and enterprises of great pitch and moment with this regard their currents turn awry and lose the name of action.")
 
         self.label.y = 2
         self.color = [0,0,0]
@@ -78,12 +78,12 @@ class BootScene(SceneBase):
         self.logo.RenderWithAlpha(screen)
 
 
-        self.testSprite.render()
+        #self.testSprite.render()
         graphics.setColorRGB(self.color)
-        graphics.plotLine(self.posi[0],self.posi[1],self.posf[0],self.posf[1])
+        #graphics.plotLine(self.posi[0],self.posi[1],self.posf[0],self.posf[1])
         #graphics.drawRect(self.ratio, self.ratio, 8-self.ratio*2, 8-self.ratio*2)
         #self.animated.render()
-        graphics.setColor(0)
+        #graphics.setColor(0)
         self.label.render()
         graphics.render()
 
