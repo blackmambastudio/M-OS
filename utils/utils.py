@@ -92,18 +92,27 @@ def get_image_matrix(path):
     image = get_image(path)
     temp = pygame.Surface((image.get_width(), image.get_height())).convert()
     temp.blit(image, (0, 0))
-    image_matrix = [
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-    ]
-    for j in range(0, 8):
-        for i in range(0, 8):
+    image_matrix = []
+    for j in range(0, image.get_height()):
+        image_matrix.append([])
+        for i in range(0, image.get_width()):
             color = temp.get_at((i, j))
-            image_matrix[j][i] = ((color.r>>4)<<8) + ((color.g>>4)<<4)+(color.b>>4)
+            image_matrix[j].append(((color.r>>4)<<8) + ((color.g>>4)<<4)+(color.b>>4))
     return image_matrix
+
+
+def get_frames_for_image(path, width=8, height=8):
+    frames = []
+    full_image = get_image_matrix(path)
+
+    x_tiles = int(len(full_image[0])/8)
+    y_tiles = int(len(full_image)/8)
+    for j in range(0, y_tiles):
+        for i in range(0, x_tiles):
+            frame = []
+            for jj in range(0,8):
+                frame.append([])
+                for ii in range(0,8):
+                    frame[jj].append(full_image[j*8+jj][i*8+ii])
+            frames.append(frame)
+    return frames

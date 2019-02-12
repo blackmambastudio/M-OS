@@ -6,6 +6,7 @@ from .BaseScene import SceneBase
 from .TutorialScene import TutorialScene
 from utils import utils
 from utils import neopixelmatrix as graphics
+from utils.NeoSprite import NeoSprite, AnimatedNeoSprite
 
 
 class BootScene(SceneBase):
@@ -21,7 +22,7 @@ class BootScene(SceneBase):
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
         #self.AddTrigger(15.5, self, 'SwitchToScene', TutorialScene)
 
-        self.comm.opt.set_led_brightness(50)
+        self.comm.opt.set_led_brightness(80)
         self.comm.opt.activate_buttons(True)
         self.comm.opt.set_independent_lights(False)
         #self.comm.opt.lock_buttons([3, 4])
@@ -32,7 +33,7 @@ class BootScene(SceneBase):
         self.lockX = True
         self.hue = 0
         self.cont = 0
-        self.frequency = 1
+        self.frequency = 5
         self.ratio = 3
         self.Line = True
 
@@ -42,31 +43,37 @@ class BootScene(SceneBase):
         self.test2 = utils.get_image_matrix('assets/face2.png')
         self.test3 = utils.get_image_matrix('assets/face3.png')
         self.palomita = utils.get_image_matrix('assets/palomita.png')
-        self.frame = -10
-        self.frames = [self.test, self.test2, self.test3, self.test, self.test,
-            self.test, self.test, self.test, self.test, self.test]
-
+        self.testSprite = NeoSprite('assets/FUENTE.png')
+        
+        self.animated = AnimatedNeoSprite('assets/tilesprite.png')
+        self.animated.animation = [0,2,4,6,1,3,5,7,2,2]
+        self.animated.playing = True
+        
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
                 self.frequency += 1
+                self.animated.setFrameRate(self.animated.framerate+1)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                 self.Line = not self.Line
             if event.type == pygame.KEYDOWN and event.key == pygame.K_g:
+                self.animated.setFrameRate(self.animated.framerate-1)
                 self.frequency -= 1
                 if self.frequency < 1:
                     self.frequency = 1
     
+
     def Update(self, dt):
         SceneBase.Update(self, dt)
+        self.animated.update(dt)
 
         self.cont += 1
         if self.cont%self.frequency == 0:
-            self.frame += 1
-            if self.frame >= len(self.frames):
-                self.frame = -10
             self.cont = 0
+            self.testSprite.x -= 1
+            if self.testSprite.x <= -self.testSprite.width:
+                self.testSprite.x = 8
 
         #     self.hue += dt*255
         #     if self.hue > 255:
@@ -87,11 +94,13 @@ class BootScene(SceneBase):
         #     graphics.plotLine(self.posi[0],self.posi[1],self.posf[0],self.posf[1])
         # else:
         #     graphics.drawRect(self.ratio, self.ratio, 8-self.ratio*2, 8-self.ratio*2)
-        #graphics.drawImage(self.frames[self.frame], self.cont, self.cont)
-        graphics.drawImage(self.test0, x=-1,y=self.frame+5)
-        graphics.drawImage(self.test0, x=0,y=self.frame)
-        graphics.drawImage(self.test0, x=1, y=self.frame+3)
-        graphics.drawImage(self.test0, x=4, y=self.frame-3)
+        #self.testSprite.render()
+        self.animated.render()
+        #graphics.drawImage(self.frames[seglf.frame])
+        #graphics.drawImage(self.test0, x=-1,y=self.frame+5)
+        #graphics.drawImage(self.test0, x=0,y=self.frame)
+        #graphics.drawImage(self.test0, x=1, y=self.frame+3)
+        #graphics.drawImage(self.test0, x=4, y=self.frame-3)
         graphics.render()
 
 

@@ -65,10 +65,12 @@ def renderBuffer(image):
 # assuming image = 8x8 pixels
 def drawImage(image, x=0, y=0):
     global _buffer
+    width = len(image[0])
+    height = len(image)
     for j in range(0, 8):
         for i in range(0, 8):
-            if image[j][i] == 0 or j+y<0 or i+x<0 or j+y>=8 or i+x>=8: continue
-            _buffer[j+y][i+x] = image[j][i]
+            if i-x<0 or j-y<0 or j-y>=height or i-x>=width or image[j-y][i-x] == 0: continue
+            _buffer[j][i] = image[j-y][i-x]
         
 
 def render():
