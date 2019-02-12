@@ -88,6 +88,31 @@ class Sprite():
         self.opacity = opacity
 
 
+class Text():
+    def __init__(self, text, font, x=0, y=0):
+        self.text = font.render(text, True, (255, 255, 255))
+        self.opacity = 255
+        self.anchor = (0.5, 0.5)
+        self.SetPosition(x, y)
+
+    def SetPosition(self, x, y):
+        self.x = x
+        self.y = y
+        self.position = (self.x - self.text.get_width()*self.anchor[0], self.y - self.text.get_height()*self.anchor[1])
+
+    def render(self, screen):
+        screen.blit(self.text, self.position)
+
+    def RenderWithAlpha(self, screen):
+        blit_alpha(screen, self.text, self.position, int(self.opacity))
+    
+    def setAnchor(self, x, y):
+        self.anchor = (x, y)
+        self.SetPosition(self.x, self.y)
+
+    def SetOpacity(self, opacity):
+        self.opacity = opacity
+
 def get_image_matrix(path):
     image = get_image(path)
     temp = pygame.Surface((image.get_width(), image.get_height())).convert()
