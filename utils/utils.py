@@ -105,14 +105,14 @@ def get_frames_for_image(path, width=8, height=8):
     frames = []
     full_image = get_image_matrix(path)
 
-    x_tiles = int(len(full_image[0])/8)
-    y_tiles = int(len(full_image)/8)
+    x_tiles = int(len(full_image[0])/width)
+    y_tiles = int(len(full_image)/height)
     for j in range(0, y_tiles):
         for i in range(0, x_tiles):
             frame = []
-            for jj in range(0,8):
+            for jj in range(0,height):
                 frame.append([])
-                for ii in range(0,8):
-                    frame[jj].append(full_image[j*8+jj][i*8+ii])
+                for ii in range(0,width):
+                    frame[jj].append(full_image[j*height+jj][i*width+ii])
             frames.append(frame)
     return frames

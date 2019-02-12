@@ -6,8 +6,7 @@ from .BaseScene import SceneBase
 from .TutorialScene import TutorialScene
 from utils import utils
 from utils import neopixelmatrix as graphics
-from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite
-
+from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 
 class BootScene(SceneBase):
     def __init__(self):
@@ -37,29 +36,19 @@ class BootScene(SceneBase):
         self.ratio = 3
         self.Line = True
 
-        #self.test = utils.get_image_matrix('assets/test.png')
-        self.test = utils.get_image_matrix('assets/machinaria8x8.png')
-        self.test0 = utils.get_image_matrix('assets/face.png')
-        self.test2 = utils.get_image_matrix('assets/face2.png')
-        self.test3 = utils.get_image_matrix('assets/face3.png')
-        self.palomita = utils.get_image_matrix('assets/palomita.png')
         self.testSprite = NeoSprite('assets/FUENTE.png')
-        
-        self.animated = AnimatedNeoSprite('assets/tilesprite.png')
-        #self.animated.animation = [0,2,4,6,1,3,5,7,2,2]
-        self.animated.playing = True
-        self.label = TextNeoSprite("welcome to the mind modulation machine")
-        
+        self.label = TextNeoSprite("  gurrupleta guaricha retrechera bergaja ")
+
+        self.label.y = 2
+        self.color = [0,0,0]
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
                 self.frequency += 1
-                self.animated.setFrameRate(self.animated.framerate+1)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-                self.Line = not self.Line
+                pass
             if event.type == pygame.KEYDOWN and event.key == pygame.K_g:
-                self.animated.setFrameRate(self.animated.framerate-1)
                 self.frequency -= 1
                 if self.frequency < 1:
                     self.frequency = 1
@@ -67,14 +56,10 @@ class BootScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
-        self.animated.update(dt)
 
         self.cont += 1
         if self.cont%self.frequency == 0:
             self.cont = 0
-            #self.testSprite.x -= 1
-            #if self.testSprite.x <= -self.testSprite.width:
-            #    self.testSprite.x = 8
 
             self.label.x -= 1
             if self.label.x <= -self.label.width:
@@ -83,11 +68,9 @@ class BootScene(SceneBase):
             self.hue += dt*255
             if self.hue > 255:
                 self.hue = 0
-            color = graphics.wheel(int(self.hue))
-            graphics.setColorRGB(color)
-            #self.SpinLine()
-
-            #self.DrawRect()
+            self.color = graphics.wheel(int(self.hue))
+            self.SpinLine()
+            self.DrawRect()
 
     
     def Render(self, screen):
@@ -95,18 +78,13 @@ class BootScene(SceneBase):
         self.logo.RenderWithAlpha(screen)
 
 
-        # if self.Line:
-        #     graphics.plotLine(self.posi[0],self.posi[1],self.posf[0],self.posf[1])
-        # else:
-        #     graphics.drawRect(self.ratio, self.ratio, 8-self.ratio*2, 8-self.ratio*2)
         self.testSprite.render()
+        graphics.setColorRGB(self.color)
+        graphics.plotLine(self.posi[0],self.posi[1],self.posf[0],self.posf[1])
+        #graphics.drawRect(self.ratio, self.ratio, 8-self.ratio*2, 8-self.ratio*2)
         #self.animated.render()
+        graphics.setColor(0)
         self.label.render()
-        #graphics.drawImage(self.frames[seglf.frame])
-        #graphics.drawImage(self.test0, x=-1,y=self.frame+5)
-        #graphics.drawImage(self.test0, x=0,y=self.frame)
-        #graphics.drawImage(self.test0, x=1, y=self.frame+3)
-        #graphics.drawImage(self.test0, x=4, y=self.frame-3)
         graphics.render()
 
 

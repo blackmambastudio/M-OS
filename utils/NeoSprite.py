@@ -50,26 +50,40 @@ class AnimatedNeoSprite():
     def render(self):
         Graphics.drawImage(self.frames[self.frame], self.x, self.y)
 
+    def renderFrame(self, frame):
+        Graphics.drawImage(self.frames[frame], self.x, self.y)
+
+    def renderFrameAt(self, frame, x, y):
+        Graphics.drawImage(self.frames[frame], x, y)
+
 
 class TextNeoSprite():
     def __init__(self, text):
-        self.image = [[],[],[],[],[],[],[],[]]
+        self.image = [[],[],[],[],[]]
         for char in text:
             letter = font[char]
-            char_spacing = 6
-            if char == ' ':
-                char_spacing = 2
-            for i in range(0, char_spacing):
-                for j in range(0,8):
-                    self.image[j].append((letter[j]>>(6-i))&1)
-                
-            for j in range(0,8):
-                self.image[j].append(0)
-        
+            char_spacing = len(letter[0])
+            for j in range(0, 5):
+                self.image[j] += letter[j] + [0]
         self.x = 0
         self.y = 0
         self.width = len(self.image[0])
-        self.negative = True
 
     def render(self):
-        Graphics.drawMonoPixels(self.image, self.x, self.y, self.negative)
+        Graphics.drawMonoPixels(self.image, self.x, self.y)
+
+class SpriteFromFrames():
+    def __init__(self, baseSprite, frames):
+        self.image = []
+        for j in range(0, baseSprite.height):
+            self.image.append([])
+            for frame in frames:
+                self.image[j] += baseSprite.frames[frame][j]
+
+        self.x = 0
+        self.y = 0
+        self.width = baseSprite.width*len(frames)
+        self.height = baseSprite.height
+
+    def render(self):
+        Graphics.drawImage(self.image, self.x, self.y)
