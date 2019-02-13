@@ -123,7 +123,7 @@ class TutorialScene(SceneBase):
         self.AddTrigger(second, self.sfx_tut_end, 'play')
 
         
-        self.torca = AnimatedNeoSprite('assets/Torca_Walk.png', 7, 7)
+        self.torca = AnimatedNeoSprite('assets/tilesprite.png', 8, 8)
         self.torca.playing = True
         self.torca.setFrameRate(5)
 

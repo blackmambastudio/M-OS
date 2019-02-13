@@ -3,7 +3,7 @@
 import serial
 from emulator import client as socket
 
-EMULATOR = False
+EMULATOR = True
 
 class SerialComm:
     def __init__(self, unavailable_commands):
