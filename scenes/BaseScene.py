@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import pytweening
 
-from comm import comm
+from mimo.comm import comm
 from utils import utils
 
 class SceneBase:

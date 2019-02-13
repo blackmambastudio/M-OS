@@ -1,5 +1,5 @@
 
-from comm.comm import opt
+from mimo.comm.comm import opt
 
 _backbuffer = []
 _image = []

@@ -8,7 +8,7 @@ import pygame
 
 from scenes.BootScene import BootScene
 from scenes.TutorialScene import TutorialScene
-from comm import comm
+from mimo.comm import comm
 
 
 
