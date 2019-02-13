@@ -58,40 +58,40 @@ def addNeopixelAt(x, y):
 def run():
     global pixels
     pygame.init()
-    screen = pygame.display.set_mode((400, 200))
+    screen = pygame.display.set_mode((320, 200))
     clock = pygame.time.Clock()
     running = True
 
     # material A side
-    addNeopixelAt(20, 50)
     addNeopixelAt(20, 80)
     addNeopixelAt(20, 110)
-    addNeopixelAt(60, 150)
+    addNeopixelAt(20, 140)
+    addNeopixelAt(60, 180)
     # material B side
-    addNeopixelAt(240, 150)
-    addNeopixelAt(280, 50)
+    addNeopixelAt(240, 180)
     addNeopixelAt(280, 80)
     addNeopixelAt(280, 110)
+    addNeopixelAt(280, 140)
     
     # optimization
-    addNeopixelAt(130, 100)
-    addNeopixelAt(140, 115)
-    addNeopixelAt(150, 100)
-    addNeopixelAt(160, 115)
-    addNeopixelAt(170, 100)
+    addNeopixelAt(128, 135)
+    addNeopixelAt(138, 150)
+    addNeopixelAt(148, 135)
+    addNeopixelAt(158, 150)
+    addNeopixelAt(168, 135)
     # matrix
     for index in range(0,64):
         j = index//8
         i = index%8
-        led = addNeopixelAt(130+i*6, 35+j*6)
+        led = addNeopixelAt(130+i*6, 80+j*6)
         led.width = 5
         led.height = 5
 
     #selected material
-    addNeopixelAt(115, 5)
-    addNeopixelAt(130, 5)
-    addNeopixelAt(145, 5)
-    addNeopixelAt(160, 5)
+    addNeopixelAt(125, 5)
+    addNeopixelAt(140, 5)
+    addNeopixelAt(155, 5)
+    addNeopixelAt(170, 5)
 
         
 

@@ -28,7 +28,7 @@ class BootScene(SceneBase):
         self.comm.opt.lock_buttons([3, 4])
         self.comm.opt.clean_matrix()
         
-        self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0])
+        self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0, 1, 255, 255, 0])
         self.AddTrigger(2, self.comm.mat, 'set_led_light', [7, 0, 255, 0])
         self.AddTrigger(3, self.comm.opt, 'set_led_light', [0, 255, 0, 0])
        
