@@ -65,6 +65,8 @@ def renderBuffer(image):
 # assuming image = 8x8 pixels
 def drawImage(image, x=0, y=0):
     global _buffer
+    x = int(x)
+    y = int(y)
     width = len(image[0])
     height = len(image)
     for j in range(0, 8):
@@ -74,6 +76,8 @@ def drawImage(image, x=0, y=0):
 
 def drawMonoPixels(pixels, x=0, y=0):
     global _buffer
+    x = int(x)
+    y = int(y)
     width = len(pixels[0])
     height = len(pixels)
     for j in range(0, 8):

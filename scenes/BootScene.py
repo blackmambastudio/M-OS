@@ -19,7 +19,7 @@ class BootScene(SceneBase):
         
         self.AddTween("easeInOutSine", 2, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(15.5, self, 'SwitchToScene', TutorialScene)
+        self.AddTrigger(5, self, 'SwitchToScene', TutorialScene)
 
         self.comm.opt.set_led_brightness(50)
         self.comm.opt.activate_buttons(True)
@@ -27,6 +27,10 @@ class BootScene(SceneBase):
         self.comm.opt.set_independent_lights(False)
         self.comm.opt.lock_buttons([3, 4])
         self.comm.opt.clean_matrix()
+        
+        self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0])
+        self.AddTrigger(2, self.comm.mat, 'set_led_light', [7, 0, 255, 0])
+        self.AddTrigger(3, self.comm.opt, 'set_led_light', [0, 255, 0, 0])
        
         self.testSprite = NeoSprite('assets/FUENTE.png')
         self.label = TextNeoSprite("the kambucha mushroom people")
@@ -52,6 +56,9 @@ class BootScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
+        self.label.x -= 0.5
+        if self.label.x < -self.label.width:
+            self.label.x = 8
 
     
     def Render(self, screen):

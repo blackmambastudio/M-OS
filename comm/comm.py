@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
 import serial
+from emulator import client as socket
+
+EMULATOR = False
 
 class SerialComm:
     def __init__(self, unavailable_commands):
         self.comm = None
         self.active = False
         self.unavailable_commands = unavailable_commands
+        self.emulator_led_index = 0
 
     def open(self, port):
         try:
@@ -17,6 +21,7 @@ class SerialComm:
 
     def read(self):
         if not self.active: return
+        if EMULATOR: return
         data = self.comm.read(4)
         while len(data) > 0:
             to_int = [x for x in data]
@@ -26,8 +31,11 @@ class SerialComm:
         if not self.active: return
         if command in self.unavailable_commands: return
         data = [0x7E, command, len(payload)] + payload
-        self.comm.write(bytearray(data))
-        self.comm.flush()
+        if EMULATOR:
+            socket.write(bytearray(data))
+        else:
+            self.comm.write(bytearray(data))
+            self.comm.flush()
 
     def activate_buttons(self, activate):
         message = [int(activate)]
@@ -56,6 +64,8 @@ class SerialComm:
         self.write(0x11, message)
 
     def set_led_light(self, colors):
+        if EMULATOR:
+            colors = [i+self.emulator_led_index if i%4==0 else i for i in colors]
         message = [int(len(colors)/4)] + colors
         self.write(0x12, message)
 
@@ -87,10 +97,20 @@ def init_connections(port_material, port_optimization):
     mat.open(port_material)
     opt.open(port_optimization)
 
+    if EMULATOR:
+        mat.active = True
+        opt.active = True
+        opt.emulator_led_index = 8
+        socket.open()
+
 def read_response():
     mat.read()
     opt.read()
     
 def close_connections():
+    if EMULATOR:
+        socket.close()
+        mat.active = False
+        opt.active = False
     mat.close_connection()
     opt.close_connection()

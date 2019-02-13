@@ -5,6 +5,8 @@ import pygame
 from .BaseScene import SceneBase
 from .GameScene import GameScene
 from utils import utils
+from utils import neopixelmatrix as graphics
+from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 
 class TutorialScene(SceneBase):
     def __init__(self):
@@ -121,7 +123,9 @@ class TutorialScene(SceneBase):
         self.AddTrigger(second, self.sfx_tut_end, 'play')
 
         
-
+        self.torca = AnimatedNeoSprite('assets/Torca_Walk.png', 7, 7)
+        self.torca.playing = True
+        self.torca.setFrameRate(5)
 
 
     
@@ -130,6 +134,7 @@ class TutorialScene(SceneBase):
     
     def Update(self, dt):
         SceneBase.Update(self, dt)
+        self.torca.update(dt)
     
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
@@ -147,4 +152,7 @@ class TutorialScene(SceneBase):
         
         self.opt_knobs.RenderWithAlpha(screen)
         self.opt_buttons.RenderWithAlpha(screen)
+
+        self.torca.render()
+        graphics.render()
 

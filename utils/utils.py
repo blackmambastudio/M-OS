@@ -113,6 +113,7 @@ class Text():
     def SetOpacity(self, opacity):
         self.opacity = opacity
 
+
 def get_image_matrix(path):
     image = get_image(path)
     temp = pygame.Surface((image.get_width(), image.get_height())).convert()

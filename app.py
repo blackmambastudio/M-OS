@@ -11,6 +11,7 @@ from scenes.TutorialScene import TutorialScene
 from comm import comm
 
 
+
 def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
