@@ -218,7 +218,7 @@ def init(emulation=False):
 
 def update():
     if EMULATOR:
-        emulator.read()
+        pass
     else:
         comm.read_response()
 

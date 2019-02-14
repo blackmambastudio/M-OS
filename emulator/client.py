@@ -20,6 +20,7 @@ def write(command, payload):
 
 
 def close():
+    write(0x90, [0x01])
     sock.close()
 
 

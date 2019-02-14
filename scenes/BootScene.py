@@ -20,7 +20,7 @@ class BootScene(SceneBase):
         
         self.AddTween("easeInOutSine", 2, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(30, self, 'SwitchToScene', TutorialScene)
+        self.AddTrigger(10, self, 'SwitchToScene', TutorialScene)
 
         #self.comm.opt.set_led_brightness(50)
         mimo.set_led_brightness(50)

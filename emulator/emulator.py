@@ -50,7 +50,6 @@ def handlecommand(command, data):
             i += 1
 
 
-
 def addNeopixelAt(x, y):
     led = Neopixel(x, y)
     led.status = False
@@ -109,7 +108,7 @@ def run():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ('localhost', 6060)
     sock.bind(server_address)
-    sock.listen(1)
+    sock.listen(0)
     sock.settimeout(0.1)
     connection = None
     
@@ -135,6 +134,10 @@ def run():
                     command = data[1]
                     data = connection.recv(data[2])
                     handlecommand(command, data)
+                    if command == 0x90:
+                        connection.close()
+                        connection = None
+                        print("connection dropped!")
 
         except socket.timeout:
             pass
