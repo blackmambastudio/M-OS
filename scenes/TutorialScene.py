@@ -7,6 +7,7 @@ from .GameScene import GameScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
+import mimo
 
 class TutorialScene(SceneBase):
     def __init__(self):
@@ -123,7 +124,7 @@ class TutorialScene(SceneBase):
         self.AddTrigger(second, self.sfx_tut_end, 'play')
 
         
-        self.torca = AnimatedNeoSprite('assets/tilesprite.png', 8, 8)
+        self.torca = AnimatedNeoSprite('assets/phaserLogo.png', 8, 8)
         self.torca.playing = True
         self.torca.setFrameRate(5)
 

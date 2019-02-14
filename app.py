@@ -8,8 +8,7 @@ import pygame
 
 from scenes.BootScene import BootScene
 from scenes.TutorialScene import TutorialScene
-from mimo.comm import comm
-
+import mimo
 
 
 def run_game(width, height, fps, starting_scene):
@@ -27,7 +26,7 @@ def run_game(width, height, fps, starting_scene):
         dt = current_time - last_time
         last_time = current_time
 
-        comm.read_response()
+        mimo.update()
         pressed_keys = pygame.key.get_pressed()
         
         # Event filtering 
@@ -59,10 +58,9 @@ def run_game(width, height, fps, starting_scene):
         pygame.display.flip()
         clock.tick(fps)
 
-    comm.close_connections()
+    mimo.shutdown()
 
 
 if __name__ == '__main__':
-    comm.init_connections('COM5', 'COM15')
-    #run_game(1280, 720, 60, TutorialScene)
+    mimo.init(emulation=True)
     run_game(1280, 720, 60, BootScene)

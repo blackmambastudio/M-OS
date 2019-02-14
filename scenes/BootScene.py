@@ -7,6 +7,7 @@ from .TutorialScene import TutorialScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
+import mimo
 
 class BootScene(SceneBase):
     def __init__(self):
@@ -19,18 +20,34 @@ class BootScene(SceneBase):
         
         self.AddTween("easeInOutSine", 2, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(5, self, 'SwitchToScene', TutorialScene)
+        self.AddTrigger(30, self, 'SwitchToScene', TutorialScene)
 
-        self.comm.opt.set_led_brightness(50)
-        self.comm.opt.activate_buttons(True)
-        self.comm.opt.activate_tunners(False)
-        self.comm.opt.set_independent_lights(False)
-        self.comm.opt.lock_buttons([3, 4])
-        self.comm.opt.clean_matrix()
+        #self.comm.opt.set_led_brightness(50)
+        mimo.set_led_brightness(50)
+        #self.comm.opt.lock_buttons([3, 0, 4, 0])
+        mimo.set_optimization_buttons_lock_status([3, 1, 0, 0, 4, 1])
+        mimo.set_optimization_buttons_lock_status([3, 1, 0, 1, 2, 0])
+        mimo.set_optimization_buttons_lock_status([3, 1, 0, 0, 4, 1])
+        mimo.set_optimization_buttons_light([0, 255, 255, 0])
+        self.AddTrigger(8, mimo, 'set_optimization_buttons_lock_status', [0, 1])
+        self.AddTrigger(10, mimo, 'set_optimization_buttons_mode', [0, 1])
+        self.AddTrigger(12, mimo, 'set_optimization_buttons_lock_status', [0, 0])
+        #self.comm.opt.activate_buttons(True)
+        mimo.set_buttons_enable_status(True, True)
+        #self.comm.opt.activate_tunners(False)
+        #mimo.set_tunners_enable_status(False)
+        #self.comm.opt.set_independent_lights(False)
+        mimo.set_independent_lights(False, False)
+        #self.comm.opt.clean_matrix()
+        #graphics.clear()
         
-        self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0, 1, 255, 255, 0])
-        self.AddTrigger(2, self.comm.mat, 'set_led_light', [7, 0, 255, 0])
-        self.AddTrigger(3, self.comm.opt, 'set_led_light', [0, 255, 0, 0])
+        #self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0, 1, 255, 255, 0])
+        self.AddTrigger(1, mimo, 'set_material_leds_color', [0, 125, 125, 0, 1, 255, 255, 0])
+        #self.AddTrigger(2, self.comm.mat, 'set_led_light', [7, 0, 255, 0])
+        self.AddTrigger(2, mimo, 'set_material_leds_color', [7, 0, 255, 0])
+        #self.AddTrigger(3, self.comm.opt, 'set_led_light', [0, 255, 0, 0])
+        # debe prender el led del boton de  optimizacion 0
+        self.AddTrigger(3, mimo, 'set_optimization_leds_color', [10, 255, 0, 0])
        
         self.testSprite = NeoSprite('assets/FUENTE.png')
         self.label = TextNeoSprite("the kambucha mushroom people")
@@ -56,7 +73,7 @@ class BootScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
-        self.label.x -= 0.5
+        self.label.x -= 0.1
         if self.label.x < -self.label.width:
             self.label.x = 8
 
@@ -65,9 +82,9 @@ class BootScene(SceneBase):
         screen.fill((0x1B, 0x0C, 0x43))
         self.logo.RenderWithAlpha(screen)
         #self.testSprite.render()
-        graphics.setColor(0xfff)
-        self.label.render()
-        graphics.render()
+        #graphics.setColor(0xfff)
+        #self.label.render()
+        #graphics.render()
         self.title.RenderWithAlpha(screen)
     
 

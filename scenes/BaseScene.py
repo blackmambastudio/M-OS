@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 import pytweening
 
-from mimo.comm import comm
 from utils import utils
 
 class SceneBase:
     def __init__(self):
         self.next = self
-        self.comm = comm
         self.time_triggers = []
         self.tweens = []
     

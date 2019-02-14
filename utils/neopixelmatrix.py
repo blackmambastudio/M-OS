@@ -1,5 +1,5 @@
 
-from mimo.comm.comm import opt
+import mimo
 
 _backbuffer = []
 _image = []
@@ -44,8 +44,7 @@ def reset():
 reset()
 
 def clear():
-    if not opt.active: return
-    opt.clean_matrix()
+    mimo.clean_matrix()
     reset()
 
 def renderBuffer(image):
@@ -122,7 +121,7 @@ def render():
 
     if len(encoded) == 0:
         return
-    opt.display_image(encoded)
+    mimo.display_image(encoded)
 
 
 def plot(x, y):

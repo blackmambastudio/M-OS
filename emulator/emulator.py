@@ -5,6 +5,8 @@ import sys
 
 pixels = []
 
+MATRIX_START_ID = 33
+
 class Neopixel():
     def __init__(self, x, y):
         self.x = x
@@ -43,7 +45,7 @@ def handlecommand(command, data):
             elif value == 0 and read_once:
                 set_color = True
             else:
-                pixels[value+13].color = color
+                pixels[value+MATRIX_START_ID].color = color
                 read_once = True
             i += 1
 
@@ -62,37 +64,45 @@ def run():
     clock = pygame.time.Clock()
     running = True
 
-    # material A side
+    # material A side 0 - 3
     addNeopixelAt(20, 80)
     addNeopixelAt(20, 110)
     addNeopixelAt(20, 140)
     addNeopixelAt(60, 180)
-    # material B side
+    # material B side 4 - 7
     addNeopixelAt(240, 180)
-    addNeopixelAt(280, 80)
-    addNeopixelAt(280, 110)
     addNeopixelAt(280, 140)
+    addNeopixelAt(280, 110)
+    addNeopixelAt(280, 80)
     
-    # optimization
+    #selected material 8 - 11
+    addNeopixelAt(125, 5)
+    addNeopixelAt(140, 5)
+    addNeopixelAt(155, 5)
+    addNeopixelAt(170, 5)
+
+    # ring 12 - 27
+    for index in range(0, 16):
+        j = index//4
+        i = index%4
+        led = addNeopixelAt(200+i*6, 10+j*6)
+        led.width = 5
+        led.height = 5
+    
+    # optimization 28 - 32
     addNeopixelAt(128, 135)
     addNeopixelAt(138, 150)
     addNeopixelAt(148, 135)
     addNeopixelAt(158, 150)
     addNeopixelAt(168, 135)
-    # matrix
+    
+    # matrix 33 - 96
     for index in range(0,64):
         j = index//8
         i = index%8
         led = addNeopixelAt(130+i*6, 80+j*6)
         led.width = 5
         led.height = 5
-
-    #selected material
-    addNeopixelAt(125, 5)
-    addNeopixelAt(140, 5)
-    addNeopixelAt(155, 5)
-    addNeopixelAt(170, 5)
-
         
 
     # server configuration
@@ -127,7 +137,7 @@ def run():
                     handlecommand(command, data)
 
         except socket.timeout:
-            print("timeout")
+            pass
 
 
         # render process
@@ -139,9 +149,6 @@ def run():
 
     if connection:
         connection.close()
-
-
-
 
 
 if __name__ == '__main__':
