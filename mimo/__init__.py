@@ -92,7 +92,7 @@ def set_independent_lights(mat_value, opt_value):
 def set_led_brightness(brightness):
     print("should set the led brightness to:", brightness)
     if EMULATOR:
-        pass
+        emulator.set_led_brightness(brightness)
     else:
         comm.mat.set_led_brightness(brightness)
         comm.opt.set_led_brightness(brightness)
@@ -114,14 +114,14 @@ def set_optimization_buttons_light(values):
 
 # 0x11 multiple
 def set_material_ligths_on(values):
-    print("should turn leds for:<", values)
+    print("should turn leds for mat:<", values)
     if EMULATOR:
         pass
     else:
         comm.mat.switch_buttons_backlight(values)
 
 def set_optimization_ligths_on(values):
-    print("should turn leds for:<", values)
+    print("should turn leds for opt:<", values)
     if EMULATOR:
         pass
     else:
@@ -146,7 +146,7 @@ def set_optimization_leds_color(values):
 # see neopixelgraphics
 def clean_matrix():
     if EMULATOR:
-        pass
+        emulator.clean_matrix()
     else:
         comm.opt.clean_matrix()
 

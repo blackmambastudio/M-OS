@@ -90,7 +90,9 @@ class Sprite():
 
 class Text():
     def __init__(self, text, font, x=0, y=0):
+        self.raw_text = text
         self.text = font.render(text, True, (255, 255, 255))
+        self.font = font
         self.opacity = 255
         self.anchor = (0.5, 0.5)
         self.SetPosition(x, y)
@@ -112,6 +114,15 @@ class Text():
 
     def SetOpacity(self, opacity):
         self.opacity = opacity
+
+    def SetText(self, text):
+        self.raw_text = text
+        self.text = self.font.render(self.raw_text, True, (255, 255, 255))
+        self.SetPosition(self.x, self.y)
+
+    def DecorateText(self, prefix, suffix):
+        self.text = self.font.render(prefix + self.raw_text + suffix, True, (255, 255, 255))
+        self.SetPosition(self.x, self.y)
 
 
 def get_image_matrix(path):

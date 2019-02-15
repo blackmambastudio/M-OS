@@ -45,7 +45,7 @@ def set_independent_lights(mat_value, opt_value):
 
 # 0x05 applies brightness to both sections
 def set_led_brightness(brightness):
-    print("should set the led brightness to:", brightness)
+    write(0x05, [brightness%256])
 
 # 0x10    
 def set_buttons_light(values):
@@ -61,7 +61,7 @@ def set_led_light(colors, start_index):
     write(0x12, message)
 
 def clean_matrix():
-    print("clean matrix")
+    write(0x04, [0])
 
 
 def display_image(encoded_image):
