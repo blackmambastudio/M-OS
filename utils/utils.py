@@ -89,9 +89,10 @@ class Sprite():
 
 
 class Text():
-    def __init__(self, text, font, x=0, y=0):
+    def __init__(self, text, font, x=0, y=0, color=(255,255,255)):
         self.raw_text = text
-        self.text = font.render(text, True, (255, 255, 255))
+        self.color = color
+        self.text = font.render(text, True, self.color)
         self.font = font
         self.opacity = 255
         self.anchor = (0.5, 0.5)
@@ -123,6 +124,15 @@ class Text():
     def DecorateText(self, prefix, suffix):
         self.text = self.font.render(prefix + self.raw_text + suffix, True, (255, 255, 255))
         self.SetPosition(self.x, self.y)
+    
+    def render_multiline(self, screen):
+        lines = self.raw_text.splitlines()
+        x, y = self.position
+        for line in lines:         
+            word_surface = self.font.render(line, 0, self.color)
+            word_width, word_height = word_surface.get_size()
+            screen.blit(word_surface, (self.x - word_width*self.anchor[0], y))
+            y += word_height
 
 
 def get_image_matrix(path):
