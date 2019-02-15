@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0, 5)
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0, 50)
 
 import pygame
 import socket

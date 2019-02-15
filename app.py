@@ -63,4 +63,6 @@ def run_game(width, height, fps, starting_scene):
 
 if __name__ == '__main__':
     mimo.init(emulation=True)
-    run_game(1280, 720, 60, TutorialScene)
+    if mimo.EMULATOR:
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (641, 50)
+    run_game(1280, 720, 60, BootScene)
