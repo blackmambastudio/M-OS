@@ -1,14 +1,33 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import time
 import serial
 import pygame
 
-
 from scenes.BootScene import BootScene
+from scenes.EditScene import EditScene
+from scenes.SubmitScene import SubmitScene
+from scenes.OptimizationScene import OptimizationScene
+from scenes.ResultsScene import ResultsScene
 from scenes.TutorialScene import TutorialScene
+from scenes.StartEventScene import StartEventScene
+
 import mimo
+
+SCENES = {
+    "Boot": BootScene,
+    "Edit": EditScene,
+    "Submit": SubmitScene,
+    "Optimization": OptimizationScene,
+    "Results": ResultsScene,
+    "Tutorial": TutorialScene,
+    "Start": StartEventScene
+}
+
+init_scene = "Boot"
+using_emulator = False
 
 
 def run_game(width, height, fps, starting_scene):
@@ -62,7 +81,13 @@ def run_game(width, height, fps, starting_scene):
 
 
 if __name__ == '__main__':
-    mimo.init(emulation=True)
+    if len(sys.argv)==2:
+        using_emulator = sys.argv[1]
+    if len(sys.argv)==3:
+        using_emulator = sys.argv[1]
+        init_scene = sys.argv[2]
+
+    mimo.init(emulation=using_emulator)
     if mimo.EMULATOR:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (641, 50)
-    run_game(1280, 720, 60, BootScene)
+    run_game(1280, 720, 60, SCENES[init_scene])

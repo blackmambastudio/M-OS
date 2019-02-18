@@ -23,15 +23,19 @@ class DevTestScene(SceneBase):
         #self.comm.opt.set_led_brightness(50)
         mimo.set_led_brightness(50)
         #self.comm.opt.lock_buttons([3, 0, 4, 0])
-        mimo.set_optimization_buttons_lock_status([3, 1, 0, 0, 4, 1])
-        mimo.set_optimization_buttons_lock_status([3, 1, 0, 1, 2, 0])
-        mimo.set_optimization_buttons_lock_status([3, 1, 0, 0, 4, 1])
-        mimo.set_optimization_buttons_light([0, 255, 255, 0])
-        self.AddTrigger(8, mimo, 'set_optimization_buttons_lock_status', [0, 1])
-        self.AddTrigger(10, mimo, 'set_optimization_buttons_mode', [0, 1])
-        self.AddTrigger(12, mimo, 'set_optimization_buttons_lock_status', [0, 0])
+        mimo.set_optimization_leds_color([0, 255, 0, 0])
+        mimo.set_optimization_leds_color([1, 0, 255, 0])
+        mimo.set_optimization_leds_color([2, 0, 0, 255])
+        mimo.set_optimization_leds_color([3, 255, 0, 0])
+        mimo.set_optimization_leds_color([4, 255, 255, 255])
+        self.AddTrigger(1, mimo, 'set_optimization_leds_color', [3, 255, 255, 0])
+        self.AddTrigger(2, mimo, 'set_optimization_leds_color', [3, 0, 255, 0])
+        self.AddTrigger(3, mimo, 'set_optimization_leds_color', [3, 0, 255, 255])
+        self.AddTrigger(4, mimo, 'set_optimization_leds_color', [3, 0, 0, 255])
+        self.AddTrigger(5, mimo, 'set_optimization_leds_color', [3, 255, 255, 255])
+        self.AddTrigger(6, mimo, 'set_optimization_leds_color', [3, 0, 0, 0])
         #self.comm.opt.activate_buttons(True)
-        mimo.set_buttons_enable_status(True, True)
+        mimo.set_buttons_enable_status(False, False)
         #self.comm.opt.activate_tunners(False)
         #mimo.set_tunners_enable_status(False)
         #self.comm.opt.set_independent_lights(False)
@@ -40,18 +44,18 @@ class DevTestScene(SceneBase):
         #graphics.clear()
         
         #self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0, 1, 255, 255, 0])
-        self.AddTrigger(1, mimo, 'set_material_leds_color', [0, 125, 125, 0, 1, 255, 255, 0])
+        #self.AddTrigger(1, mimo, 'set_material_leds_color', [0, 125, 125, 0, 1, 255, 255, 0])
         #self.AddTrigger(2, self.comm.mat, 'set_led_light', [7, 0, 255, 0])
-        self.AddTrigger(2, mimo, 'set_material_leds_color', [7, 0, 255, 0])
+        #self.AddTrigger(2, mimo, 'set_material_leds_color', [7, 0, 255, 0])
         #self.AddTrigger(3, self.comm.opt, 'set_led_light', [0, 255, 0, 0])
         # debe prender el led del boton de  optimizacion 0
-        self.AddTrigger(3, mimo, 'set_optimization_leds_color', [10, 255, 0, 0])
+        #self.AddTrigger(3, mimo, 'set_optimization_leds_color', [10, 255, 0, 0])
        
-        self.testSprite = NeoSprite('assets/FUENTE.png')
-        self.label = TextNeoSprite("the kambucha mushroom people")
-
-        self.label.y = 2
-
+        #self.testSprite = NeoSprite('assets/FUENTE.png')
+        ##self.label = TextNeoSprite("the kambucha mushroom people")
+#
+##        #self.label.y = 2
+#
         font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 36)
         self.title = utils.Text("Hello Machinaria!", font)
         self.title.opacity = 0
@@ -71,18 +75,18 @@ class DevTestScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
-        self.label.x -= 0.1
-        if self.label.x < -self.label.width:
-            self.label.x = 8
+        #self.label.x -= 0.1
+        #if self.label.x < -self.label.width:
+        #    self.label.x = 8
 
     
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
         self.logo.RenderWithAlpha(screen)
         #self.testSprite.render()
-        graphics.setColor(0xfff)
-        self.label.render()
-        graphics.render()
+        #graphics.setColor(0xfff)
+        #self.label.render()
+        #graphics.render()
         self.title.RenderWithAlpha(screen)
     
 

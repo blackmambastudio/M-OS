@@ -201,6 +201,23 @@ def set_optimization_buttons_active_status(values):
     else:
         comm.opt.switch_buttons(values)
 
+def reset():
+    set_buttons_enable_status(False, False)
+    set_tunners_enable_status(False)
+    set_independent_lights(True, True)
+    set_led_brightness(50)
+    set_material_ligths_on([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])
+    set_optimization_ligths_on([0,0, 1,0, 2,0, 3,0, 4,0])
+    mat_leds = []
+    for index in range(0, 28):
+        mat_leds += [index, 0, 0, 0]
+    set_material_leds_color(mat_leds)
+    
+    opt_leds = []
+    for index in range(0, 5):
+        opt_leds += [index, 0, 0, 0]
+    set_optimization_leds_color(opt_leds)
+    clean_matrix()
 
 # should start serial communications if available or use emulator instead...
 def init(emulation=False):
@@ -215,6 +232,7 @@ def init(emulation=False):
         comm.init_connections('COM5', 'COM15')
     MATERIAL = comm.mat.active
     OPTIMIZATION = comm.opt.active
+    reset()
 
 def update():
     if EMULATOR:
