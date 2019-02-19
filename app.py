@@ -82,9 +82,9 @@ def run_game(width, height, fps, starting_scene):
 
 if __name__ == '__main__':
     if len(sys.argv)==2:
-        using_emulator = sys.argv[1]
+        using_emulator = sys.argv[1] == "True"
     if len(sys.argv)==3:
-        using_emulator = sys.argv[1]
+        using_emulator = sys.argv[1] == "True"
         init_scene = sys.argv[2]
 
     mimo.init(emulation=using_emulator)

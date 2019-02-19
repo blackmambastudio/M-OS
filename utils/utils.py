@@ -90,9 +90,9 @@ class Sprite():
 
 class Text():
     def __init__(self, text, font, x=0, y=0, color=(255,255,255)):
-        self.raw_text = text
+        self.raw_text = text.upper()
         self.color = color
-        self.text = font.render(text, True, self.color)
+        self.text = font.render(text.upper(), True, self.color)
         self.font = font
         self.opacity = 255
         self.anchor = (0.5, 0.5)
@@ -117,7 +117,7 @@ class Text():
         self.opacity = opacity
 
     def SetText(self, text):
-        self.raw_text = text
+        self.raw_text = text.upper()
         self.text = self.font.render(self.raw_text, True, (255, 255, 255))
         self.SetPosition(self.x, self.y)
 

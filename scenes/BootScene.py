@@ -81,14 +81,7 @@ class BootScene(SceneBase):
         graphics.render()
 
     def reset_mimo(self):
-        for index in range(0, 6):
-            mimo.lcd_display_at(index, '')
-        mimo.set_buttons_enable_status(False, False)
-        mimo.set_tunners_enable_status(False)
-        mimo.set_independent_lights(True, True) # neccesary for the light show
-        mimo.clean_matrix()
         mimo.set_led_brightness(1)
-
 
         mat_all_lights = []
         for index in range(0, 28):

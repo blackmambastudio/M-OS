@@ -202,6 +202,8 @@ def set_optimization_buttons_active_status(values):
         comm.opt.switch_buttons(values)
 
 def reset():
+    for index in range(0, 6):
+        lcd_display_at(index, '')
     set_buttons_enable_status(False, False)
     set_tunners_enable_status(False)
     set_independent_lights(True, True)
@@ -224,7 +226,7 @@ def init(emulation=False):
     global EMULATOR
     global MATERIAL
     global OPTIMIZATION
-    print("mimo starting hardware connection")
+    print("mimo starting hardware connection", emulation)
     EMULATOR = emulation
     if EMULATOR:
         emulator.open()
