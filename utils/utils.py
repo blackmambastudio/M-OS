@@ -23,6 +23,18 @@ def get_sound(path):
         _sound_library[path] = sound
     return sound
 
+# music capabilites 
+# https://www.pygame.org/docs/ref/music.html?highlight=pygame%20mixer%20sound
+def play_music(path, loop=0, delay=0.0):
+    canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
+    pygame.mixer.music.load(canonicalized_path)
+    pygame.mixer.music.play(loop, delay)
+
+def stop_music():
+    pygame.mixer.music.stop()
+
+def fadeout_music(time):
+    pygame.mixer.music.fadeout(time)
 
 def blit_alpha(target, source, location, opacity):
     x = location[0]
@@ -70,12 +82,22 @@ class Sprite():
         self.opacity = 255
         self.anchor = (0.5, 0.5)
         self.SetPosition(x, y)
+        self.rotation = 0
+        self.original = self.image
+
+    def GetRotation(self):
+        return self.rotation
 
     def SetPosition(self, x, y):
         self.x = x
         self.y = y
         rect = self.image.get_rect()
         self.position = (self.x - rect.width*self.anchor[0], self.y - rect.height*self.anchor[1])
+
+    def Rotate(self, rotation):
+        self.rotation = rotation % 360
+        self.image = pygame.transform.rotate(self.original, self.rotation)
+        self.SetPosition(self.x, self.y)
 
     def RenderWithAlpha(self, screen):
         blit_alpha(screen, self.image, self.position, int(self.opacity))

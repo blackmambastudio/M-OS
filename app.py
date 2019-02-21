@@ -14,6 +14,8 @@ from scenes.ResultsScene import ResultsScene
 from scenes.TutorialScene import TutorialScene
 from scenes.StartEventScene import StartEventScene
 
+from scenes.optimizations.focus import FocusScene
+
 import mimo
 
 SCENES = {
@@ -23,7 +25,9 @@ SCENES = {
     "Optimization": OptimizationScene,
     "Results": ResultsScene,
     "Tutorial": TutorialScene,
-    "Start": StartEventScene
+    "Start": StartEventScene,
+
+    "Focus": FocusScene
 }
 
 init_scene = "Boot"
