@@ -163,3 +163,16 @@ def get_frames_for_image(path, width=8, height=8):
                     frame[jj].append(full_image[j*height+jj][i*width+ii])
             frames.append(frame)
     return frames
+
+def align_text(text, left, spaces, space_char=' '):
+    new_text = text
+    new_text = new_text[0:spaces]
+    start_index = len(new_text)
+    print(start_index, spaces)
+    for index in range(start_index, spaces):
+        if left:
+            new_text += space_char
+        else:
+            new_text = space_char + new_text
+
+    return new_text

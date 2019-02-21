@@ -11,6 +11,8 @@ pixels = []
 brightness = 50
 MAX_BRIGHTNESS = 50
 MATRIX_START_ID = 33
+LCDS = []
+printer_text = None
 
 class Neopixel():
     def __init__(self, x, y):
@@ -19,10 +21,15 @@ class Neopixel():
         self.width = 30
         self.height = 30
         self.status = True
-        self.color = (30,30,30)
+        self.color = (15,15,15)
 
     def render(self, screen):
-        color = (self.color[0]*brightness/MAX_BRIGHTNESS, self.color[1]*brightness/MAX_BRIGHTNESS, self.color[2]*brightness/MAX_BRIGHTNESS)
+        color = self.color
+        if color[0] + color[1] + color[2] == 0:
+            color = [15,15,15]
+        else:
+            color = (self.color[0]*brightness/MAX_BRIGHTNESS, self.color[1]*brightness/MAX_BRIGHTNESS, self.color[2]*brightness/MAX_BRIGHTNESS)
+
         pygame.draw.rect(screen, color, pygame.Rect(self.x, self.y, self.width, self.height))
 
 
@@ -71,22 +78,24 @@ class Text():
 
 class LCD():
     def __init__(self, font, x, y, color):
-        self.rows = []
-        self.rows.append(Text("0123456789ABCDEF", font, x, y, color))
-        self.rows.append(Text("FEDCBA9876543210", font, x, y+20, color))
+        self.lines = []
+        self.lines.append(Text("0123456789ABCDEF", font, x, y, color))
+        self.lines.append(Text("FEDCBA9876543210", font, x, y+20, color))
 
-    def setText(self, row, text):
-        self.rows[row].setText(text)
+    def setText(self, line, text):
+        self.lines[line].setText(text)
 
     def render(self, screen):
-        self.rows[0].render(screen)
-        self.rows[1].render(screen)
+        self.lines[0].render(screen)
+        self.lines[1].render(screen)
 
 
 def handlecommand(command, data):
     global pixels
     global brightness
+    global printer_text
     data = list(data)
+    print("data", data)
     if command == 0x12:
         length = data[0]
         for index in range(0, length):
@@ -114,9 +123,17 @@ def handlecommand(command, data):
             i += 1
     if command == 0x04:
         for index in range(33,97):
-            pixels[index].color = (5, 5, 5)
+            pixels[index].color = (15, 15, 15)
     if command == 0x05:
         brightness = data[0]
+    if command == 0x91:
+        lcd_id = data[0]
+        lcd_line = data[1]
+        message = bytearray(data[2:]).decode()
+        LCDS[lcd_id].setText(lcd_line - 1, message)
+    if command == 0x92:
+        message = bytearray(data).decode()
+        printer_text.setText(message)
 
 
 def addNeopixelAt(x, y):
@@ -127,6 +144,8 @@ def addNeopixelAt(x, y):
 
 def run():
     global pixels
+    global LCDS
+    global printer_text
     pygame.init()
     screen = pygame.display.set_mode((640, 400))
     clock = pygame.time.Clock()
@@ -135,17 +154,27 @@ def run():
     printer_font = pygame.font.Font("../assets/fonts/VCR_OSD_MONO_1.001.ttf", 14)
     lcd0 = LCD(font, 50, 164, (160,200,190))
     lcd0.setText(0, "> MATERIAL A ---")
+    LCDS.append(lcd0)
+    
     lcd1 = LCD(font, 50, 224, (160,200,190))
     lcd1.setText(0, "> MATERIAL B ---")
+    LCDS.append(lcd1)
+
     lcd2 = LCD(font, 50, 284, (160,200,190))
     lcd2.setText(0, "> MATERIAL C ---")
+    LCDS.append(lcd2)
     
     lcd3 = LCD(font, 390, 164, (160,200,190))
     lcd3.setText(0, "--- MATERIAL D <")
+    LCDS.append(lcd3)
+
     lcd4 = LCD(font, 390, 224, (160,200,190))
     lcd4.setText(0, "--- MATERIAL E <")
+    LCDS.append(lcd4)
+    
     lcd5 = LCD(font, 390, 284, (160,200,190))
     lcd5.setText(0, "--- MATERIAL F <")
+    LCDS.append(lcd5)
 
     printer_text = Text("texto en varias\nlineas...\npara probar que sirva\n... ojala".upper(), printer_font, 40, 40, (255, 255, 198))
 
@@ -222,6 +251,7 @@ def run():
                 data = connection.recv(3)
                 if len(data)>0:
                     command = data[1]
+                    print ("command", data[0], data[1], data[2])
                     data = connection.recv(data[2])
                     handlecommand(command, data)
                     if command == 0x90:

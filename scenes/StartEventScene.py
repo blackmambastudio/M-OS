@@ -38,13 +38,19 @@ class StartEventScene(SceneBase):
         random.shuffle(self.current_event["material"])
         index = 0
         material_indexes = [0,1,2,7,6,5]
-        mimo.set_independent_lights(False, True)
+        mimo.set_independent_lights(True, True)
         # set buttons to switch mode
         for material in self.current_event["material"]:
-            mimo.lcd_display_at(index, material["label"])
+            line1_text = utils.align_text(material["label"][0], index<3, 14, '-')
+            line2_text = utils.align_text(material["label"][1], index<3, 14, '-')
+            mimo.lcd_display_at(index, line1_text, 1)
+            mimo.lcd_display_at(index, line2_text, 2)
+
             mimo.set_material_buttons_light([index]+material["color"])
             mimo.set_material_leds_color([material_indexes[index]]+material["color"])
             index += 1
+
+        mimo.termal_print(self.current_event["title"].upper())
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:

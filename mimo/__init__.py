@@ -11,6 +11,11 @@ EMULATOR = False
 try:
     from .comm import I2C_LCD
     LCD = True
+    lcds_displays = []
+    lcd_addresses = [0x22, 0x23, 0x24, 0x25, 0x26, 0x27]
+    for address in lcd_addresses:
+        lcds_displays.append(I2C_LCD.lcd(address))
+
 except ImportError:
     LCD = False
     print("can't import I2C_LCD")
@@ -52,9 +57,33 @@ except ImportError:
 # use printer 
 def termal_print(formatted_message):
     print("should send:<", formatted_message, "> to thermal printer")
+    if EMULATOR:
+        emulator.termal_print(formatted_message)
 
 # use lcd display 
-def lcd_display_at(id, message):
+def lcd_display_at(id, message, line=1, pos=0):
+    messages = ["",""]
+    message = message.upper()
+    if len(message)>16:
+        messages[0] = message[:16]
+        messages[1] = message[16:]
+        line = 0
+
+    if EMULATOR:
+        if line == 0:
+            emulator.lcd_display_at(id, messages[0], 1)
+            emulator.lcd_display_at(id, messages[1], 2)
+        else:
+            emulator.lcd_display_at(id, message, line)
+
+    elif LCD:
+        lcd = lcds_displays[id]
+        if line == 0:
+            lcd.lcd_display_string(messages[0], 1)
+            lcd.lcd_display_string(messages[1], 2)
+        else:
+            lcd.lcd_display_string(message, line)
+        
     print("should display:<", message, "> on", id, "lcd id")
 
 
@@ -203,7 +232,8 @@ def set_optimization_buttons_active_status(values):
 
 def reset():
     for index in range(0, 6):
-        lcd_display_at(index, '')
+        lcd_display_at(index, ' ', 1)
+        lcd_display_at(index, ' ', 2)
     set_buttons_enable_status(False, False)
     set_tunners_enable_status(False)
     set_independent_lights(True, True)

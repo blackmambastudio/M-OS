@@ -112,7 +112,7 @@ class TutorialScene(SceneBase):
         second = 9
         self.AddTrigger(second, self.printer02, 'SetOpacity', 0)
         self.AddTrigger(second, self.printer03, 'SetOpacity', 255)
-        self.AddTrigger(second, mimo, 'termal_print', {"title":"System check", "description":"veryfing printer"})
+        self.AddTrigger(second, mimo, 'termal_print', "System check\nveryfing printer")
 
         second = 10.5
         self.AddTrigger(second, self.printer03, 'SetOpacity', 0)

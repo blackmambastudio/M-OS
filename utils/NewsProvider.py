@@ -8,7 +8,7 @@ Police reports a considerable increase in crime.""",
     "material": [
         # bad emotions
         {
-            "label": "insecurity",
+            "label": ["Crime increased", "in the city"],
             "color": [255,0,0],
             "material": ".png",
             "hook": 0.2,
@@ -16,8 +16,8 @@ Police reports a considerable increase in crime.""",
             "drama": 0.1
         },
         {
-            "label": "contamination",
-            "color": [200,100,100],
+            "label": ["inmigants with", "contagious virus"],
+            "color": [255,255,0],
             "material": ".png",
             "hook": 0.3,
             "emotion": -0.4,
@@ -25,32 +25,32 @@ Police reports a considerable increase in crime.""",
         },
         # semi neutral
         {
-            "label": "desolation",
-            "color": [155,255,155],
+            "label": ["images with platan", "people"],
+            "color": [0,255,0],
             "material": ".png",
             "hook": 0.35,
             "emotion": -0.1,
             "drama": 0.55
         },
         {
-            "label": "problems in platanal",
-            "color": [80,255,200],
+            "label": ["more inmigrants will", "come to Hunuraga"],
+            "color": [0,255,255],
             "material": ".png",
             "hook": 0.65,
             "emotion": 0.1,
             "drama": 0.25
         },
         {
-            "label": "orphans from platanal",
-            "color": [155,155,0],
+            "label": ["Hungry people", "in the street"],
+            "color": [0,0,255],
             "material": ".png",
             "hook": 0.4,
             "emotion": 0.3,
             "drama": 0.3
         },
         {
-            "label": "people looking for refugee",
-            "color": [155,155,0],
+            "label": ["goverment will help","with medicines"],
+            "color": [255,255,255],
             "material": ".png",
             "hook": 0.1,
             "emotion": 0.4,

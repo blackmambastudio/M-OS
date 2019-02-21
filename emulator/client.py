@@ -16,6 +16,7 @@ def write(command, payload):
         return
     # Send data
     data = [0x7E, command, len(payload)] + payload
+    print(data)
     sock.send(bytearray(data))
 
 
@@ -25,11 +26,13 @@ def close():
 
 
 def termal_print(formatted_message):
-    print("should send:<", formatted_message, "> to thermal printer")
+    message = list(formatted_message.encode())
+    write(0x92, message)
 
 # use lcd display 
-def lcd_display_at(id, message):
-    print("should display:<", message, "> on", id, "lcd id")
+def lcd_display_at(lcd_id, message, line):
+    message = [lcd_id, line]+list(message.encode())
+    write(0x91, message)
 
 # 0x01 
 def set_buttons_enable_status(mat_enable, opt_enable):
