@@ -9,6 +9,8 @@ class FocusScene(OptimizationScene):
     def __init__(self):
         OptimizationScene.__init__(self)
         self.pieces = []
+        self.rendering_order = [0,1,2,3,4]
+        self.render_background = True
         self.background = utils.Sprite('assets/sprites/tv_control_room.png', 1280/2, 720/2)
         self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceA-1.png', 224, 246))
         self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceB-1.png', 640, 246))
@@ -79,20 +81,26 @@ class FocusScene(OptimizationScene):
     def Update(self, dt):
         OptimizationScene.Update(self, dt)
         self.background.opacity = (0.5 + self.correct_pieces*0.1)*255
+        
+        self.dirty_rects = [(50,20,40,40), (490, 10, 300, 50)]
         for index, locked in enumerate(self.locked_pieces):
             if locked:
                 piece = self.pieces[index]
                 piece.Rotate(piece.rotation)
+                self.dirty_rects.append(piece.GetClipRect())
+        if self.render_background:
+            self.dirty_rects = [(0,0,1280,720)]
+            self.render_background = False
 
     def RenderBackground(self, screen):
-        screen.fill((0x1B, 0x0C, 0x43))
-        self.background.RenderWithAlpha(screen)
+        for rect in self.dirty_rects:        
+            screen.fill((0x1B, 0x0C, 0x43), rect)
+            self.background.RenderWithAlpha(screen, rect, rect)
     
     def Render(self, screen):
         OptimizationScene.Render(self, screen)
-
-        for piece in self.pieces:
-            piece.RenderWithAlpha(screen)
+        for index in self.rendering_order:
+            self.pieces[index].RenderWithAlpha(screen)
 
 
     def SpinPiece(self, index):
@@ -105,8 +113,12 @@ class FocusScene(OptimizationScene):
             self.sfx_pieces[index].fadeout(500) # in milliseconds
             self.correct_pieces -= 1
 
+        self.rendering_order.remove(index)
+        self.rendering_order.append(index)
+
 
     def UnlockPiece(self, index):
+        self.render_background = True
         self.locked_pieces[index] = False
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:

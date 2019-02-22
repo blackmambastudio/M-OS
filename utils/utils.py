@@ -9,7 +9,7 @@ def get_image(path):
     image = _image_library.get(path)
     if image == None:
             canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-            image = pygame.image.load(canonicalized_path)
+            image = pygame.image.load(canonicalized_path).convert_alpha()
             _image_library[path] = image
     return image
 
@@ -44,6 +44,7 @@ def blit_alpha(target, source, location, opacity):
     temp.blit(source, (0, 0))
     temp.set_alpha(opacity)        
     target.blit(temp, location)
+    return temp
 
 
 class Tween():
@@ -84,6 +85,9 @@ class Sprite():
         self.SetPosition(x, y)
         self.rotation = 0
         self.original = self.image
+        self.must_update = True
+        self.cached_image = self.image
+        self.prev_opacity = -1
 
     def GetRotation(self):
         return self.rotation
@@ -94,13 +98,26 @@ class Sprite():
         rect = self.image.get_rect()
         self.position = (self.x - rect.width*self.anchor[0], self.y - rect.height*self.anchor[1])
 
+    def GetClipRect(self):
+        rect = self.image.get_rect()
+        return (self.position[0], self.position[1], rect.width, rect.height)
+
     def Rotate(self, rotation):
         self.rotation = rotation % 360
         self.image = pygame.transform.rotate(self.original, self.rotation)
         self.SetPosition(self.x, self.y)
+        self.must_update = True
 
-    def RenderWithAlpha(self, screen):
-        blit_alpha(screen, self.image, self.position, int(self.opacity))
+    def RenderWithAlpha(self, screen, position=None,area=None):
+        if self.must_update or self.prev_opacity != self.opacity :
+            self.cached_image = blit_alpha(screen, self.image, self.position, int(self.opacity))
+            self.must_update = False
+            self.prev_opacity = self.opacity
+        else:
+            if not position:
+                position = self.position
+            screen.blit(self.cached_image, position, area)
+        #pass
 
     def setAnchor(self, x, y):
         self.anchor = (x, y)
@@ -108,6 +125,7 @@ class Sprite():
 
     def SetOpacity(self, opacity):
         self.opacity = opacity
+        self.must_update = True 
 
 
 class Text():
@@ -127,10 +145,12 @@ class Text():
 
     def render(self, screen):
         screen.blit(self.text, self.position)
+        #pass
 
     def RenderWithAlpha(self, screen):
         blit_alpha(screen, self.text, self.position, int(self.opacity))
-    
+        #pass
+
     def setAnchor(self, x, y):
         self.anchor = (x, y)
         self.SetPosition(self.x, self.y)

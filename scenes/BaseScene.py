@@ -8,6 +8,7 @@ class SceneBase:
         self.next = self
         self.time_triggers = []
         self.tweens = []
+        self.dirty_rects = [(0,0,1280,720)]
     
     def ProcessInput(self, events):
         print("uh-oh, you didn't override this in the child class")
@@ -48,3 +49,6 @@ class SceneBase:
             tween.Update(dt)
             if tween.Finished():
                 self.tweens.remove(tween)
+
+    def getDirtyRects(self):
+        return self.dirty_rects

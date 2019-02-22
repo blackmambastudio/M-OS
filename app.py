@@ -44,6 +44,8 @@ def run_game(width, height, fps, starting_scene):
 
     last_time = time.time()
 
+    font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 22)
+
     while active_scene != None:
         current_time = time.time()
         dt = current_time - last_time
@@ -77,8 +79,11 @@ def run_game(width, height, fps, starting_scene):
             active_scene.Render(screen)
         
         active_scene = active_scene.next
+
+        fps_text = font.render(str(int(clock.get_fps())), True, pygame.Color('red'))
+        screen.blit(fps_text, (50, 20))
         
-        pygame.display.flip()
+        pygame.display.update(active_scene.getDirtyRects())
         clock.tick(fps)
 
     mimo.shutdown()
