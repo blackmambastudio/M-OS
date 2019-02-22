@@ -3,7 +3,7 @@
 import pygame
 
 from .BaseScene import SceneBase
-from .OptimizationScene import OptimizationScene
+from .optimizations import get_next_optimization_scene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
@@ -65,7 +65,8 @@ class EditScene(SceneBase):
                 self.assign_material_to_sequence(5)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 print("temporal next scene")
-                self.SwitchToScene(OptimizationScene)
+                next_scene = get_next_optimization_scene("some_value")
+                self.SwitchToScene(next_scene)
 
     def Update(self, dt):
         SceneBase.Update(self, dt)

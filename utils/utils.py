@@ -138,10 +138,11 @@ class Text():
     def SetOpacity(self, opacity):
         self.opacity = opacity
 
-    def SetText(self, text):
+    def SetText(self, text, update_position=True):
         self.raw_text = text.upper()
         self.text = self.font.render(self.raw_text, True, (255, 255, 255))
-        self.SetPosition(self.x, self.y)
+        if update_position:
+            self.SetPosition(self.x, self.y)
 
     def DecorateText(self, prefix, suffix):
         self.text = self.font.render(prefix + self.raw_text + suffix, True, (255, 255, 255))

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import pygame
 
-from scenes.BaseScene import SceneBase
+from scenes.OptimizationScene import OptimizationScene
 from utils import utils
 from random import random
 
-class FocusScene(SceneBase):
+class FocusScene(OptimizationScene):
     def __init__(self):
-        SceneBase.__init__(self)
+        OptimizationScene.__init__(self)
         self.pieces = []
         self.background = utils.Sprite('assets/sprites/tv_control_room.png', 1280/2, 720/2)
         self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceA-1.png', 224, 246))
@@ -50,8 +50,8 @@ class FocusScene(SceneBase):
         utils.play_music(audio_path + 'SFX_BasicLoop.ogg', -1, 0.1)
 
 
-
     def ProcessInput(self, events, pressed_keys):
+        if not self.IsPlaying(): return
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d and not self.locked_pieces[0]:
                 print("d pressed")
@@ -77,19 +77,20 @@ class FocusScene(SceneBase):
 
 
     def Update(self, dt):
-        SceneBase.Update(self, dt)
-
+        OptimizationScene.Update(self, dt)
         self.background.opacity = (0.5 + self.correct_pieces*0.1)*255
-
         for index, locked in enumerate(self.locked_pieces):
             if locked:
                 piece = self.pieces[index]
                 piece.Rotate(piece.rotation)
 
-    
-    def Render(self, screen):
+    def RenderBackground(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
         self.background.RenderWithAlpha(screen)
+    
+    def Render(self, screen):
+        OptimizationScene.Render(self, screen)
+
         for piece in self.pieces:
             piece.RenderWithAlpha(screen)
 
@@ -115,4 +116,14 @@ class FocusScene(SceneBase):
         
         if self.correct_pieces == 5:
             print("you win!")
+            self.FinishOptimization()
+
+
+    def FinishOptimization(self):
+        OptimizationScene.FinishOptimization(self)
+
+        for index in range(0, 5):
+            self.sfx_pieces[index].fadeout(500)
+            
+        utils.stop_music()
 
