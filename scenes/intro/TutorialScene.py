@@ -2,8 +2,8 @@
 
 import pygame
 
-from .BaseScene import SceneBase
-from .StartEventScene import StartEventScene
+from scenes.BaseScene import SceneBase
+from scenes.StartEventScene import StartEventScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames

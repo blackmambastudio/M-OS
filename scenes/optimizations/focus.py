@@ -88,6 +88,7 @@ class FocusScene(OptimizationScene):
                 piece = self.pieces[index]
                 piece.Rotate(piece.rotation)
                 self.dirty_rects.append(piece.GetClipRect())
+                
         if self.render_background:
             self.dirty_rects = [(0,0,1280,720)]
             self.render_background = False

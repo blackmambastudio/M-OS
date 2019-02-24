@@ -7,11 +7,14 @@ import serial
 import pygame
 
 from scenes.BootScene import BootScene
+from scenes.intro.IntroductionScene import IntroductionScene
+from scenes.intro.TutorialScene import TutorialScene
+
 from scenes.EditScene import EditScene
 from scenes.SubmitScene import SubmitScene
 from scenes.OptimizationScene import OptimizationScene
 from scenes.ResultsScene import ResultsScene
-from scenes.TutorialScene import TutorialScene
+
 from scenes.StartEventScene import StartEventScene
 
 from scenes.optimizations.focus import FocusScene
@@ -20,6 +23,8 @@ import mimo
 
 SCENES = {
     "Boot": BootScene,
+    # intro scenes
+    "Intro": IntroductionScene,
     "Edit": EditScene,
     "Submit": SubmitScene,
     "Optimization": OptimizationScene,
@@ -37,7 +42,7 @@ using_emulator = False
 def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
-    screen = pygame.display.set_mode((width, height))
+    screen = pygame.display.set_mode((width, height), 0, 16)
     clock = pygame.time.Clock()
 
     active_scene = starting_scene()
@@ -77,13 +82,13 @@ def run_game(width, height, fps, starting_scene):
             active_scene.ProcessInput(filtered_events, pressed_keys)
             active_scene.Update(dt)
             active_scene.Render(screen)
+            pygame.display.update(active_scene.getDirtyRects())
         
         active_scene = active_scene.next
 
         fps_text = font.render(str(int(clock.get_fps())), True, pygame.Color('red'))
         screen.blit(fps_text, (50, 20))
-        
-        pygame.display.update(active_scene.getDirtyRects())
+
         clock.tick(fps)
 
     mimo.shutdown()

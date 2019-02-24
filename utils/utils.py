@@ -1,5 +1,6 @@
 import os
 import pygame
+import random
 
 _image_library = {}
 _sound_library = {}
@@ -219,3 +220,41 @@ def align_text(text, left, spaces, space_char=' '):
             new_text = space_char + new_text
 
     return new_text
+
+
+class TextLoader():
+    def __init__(self, text_to_load, speed=0.6, load_by_words=False):
+        self.current_text = ""
+        self.text_to_load = text_to_load
+        self.cursor = -1
+        self.speed = speed
+        self.counter = 0
+        self.finished = False
+        self.load_by_words = load_by_words
+
+    def update_text(self):
+        if self.load_by_words:
+            self.cursor = self.text_to_load.find(" ", self.cursor+1)
+            if self.cursor == -1:
+                self.cursor = len(self.text_to_load) -1
+        else:
+            self.cursor += 1
+
+        self.current_text = self.text_to_load[:self.cursor]
+        self.finished = (self.cursor + 1) == len(self.text_to_load)
+
+
+    def update(self, dt):
+        if self.finished: return False
+
+        self.counter += dt
+        if self.counter >= self.speed:
+            self.update_text()
+            self.counter = 0
+            return True
+
+        return False
+
+    def complete(self):
+        self.current_text = self.text_to_load
+        self.finished = True

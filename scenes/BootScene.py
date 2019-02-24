@@ -3,7 +3,7 @@
 import pygame
 
 from .BaseScene import SceneBase
-from .TutorialScene import TutorialScene
+from scenes.intro.TutorialScene import TutorialScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
@@ -14,7 +14,7 @@ import mimo
 # clear the led matrix and led ring
 # all inputs are locked
 # set colors for all leds, turn all leds and increase the brightness
-# this boot scene should take some seconds, max 10
+# this boot scene should take some seconds, max 10? 8-6?
 # some aditional test display that specific modules are loading.
 # after that change to the next scene - tutorial
 
