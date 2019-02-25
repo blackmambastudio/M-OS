@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 import pygame
+import mimo
 
-from scenes.BaseScene import SceneBase
-from scenes.StartEventScene import StartEventScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
+
+from scenes.BaseScene import SceneBase
+from .MaterialTutorialScene import MaterialTutorialScene
 
 # Introduction Scene
 # Available actions: back / next
@@ -57,10 +58,12 @@ class IntroductionScene(SceneBase):
     
 
     def LoadNextSubtitle(self):
-        if self.intro_subtitles_index + 1 == len(self.intro_subtitles): return
+        if self.intro_subtitles_index + 1 == len(self.intro_subtitles):
+            self.SwitchToScene(MaterialTutorialScene)
+            return
 
         self.intro_subtitles_index += 1
-        self.textLoader = utils.TextLoader(self.intro_subtitles[self.intro_subtitles_index]["text"], 0.07, False)
+        self.textLoader = utils.TextLoader(self.intro_subtitles[self.intro_subtitles_index]["text"], 0.04, False)
         #self.textLoader.complete()
         #self.subtitle.SetText(self.textLoader.current_text)
 
@@ -87,7 +90,5 @@ class IntroductionScene(SceneBase):
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
         self.subtitle.render_multiline(screen)
-
-        #self.torca.render()
         graphics.render()
 

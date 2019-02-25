@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
 import pygame
+import mimo
 
-from .BaseScene import SceneBase
-from .optimizations import get_next_optimization_scene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
-
 from utils.NewsProvider import news
+
+from scenes.BaseScene import SceneBase
+from scenes.optimizations import get_next_optimization_scene
+
 # Edit Scene
 # PLAY STATUS #2
 # should load material into the slots, 
@@ -21,7 +22,7 @@ from utils.NewsProvider import news
 #
 # when player will be ready the next screen should be optimization
 
-class EditScene(SceneBase):
+class EditEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)

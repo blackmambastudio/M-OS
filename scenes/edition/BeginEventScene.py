@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 
 import pygame
-
-from .BaseScene import SceneBase
-from .EditScene import EditScene
+import mimo
+import random
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
-import random
-
 from utils.NewsProvider import news
+
+from scenes.BaseScene import SceneBase
+from scenes.edition.EditEventScene import EditEventScene
+
 # StartEvent Scene
 # PLAY STATUS #1
 # should start and print a new mission to accomplish to the player
 
 # next scene will be edit 
 
-class StartEventScene(SceneBase):
+class BeginEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
@@ -33,7 +33,7 @@ class StartEventScene(SceneBase):
         self.description.SetPosition(1280/2, 50)
         self.title.SetText(self.current_event["title"])
 
-        self.AddTrigger(60, self, 'SwitchToScene', EditScene)
+        self.AddTrigger(60, self, 'SwitchToScene', EditEventScene)
         # load material
         random.shuffle(self.current_event["material"])
         index = 0
@@ -55,7 +55,7 @@ class StartEventScene(SceneBase):
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                self.SwitchToScene(EditScene)
+                self.SwitchToScene(EditEventScene)
                 
 
     def Update(self, dt):

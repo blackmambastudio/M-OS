@@ -7,32 +7,38 @@ import serial
 import pygame
 
 from scenes.BootScene import BootScene
+
 from scenes.intro.IntroductionScene import IntroductionScene
-from scenes.intro.TutorialScene import TutorialScene
+from scenes.intro.MaterialTutorialScene import MaterialTutorialScene
+from scenes.intro.OptimizationTutorialScene import OptimizationTutorialScene
 
-from scenes.EditScene import EditScene
-from scenes.SubmitScene import SubmitScene
-from scenes.OptimizationScene import OptimizationScene
-from scenes.ResultsScene import ResultsScene
-
-from scenes.StartEventScene import StartEventScene
+from scenes.edition.BeginEventScene import BeginEventScene
+from scenes.edition.EditEventScene import EditEventScene
+from scenes.optimizations.OptimizationScene import OptimizationScene
+from scenes.edition.FinishEventScene import FinishEventScene
+from scenes.edition.ResultsScene import ResultsScene
 
 from scenes.optimizations.focus import FocusScene
 
 import mimo
 
 SCENES = {
+    # boot
     "Boot": BootScene,
     # intro scenes
     "Intro": IntroductionScene,
-    "Edit": EditScene,
-    "Submit": SubmitScene,
+    "TutorialMat": MaterialTutorialScene,
+    "TutorialOpt": OptimizationTutorialScene,
+    # edit
+    "Begin": BeginEventScene,
+    "Edit": EditEventScene,
+    "Finish": FinishEventScene,
+    # optimization
     "Optimization": OptimizationScene,
-    "Results": ResultsScene,
-    "Tutorial": TutorialScene,
-    "Start": StartEventScene,
-
     "Focus": FocusScene
+
+    # end game, results
+    "Results": ResultsScene,
 }
 
 init_scene = "Boot"

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import pygame
 
-from scenes.OptimizationScene import OptimizationScene
+from .OptimizationScene import OptimizationScene
 from utils import utils
 from random import random
 

@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
 import pygame
+import mimo
+import enum
 
-from .BaseScene import SceneBase
-from .SubmitScene import SubmitScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
-import enum
+
+from scenes.BaseScene import SceneBase
+from scenes.edition.FinishEventScene import FinishEventScene
 
 # Optimization Scene
 # PLAY STATUS #3
@@ -41,7 +42,7 @@ class OptimizationScene(SceneBase):
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                self.SwitchToScene(SubmitScene)
+                self.SwitchToScene(FinishEventScene)
 
     # in milliseconds
     def format_time(time):
@@ -82,7 +83,7 @@ class OptimizationScene(SceneBase):
     def FinishOptimization(self):
         self.state = STATUS.FINISHING
         self.DisplayResults()
-        self.AddTrigger(15, self, 'SwitchToScene', SubmitScene)
+        #self.AddTrigger(15, self, 'SwitchToScene', FinishEventScene)
 
     def IsPlaying(self):
         return self.state == STATUS.PLAYING

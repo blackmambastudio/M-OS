@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import pygame
+import mimo
 
-from .BaseScene import SceneBase
-from .BaseScene import SceneBase
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
+
+from .BaseScene import SceneBase
 
 # Results Scene
 #

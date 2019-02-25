@@ -34,13 +34,13 @@ except ImportError:
 #                   8-09-10-11         
 #                                   ring
 #                                  12 - 27
-# +----- mat ----+---- opt ----+---- mat ----+
-# | button_a  0  |   matrix    | button_d  7 |
-# | button_b  1  |   33-96     | button_e  6 |
-# | button_c  2  | 28  30  32  | button_f  5 |
-# |              |   29  31    |             |
-# | button_no 3  | button_0-4  | button_ok 4 |
-# +--------------+-------------+-------------+
+# +----- mat ----+---- opt ----+---- mat -----+
+# | button_a  0/q|   matrix    | button_d  7/o|
+# | button_b  1/a|   33-96     | button_e  6/k|
+# | button_c  2/z| 28d 30f 32g | button_f  5/m|
+# |              |   29c 31v   |              |
+# | button_no 3/w| button_0-4  | button_ok 4/i|
+# +--------------+-------------+--------------+
 #
 # material leds ids: 0-27
 # optimization leds ids: 28-96 // 0 - 68

@@ -3,7 +3,7 @@
 import pygame
 
 from scenes.BaseScene import SceneBase
-from scenes.StartEventScene import StartEventScene
+from scenes.BeginEventScene import BeginEventScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
@@ -164,7 +164,7 @@ class TutorialScene(SceneBase):
         #self.torca.playing = True
         #self.torca.setFrameRate(5)
 
-        self.AddTrigger(25, self, 'SwitchToScene', StartEventScene)
+        self.AddTrigger(25, self, 'SwitchToScene', BeginEventScene)
 
 
     

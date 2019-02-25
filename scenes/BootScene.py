@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 import pygame
+import mimo
 
 from .BaseScene import SceneBase
-from scenes.intro.TutorialScene import TutorialScene
+from scenes.intro.IntroductionScene import IntroductionScene
+
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
 
 # Boot Scene
 # should reset all button and light states,
@@ -29,7 +30,7 @@ class BootScene(SceneBase):
         
         self.AddTween("easeInOutSine", 1, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(18, self, 'SwitchToScene', TutorialScene)
+        self.AddTrigger(18, self, 'SwitchToScene', IntroductionScene)
 
         mimo.set_led_brightness(50)
         mimo.set_optimization_buttons_lock_status([0, 0, 1, 0, 2, 0])

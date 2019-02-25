@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
 import pygame
+import mimo
 
-from .BaseScene import SceneBase
-from .ResultsScene import ResultsScene
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
-import mimo
 
+from scenes.BaseScene import SceneBase
+from scenes.edition.ResultsScene import ResultsScene
 # Submit Scene
 # PLAY STATUS #4
 # a summary with the impact of the news will be displayed to the 
@@ -18,7 +18,7 @@ import mimo
 # process.
 # when it will finish go to the results scene
 
-class SubmitScene(SceneBase):
+class FinishEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
