@@ -8,7 +8,7 @@ from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 
 from scenes.BaseScene import SceneBase
-from scenes.BeginEventScene import BeginEventScene
+from scenes.edition.BeginEventScene import BeginEventScene
 
 # Optimization Scene
 # Available actions: back / next - optimization buttons and tunner

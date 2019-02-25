@@ -68,3 +68,5 @@ class MaterialTutorialScene(SceneBase):
         self.subtitle.render_multiline(screen)
         graphics.render()
 
+    def SelectMaterial(self, index):
+        print("select material", index)

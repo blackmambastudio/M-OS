@@ -8,7 +8,7 @@ from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 
 from scenes.BaseScene import SceneBase
-from scenes.edition.ResultsScene import ResultsScene
+from scenes.ResultsScene import ResultsScene
 # Submit Scene
 # PLAY STATUS #4
 # a summary with the impact of the news will be displayed to the 

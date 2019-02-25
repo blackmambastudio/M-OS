@@ -16,7 +16,7 @@ from scenes.edition.BeginEventScene import BeginEventScene
 from scenes.edition.EditEventScene import EditEventScene
 from scenes.optimizations.OptimizationScene import OptimizationScene
 from scenes.edition.FinishEventScene import FinishEventScene
-from scenes.edition.ResultsScene import ResultsScene
+from scenes.ResultsScene import ResultsScene
 
 from scenes.optimizations.focus import FocusScene
 
@@ -35,10 +35,10 @@ SCENES = {
     "Finish": FinishEventScene,
     # optimization
     "Optimization": OptimizationScene,
-    "Focus": FocusScene
+    "Focus": FocusScene,
 
     # end game, results
-    "Results": ResultsScene,
+    "Results": ResultsScene
 }
 
 init_scene = "Boot"
