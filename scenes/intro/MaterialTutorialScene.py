@@ -24,6 +24,8 @@ class MaterialTutorialScene(SceneBase):
         subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 32)
         self.subtitle = utils.Text("", subtitlefont)
         self.subtitle.SetPosition(1280/2, 610)
+        self.subtitle_shadow = utils.Text("", subtitlefont, color=(60,60,60))
+        self.subtitle_shadow.SetPosition(1280/2+2, 610+2)
 
         self.tutorial_part = -1
         self.textLoader = None
@@ -32,6 +34,7 @@ class MaterialTutorialScene(SceneBase):
         self.text0 = "MiMo analyze and filter material that can evoke emotions on people"
         self.text1 = "Please press the button with the label \"danger on border\""
         self.subtitle.SetText(self.text0)
+        self.subtitle_shadow.SetText(self.text0)
 
     def HWSetup(self):
         mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 5,0, 6,0, 7,0])
@@ -65,6 +68,7 @@ class MaterialTutorialScene(SceneBase):
     
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
+        self.subtitle_shadow.render_multiline(screen)
         self.subtitle.render_multiline(screen)
         graphics.render()
 

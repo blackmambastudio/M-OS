@@ -25,22 +25,23 @@ from scenes.optimizations import get_next_optimization_scene
 class EditEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
-        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
-        self.title = utils.Text("Edit event scene", titlefont)
-        self.title.SetPosition(1280/2, 546)
+        # load event, title and description
+        self.current_event = news[0]
+        self.LoadUI()
 
         self.sequence = [-1, -1, -1, -1]
         self.material = [False, False, False, False, False, False]
         self.busy_slots = 0
+
+        self.popupActive = False
+        self.AddTrigger(2, self, 'OpenPopup')
+        self.AddTrigger(4, self, 'ClosePopup')
 
         # reset material buttons
         # lock optimization buttons and knobs
         # set material buttons mode to switch
         # animate emosensemeter...
 
-
-        # load event, title and description
-        self.current_event = news[0]
 
 
 
@@ -73,8 +74,14 @@ class EditEventScene(SceneBase):
         SceneBase.Update(self, dt)
     
     def Render(self, screen):
+        if self.popupActive:
+            self.RenderPopup(screen)
+            return
         screen.fill((0x1B, 0x0C, 0x43))
-        self.title.RenderWithAlpha(screen)
+        self.titleLabel.renderWithChromaticDistortion(screen)
+        self.descriptionText.render_multiline_truncated(screen, 300, 300)
+        self.objectiveTitle.RenderWithAlpha(screen)
+        self.objectiveText.render_multiline_truncated(screen, 300, 200)
     
 
     def assign_material_to_sequence(self, index):
@@ -108,6 +115,7 @@ class EditEventScene(SceneBase):
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
 
+
     def set_material_inactive(self, index, slot_index):
         print("inactive", index, slot_index)
         material = self.current_event["material"][index]
@@ -117,3 +125,47 @@ class EditEventScene(SceneBase):
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
 
+
+    def LoadUI(self):
+        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 24)
+        subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 28)
+        descfont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 18)
+        
+        # load ui
+        # event information
+        self.titleLabel = utils.Text(self.current_event["title"], titlefont)
+        self.titleLabel.setAnchor(0, 0)
+        self.titleLabel.SetPosition(60, 10)
+
+        self.descriptionText = utils.Text(self.current_event["description"].replace('\n', '. '), descfont)
+        self.descriptionText.setAnchor(0, 0)
+        self.descriptionText.SetPosition(10, 50)
+
+        self.objectiveTitle = utils.Text("Objective", titlefont)
+        self.objectiveTitle.setAnchor(0, 0)
+        self.objectiveTitle.SetPosition(10, 300)
+
+        self.objectiveText = utils.Text(self.current_event["objective"].replace('\n', '. '), descfont)
+        self.objectiveText.setAnchor(0, 0)
+        self.objectiveText.SetPosition(10, 340)
+
+        self.popupLabel = utils.Text('popup', subtitlefont)
+        self.popupLabel.setAnchor(0.5, 0)
+        self.popupLabel.SetPosition(640, 120)
+
+
+    def OpenPopup(self):
+        self.popupActive = True
+        self.dirty_rects = [(100,100,1080,520)]
+        pass
+    
+    def ClosePopup(self):
+        self.popupActive = False
+        self.dirty_rects = [(0,0,1280,720)]
+        pass
+
+    def RenderPopup(self, screen):
+        screen.fill((0x0e, 0x08, 0x23))
+        self.titleLabel.renderWithChromaticDistortion(screen)
+        self.popupLabel.renderWithChromaticDistortion(screen)
+        pass

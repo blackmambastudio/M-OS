@@ -1,10 +1,20 @@
 
 news = [{
     "id": 0,
-    "title": "Title for news event #01",
-    "description": """Description is something that can be displayed in screen.
-Several lines including line breaks\ncould be displayed.
-Maybe one paragrah is fair enough.""",
+    "title": "Falla tecnica en Monteasalvo",
+
+    "description": """El tanque de aguas residuales para tratamiento del
+laboratorio farmacéutico de Monteasalvo sufrió una
+fuga regando  desperdicios  industriales en el río
+Saluino  una de las  principales  fuentes hidricas
+del Distrito 2.
+
+Ambientalistas  alertan  acerca  de  los daños que
+esto causará en el ecosistema.""",
+
+    "objective": """Monteasalvo es un aliado estratégico de MCorp, evitar que este
+problema signifique una baja en las acciones de la compañía.""",
+    "icon": "assets/events/biohazard.png",
     "material": [
         # bad emotions
         {

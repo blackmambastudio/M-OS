@@ -48,7 +48,9 @@ using_emulator = False
 def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
-    screen = pygame.display.set_mode((width, height), 0, 16)
+    pygame.mouse.set_visible(False)
+    pygame.mouse.set_pos([1280/2, 720/2])
+    screen = pygame.display.set_mode((width, height), 0 , 16)
     clock = pygame.time.Clock()
 
     active_scene = starting_scene()
@@ -88,12 +90,16 @@ def run_game(width, height, fps, starting_scene):
             active_scene.ProcessInput(filtered_events, pressed_keys)
             active_scene.Update(dt)
             active_scene.Render(screen)
-            pygame.display.update(active_scene.getDirtyRects())
+            
+            dirty_rects = active_scene.getDirtyRects()
+            #fps display active
+            fps_text = font.render(str(int(clock.get_fps())), True, pygame.Color('red'))
+            screen.blit(fps_text, (50, 20))
+            dirty_rects.append((50, 20, 20,20))
+            pygame.display.update(dirty_rects)
         
         active_scene = active_scene.next
 
-        fps_text = font.render(str(int(clock.get_fps())), True, pygame.Color('red'))
-        screen.blit(fps_text, (50, 20))
 
         clock.tick(fps)
 

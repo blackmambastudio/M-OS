@@ -20,21 +20,70 @@ from scenes.edition.EditEventScene import EditEventScene
 class BeginEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
-        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
-        descfont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 22)
-        self.title = utils.Text("Start event scene", titlefont)
-        self.title.SetPosition(1280/2, 546)
         
-        # load event, title and description
-        self.current_event = news[0]
+        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
+        subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 36)
+        descfont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 22)
+        
+        self.title = utils.Text("Start event scene", titlefont)
+        self.title.setAnchor(0.5, 0)
+        self.title.SetPosition(1280/2, 30)
 
-        description = self.current_event["description"]
-        self.description = utils.Text(description, descfont)
-        self.description.SetPosition(1280/2, 50)
+        # description area
+        self.descriptionLabel = utils.Text("new event", subtitlefont)
+        self.descriptionLabel.setAnchor(1, 0)
+        self.descriptionLabel.SetPosition(1170, 100)
+
+        self.description = utils.Text("", descfont, color=(0,255,255))
+        self.description.setAnchor(1, 0)
+        self.description.SetPosition(1180, 130)
+
+        # objective area
+        self.objectiveLabel = utils.Text("objective", subtitlefont)
+        self.objectiveLabel.setAnchor(0.5, 1)
+        self.objectiveLabel.SetPosition(1280/2, 470)
+
+        self.objective = utils.Text("", descfont, color=(0,255,255))
+        self.objective.SetPosition(1280/2, 500)
+
+        # next screen area
+        self.editLabel = utils.Text("press     to edit event", descfont)
+        self.editLabel.setAnchor(1, 0.5)
+        self.editLabel.SetPosition(1200, 600)
+        self.editSprite = utils.Sprite("assets/sprites/mtlL3.png", 1000, 600)
+        
+        # load event, title, description, objective and material
+        self.LoadEvent(news[0])
+
+
+    def ProcessInput(self, events, pressed_keys):
+        for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
+                self.SwitchToScene(EditEventScene)
+                
+
+    def Update(self, dt):
+        SceneBase.Update(self, dt)
+
+
+    def Render(self, screen):
+        screen.fill((0x1B, 0x0C, 0x43))
+        self.title.renderWithChromaticDistortion(screen)
+        self.descriptionLabel.renderWithChromaticDistortion(screen)
+        self.description.render_multiline(screen)
+        self.objectiveLabel.renderWithChromaticDistortion(screen)
+        self.objective.render_multiline(screen)
+        self.editLabel.render(screen)
+        self.editSprite.RenderWithAlpha(screen)
+        self.icon.RenderWithAlpha(screen)
+    
+
+    def LoadEvent(self, event):
+        self.current_event = event
+        self.icon = utils.Sprite(self.current_event["icon"], 320, 250)
+        self.description.SetText(self.current_event["description"])
         self.title.SetText(self.current_event["title"])
-
-        self.AddTrigger(60, self, 'SwitchToScene', EditEventScene)
-        # load material
+        self.objective.SetText(self.current_event["objective"])
         random.shuffle(self.current_event["material"])
         index = 0
         material_indexes = [0,1,2,7,6,5]
@@ -51,19 +100,3 @@ class BeginEventScene(SceneBase):
             index += 1
 
         mimo.termal_print(self.current_event["title"].upper())
-
-    def ProcessInput(self, events, pressed_keys):
-        for event in events:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                self.SwitchToScene(EditEventScene)
-                
-
-    def Update(self, dt):
-        SceneBase.Update(self, dt)
-    
-    def Render(self, screen):
-        screen.fill((0x1B, 0x0C, 0x43))
-        self.title.RenderWithAlpha(screen)
-        self.description.render_multiline(screen)
-    
-

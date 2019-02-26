@@ -40,7 +40,7 @@ def fadeout_music(time):
 def blit_alpha(target, source, location, opacity):
     x = location[0]
     y = location[1]
-    temp = pygame.Surface((source.get_width(), source.get_height())).convert()
+    temp = pygame.Surface((source.get_width(), source.get_height()), pygame.SRCALPHA, 32).convert_alpha()
     temp.blit(target, (-x, -y))
     temp.blit(source, (0, 0))
     temp.set_alpha(opacity)        
@@ -133,11 +133,12 @@ class Text():
     def __init__(self, text, font, x=0, y=0, color=(255,255,255)):
         self.raw_text = text.upper()
         self.color = color
-        self.text = font.render(text.upper(), True, self.color)
         self.font = font
+        self.SetText(text, False)
         self.opacity = 255
         self.anchor = (0.5, 0.5)
         self.SetPosition(x, y)
+        self.cached_surface = None
 
     def SetPosition(self, x, y):
         self.x = x
@@ -146,6 +147,22 @@ class Text():
 
     def render(self, screen):
         screen.blit(self.text, self.position)
+        #pass
+
+    def render_cached(self, screen):
+        screen.blit(self.cached_surface, self.position)
+
+    # cached function
+    def renderWithChromaticDistortion(self, screen):
+        if self.cached_surface:
+            self.render_cached(screen)
+            return
+        temp = pygame.Surface((self.text.get_width()+2, self.text.get_height()), pygame.SRCALPHA, 32).convert_alpha()
+        temp.blit(self.text_shadow_pink, (0, 0))
+        temp.blit(self.text_shadow_blue, (2, 0))
+        temp.blit(self.text, (1, 0))
+        screen.blit(temp, self.position)
+        self.cached_surface = temp
         #pass
 
     def RenderWithAlpha(self, screen):
@@ -160,28 +177,65 @@ class Text():
         self.opacity = opacity
 
     def SetText(self, text, update_position=True):
+        self.cached_surface = None
         self.raw_text = text.upper()
-        self.text = self.font.render(self.raw_text, True, (255, 255, 255))
+        self.text = self.font.render(self.raw_text, True, self.color)
+        self.text_shadow_blue = self.font.render(self.raw_text, True, (0,255,255))
+        self.text_shadow_pink = self.font.render(self.raw_text, True, (255,0,255))
         if update_position:
             self.SetPosition(self.x, self.y)
 
     def DecorateText(self, prefix, suffix):
         self.text = self.font.render(prefix + self.raw_text + suffix, True, (255, 255, 255))
         self.SetPosition(self.x, self.y)
-    
+
+   
     def render_multiline(self, screen):
         lines = self.raw_text.splitlines()
         x, y = self.position
-        for line in lines:         
+        for line in lines:
             word_surface = self.font.render(line, 0, self.color)
             word_width, word_height = word_surface.get_size()
             screen.blit(word_surface, (self.x - word_width*self.anchor[0], y))
             y += word_height
 
+    # cached function
+    def render_multiline_truncated(self, screen, max_width=0, max_height=0):
+        if self.cached_surface:
+            self.render_cached(screen)
+            return
+        if max_width == 0:
+            max_width = 1280
+        if max_height == 0:
+            max_height = 720
+
+        temp = pygame.Surface((max_width, max_height), pygame.SRCALPHA, 32).convert_alpha()
+        
+        lines = self.raw_text.splitlines()
+        x, y = (0, 0)
+        space = self.font.size(' ')[0]
+
+
+        for line in lines:
+            words = line.split(" ")
+            for word in words:
+                word_surface = self.font.render(word, 0, self.color)
+                word_width, word_height = word_surface.get_size()
+                if x + word_width >= max_width:
+                    x = 0
+                    y += word_height
+                temp.blit(word_surface, (x, y))
+                x += word_width + space
+            x = 0
+            y += word_height
+
+        screen.blit(temp, self.position)
+        self.cached_surface = temp
+
 
 def get_image_matrix(path):
     image = get_image(path)
-    temp = pygame.Surface((image.get_width(), image.get_height())).convert()
+    temp = pygame.Surface((image.get_width(), image.get_height()), pygame.SRCALPHA, 32).convert_alpha()
     temp.blit(image, (0, 0))
     image_matrix = []
     for j in range(0, image.get_height()):
