@@ -22,7 +22,7 @@ class DevTestScene(SceneBase):
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
 
         #self.comm.opt.set_led_brightness(50)
-        mimo.set_led_brightness(50)
+        #mimo.set_led_brightness(250)
         #self.comm.opt.lock_buttons([3, 0, 4, 0])
         #mimo.set_optimization_leds_color([0, 255, 0, 0])
         #mimo.set_optimization_leds_color([1, 0, 255, 0])
@@ -30,8 +30,11 @@ class DevTestScene(SceneBase):
         #mimo.set_optimization_leds_color([3, 255, 0, 0])
         #mimo.set_optimization_leds_color([4, 255, 255, 255])
         #mimo.set_independent_lights(False, True)
-        mimo.set_independent_lights(True, True)
-
+        #mimo.set_independent_lights(True, True)
+        #mimo.set_buttons_enable_status(True, True)
+        #mimo.set_optimization_buttons_lock_status([0,0,1,0,2,0,3,0,4,0])
+        #mimo.set_material_buttons_lock_status([0,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0])
+        #mimo.set_tunners_enable_status(False)
         #mimo.set_optimization_leds_color([2, 255,0,255])
         #mimo.set_optimization_leds_color([5, 255,0,255])
         #mimo.set_optimization_leds_color([19, 255,0,255])
@@ -39,12 +42,17 @@ class DevTestScene(SceneBase):
         #mimo.set_optimization_leds_color([28, 255,255])
         #mimo.set_optimization_leds_color([29, 255,0,255])
         #mimo.set_optimization_leds_color([30, 255,0,255])
-        factor = 0.02
-        loops = 1
+        factor = 0.15
+        loops = 10
         n_leds = 64+5
-        for index in range(0, n_leds*loops):
-            self.AddTrigger(4+(1+index)*factor, mimo, 'set_optimization_leds_color', [index%n_leds, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
-            self.AddTrigger(4+(1+index+0.9)*factor, mimo, 'set_optimization_leds_color', [index%n_leds, 0, 0, 0])
+        #for index in range(0, n_leds*loops):
+        #    self.AddTrigger((1+index)*factor, mimo, 'set_optimization_leds_color', [index%n_leds, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
+        #    self.AddTrigger((1+index+0.9)*factor, mimo, 'set_optimization_leds_color', [index%n_leds, 0, 0, 0])
+        
+        n_leds = 28
+        #for index in range(0, 28*loops):
+        #    self.AddTrigger((1.5+index)*factor, mimo, 'set_material_leds_color', [index%n_leds, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
+        #    self.AddTrigger((1.5+index+0.9)*factor, mimo, 'set_material_leds_color', [index%n_leds, 0, 0, 0])
         #self.comm.opt.activate_buttons(True)
         #mimo.set_buttons_enable_status(False, False)
         #self.comm.opt.activate_tunners(False)
@@ -61,6 +69,7 @@ class DevTestScene(SceneBase):
         # debe prender el led del boton de  optimizacion 0
         #self.AddTrigger(3, mimo, 'set_optimization_leds_color', [10, 255, 0, 0])
        
+        mimo.set_tunners_enable_status(True)
         self.testSprite = AnimatedNeoSprite('assets/tilesprite.png')
         self.testSprite.setFrameRate(8)
         self.testSprite.playing = True
@@ -129,10 +138,10 @@ class DevTestScene(SceneBase):
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
         self.logo.RenderWithAlpha(screen)
-        self.testSprite.render()
+        #self.testSprite.render()
         #graphics.setColor(0xf0f)
         #self.label.render()
-        graphics.render()
+        #graphics.render()
         self.title.RenderWithAlpha(screen)
     
 

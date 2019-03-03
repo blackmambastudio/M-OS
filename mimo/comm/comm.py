@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import serial
+import time
+from serial.tools import list_ports
 
 class SerialComm:
     def __init__(self, unavailable_commands):
@@ -7,6 +9,7 @@ class SerialComm:
         self.active = False
         self.unavailable_commands = unavailable_commands
         self.emulator_led_index = 0
+        self.id = 0
 
     def open(self, port):
         try:
@@ -16,18 +19,33 @@ class SerialComm:
             print("can't open connection on", port, "port")
 
     def read(self):
-        if not self.active: return  
-        data = self.comm.read(4)
+        if not self.active: return
+        
+        data = self.comm.read(3)
+
         while len(data) > 0:
             to_int = [x for x in data]
-            data = self.comm.read(4)
+            data = self.comm.read(to_int[2])
+            payload = [x for x in data]
+            self.handle_message(to_int[1], payload)
+            data = self.comm.read(3)
+
+    def handle_message(self, command, payload):
+        print("command", command)
+        print("payload", payload)
+        if command == 0x91:
+            self.id = payload[0] 
 
     def write(self, command, payload):
         if not self.active: return
         if command in self.unavailable_commands: return
         data = [0x7E, command, len(payload)] + payload
+        print("write", bytearray(data))
         self.comm.write(bytearray(data))
         self.comm.flush()
+
+    def identify(self):
+        self.write(0x91, [0])
 
     def enable_buttons(self, enable):
         self.write(0x01, [enable])
@@ -79,10 +97,35 @@ class SerialComm:
 mat = SerialComm([0x02, 0x04, 0x13])
 opt = SerialComm([])
 
+ARDUINO_DIRS = {
+    "MATERIAL": "-",
+    "OPTIMIZATION": ""
+}
 
-def init_connections(port_material, port_optimization):
-    mat.open(port_material)
-    opt.open(port_optimization)
+
+def init_connections():
+
+    res = list_ports.comports()
+    for detected in res:
+        port = detected.device
+        try:
+            temp = serial.Serial(port, 9600, timeout=0.5)
+            temp.write([0x7e, 0x91, 0x01, 0x00])
+            temp.flush()
+            data = temp.read(4)
+            to_int = [x for x in data]
+            if to_int[0] == 0x7E and to_int[1] == 0x91:
+                if to_int[3] == 0x99:
+                    ARDUINO_DIRS["OPTIMIZATION"] = port
+                elif to_int[3] == 0x66:
+                    ARDUINO_DIRS["MATERIAL"] = port
+            temp.close()
+        except:
+            print("can't open connection on", port, "port")
+
+    mat.open(ARDUINO_DIRS["MATERIAL"])
+    opt.open(ARDUINO_DIRS["OPTIMIZATION"])
+
 
 def read_response():
     mat.read()

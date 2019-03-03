@@ -20,12 +20,12 @@ except ImportError:
     LCD = False
     print("can't import I2C_LCD")
 
-try:
-    from .comm import printer
-    PRINTER = True
-except ImportError:
-    PRINTER = False
-    print("can't import thermal printer")
+#try:
+#    from .comm import printer
+#    PRINTER = True
+#except ImportError:
+#    PRINTER = False
+#    print("can't import thermal printer")
 
 
 # define all led ids for material and optimization modules
@@ -260,11 +260,10 @@ def init(emulation=False):
     if EMULATOR:
         emulator.open()
     else:
-        comm.init_connections('COM0', 'COM12')
+        comm.init_connections()
+
     MATERIAL = comm.mat.active
     OPTIMIZATION = comm.opt.active
-    print ("Material", MATERIAL)
-    print ("optimization", OPTIMIZATION)
     #reset()
 
 def update():
