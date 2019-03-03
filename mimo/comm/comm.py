@@ -16,7 +16,7 @@ class SerialComm:
             print("can't open connection on", port, "port")
 
     def read(self):
-        if not self.active: return
+        if not self.active: return  
         data = self.comm.read(4)
         while len(data) > 0:
             to_int = [x for x in data]

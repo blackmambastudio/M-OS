@@ -29,6 +29,22 @@ class EditEventScene(SceneBase):
         self.current_event = news[0]
         self.LoadUI()
 
+        # self.image_size = { "width": 340, "height": 250 }
+        self.images = [
+            utils.Sprite("assets/material/" + self.current_event["material"][0]["material"]),
+            utils.Sprite("assets/material/" + self.current_event["material"][1]["material"]),
+            utils.Sprite("assets/material/" + self.current_event["material"][2]["material"]),
+            utils.Sprite("assets/material/" + self.current_event["material"][3]["material"]),
+            utils.Sprite("assets/material/" + self.current_event["material"][4]["material"]),
+            utils.Sprite("assets/material/" + self.current_event["material"][5]["material"])
+        ]
+        self.image_positions = [
+            { "x": 400, "y": 500 },
+            { "x": 400 + 340, "y": 500 },
+            { "x": 400 + (340 * 2), "y": 500 },
+            { "x": 400 + (340 * 3), "y": 500 }
+        ]
+
         self.sequence = [-1, -1, -1, -1]
         self.material = [False, False, False, False, False, False]
         self.busy_slots = 0
@@ -82,6 +98,14 @@ class EditEventScene(SceneBase):
         self.descriptionText.render_multiline_truncated(screen, 300, 300)
         self.objectiveTitle.RenderWithAlpha(screen)
         self.objectiveText.render_multiline_truncated(screen, 300, 200)
+        index = 0
+        for slot in self.sequence:
+            if slot != -1:
+                print('Index %s' % index)
+                self.images[slot].SetPosition(self.image_positions[index]["x"], self.image_positions[index]["y"])
+                self.images[slot].RenderWithAlpha(screen)
+            index += 1
+
     
 
     def assign_material_to_sequence(self, index):
@@ -127,9 +151,9 @@ class EditEventScene(SceneBase):
 
 
     def LoadUI(self):
-        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 24)
+        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 32)
         subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 28)
-        descfont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 18)
+        descfont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 24)
         
         # load ui
         # event information
@@ -143,11 +167,11 @@ class EditEventScene(SceneBase):
 
         self.objectiveTitle = utils.Text("Objective", titlefont)
         self.objectiveTitle.setAnchor(0, 0)
-        self.objectiveTitle.SetPosition(10, 300)
+        self.objectiveTitle.SetPosition(10, 350)
 
         self.objectiveText = utils.Text(self.current_event["objective"].replace('\n', '. '), descfont)
         self.objectiveText.setAnchor(0, 0)
-        self.objectiveText.SetPosition(10, 340)
+        self.objectiveText.SetPosition(10, 390)
 
         self.popupLabel = utils.Text('popup', subtitlefont)
         self.popupLabel.setAnchor(0.5, 0)

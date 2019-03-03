@@ -119,7 +119,6 @@ def set_independent_lights(mat_value, opt_value):
 
 # 0x05 applies brightness to both sections
 def set_led_brightness(brightness):
-    print("should set the led brightness to:", brightness)
     if EMULATOR:
         emulator.set_led_brightness(brightness)
     else:
@@ -261,10 +260,12 @@ def init(emulation=False):
     if EMULATOR:
         emulator.open()
     else:
-        comm.init_connections('COM5', 'COM15')
+        comm.init_connections('COM0', 'COM12')
     MATERIAL = comm.mat.active
     OPTIMIZATION = comm.opt.active
-    reset()
+    print ("Material", MATERIAL)
+    print ("optimization", OPTIMIZATION)
+    #reset()
 
 def update():
     if EMULATOR:
@@ -274,6 +275,7 @@ def update():
 
 def shutdown():
     print("mimo shutdown")
+    reset()
     comm.close_connections()
     if EMULATOR:
         emulator.close()

@@ -20,6 +20,8 @@ from scenes.ResultsScene import ResultsScene
 
 from scenes.optimizations.focus import FocusScene
 
+from scenes.test.DevTestScene import DevTestScene
+
 import mimo
 
 SCENES = {
@@ -38,7 +40,10 @@ SCENES = {
     "Focus": FocusScene,
 
     # end game, results
-    "Results": ResultsScene
+    "Results": ResultsScene,
+
+    # dev test
+    "Test": DevTestScene
 }
 
 init_scene = "Boot"
@@ -48,7 +53,7 @@ using_emulator = False
 def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
-    pygame.mouse.set_visible(False)
+    pygame.mouse.set_visible(True)
     pygame.mouse.set_pos([1280/2, 720/2])
     screen = pygame.display.set_mode((width, height), 0 , 16)
     clock = pygame.time.Clock()

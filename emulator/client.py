@@ -16,7 +16,7 @@ def write(command, payload):
         return
     # Send data
     data = [0x7E, command, len(payload)] + payload
-    print(data)
+    #print(data)
     sock.send(bytearray(data))
 
 

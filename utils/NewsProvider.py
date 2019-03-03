@@ -20,7 +20,7 @@ problema signifique una baja en las acciones de la compañía.""",
         {
             "label": ["Fake material", "Data 00"],
             "color": [255,0,0],
-            "material": ".png",
+            "material": "court.png",
             "hook": 0.2,
             "emotion": -0.6,
             "drama": 0.1
@@ -28,7 +28,7 @@ problema signifique una baja en las acciones de la compañía.""",
         {
             "label": ["Fake material", "Data 01"],
             "color": [255,255,0],
-            "material": ".png",
+            "material": "expert-confirm.png",
             "hook": 0.3,
             "emotion": -0.4,
             "drama": 0.3
@@ -37,7 +37,7 @@ problema signifique una baja en las acciones de la compañía.""",
         {
             "label": ["Fake material", "Data 02"],
             "color": [0,255,0],
-            "material": ".png",
+            "material": "expert-deny.png",
             "hook": 0.35,
             "emotion": -0.1,
             "drama": 0.55
@@ -45,7 +45,7 @@ problema signifique una baja en las acciones de la compañía.""",
         {
             "label": ["Fake material", "Data 03"],
             "color": [0,255,255],
-            "material": ".png",
+            "material": "hospital.png",
             "hook": 0.65,
             "emotion": 0.1,
             "drama": 0.25
@@ -53,7 +53,7 @@ problema signifique una baja en las acciones de la compañía.""",
         {
             "label": ["Fake material", "Data 04"],
             "color": [0,0,255],
-            "material": ".png",
+            "material": "illness.png",
             "hook": 0.4,
             "emotion": 0.3,
             "drama": 0.3
@@ -61,7 +61,7 @@ problema signifique una baja en las acciones de la compañía.""",
         {
             "label": ["Fake material", "Data 05"],
             "color": [255,255,255],
-            "material": ".png",
+            "material": "monteasalvo-logo.png",
             "hook": 0.1,
             "emotion": 0.4,
             "drama": 0.5
