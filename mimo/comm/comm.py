@@ -10,10 +10,11 @@ class SerialComm:
         self.unavailable_commands = unavailable_commands
         self.emulator_led_index = 0
         self.id = 0
+        self.tunners = [0,0]
 
     def open(self, port):
         try:
-            self.comm = serial.Serial(port, 9600, timeout=0)
+            self.comm = serial.Serial(port, 9600, timeout=0.01)
             self.active = True
         except:
             print("can't open connection on", port, "port")
@@ -31,16 +32,18 @@ class SerialComm:
             data = self.comm.read(3)
 
     def handle_message(self, command, payload):
-        print("command", command)
-        print("payload", payload)
+        print("read command", command, payload)
         if command == 0x91:
-            self.id = payload[0] 
+            self.id = payload[0]
+        if command == 0x41:
+            self.tunners[0] = (payload[0]<<8) + payload[1]
+            self.tunners[1] = (payload[2]<<8) + payload[3]
 
     def write(self, command, payload):
         if not self.active: return
         if command in self.unavailable_commands: return
         data = [0x7E, command, len(payload)] + payload
-        print("write", bytearray(data))
+        print("write", data)
         self.comm.write(bytearray(data))
         self.comm.flush()
 
@@ -88,6 +91,9 @@ class SerialComm:
     def switch_buttons(self, button_status):
         message = [len(button_status)//2] + button_status
         self.write(0x32, message)
+
+    def read_tunner(self):
+        self.write(0x41, [0])
 
     def close_connection(self):
         if self.active:

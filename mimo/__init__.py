@@ -229,6 +229,11 @@ def set_optimization_buttons_active_status(values):
     else:
         comm.opt.switch_buttons(values)
 
+def get_tunners_position():
+    comm.opt.read_tunner()
+    comm.opt.read()
+    return comm.opt.tunners
+
 def reset():
     for index in range(0, 6):
         lcd_display_at(index, ' ', 1)

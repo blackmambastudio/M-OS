@@ -56,6 +56,14 @@ def run_game(width, height, fps, starting_scene):
     pygame.mouse.set_visible(True)
     pygame.mouse.set_pos([1280/2, 720/2])
     screen = pygame.display.set_mode((width, height), 0 , 16)
+
+    print("tunners!!!!!!")
+    tunners = mimo.get_tunners_position()
+    print("tunners!!!!!!")
+    print("tunners!!!!!!")
+    print(tunners)
+    pygame.mouse.set_pos([1280*(tunners[0]/1024), 720*(tunners[1]/1024)])
+
     clock = pygame.time.Clock()
 
     active_scene = starting_scene()
@@ -119,6 +127,8 @@ if __name__ == '__main__':
         init_scene = sys.argv[2]
 
     mimo.init(emulation=using_emulator)
+
     if mimo.EMULATOR:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (641, 50)
     run_game(1280, 720, 60, SCENES[init_scene])
+

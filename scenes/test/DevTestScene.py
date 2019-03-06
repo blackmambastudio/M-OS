@@ -42,26 +42,32 @@ class DevTestScene(SceneBase):
         #mimo.set_optimization_leds_color([28, 255,255])
         #mimo.set_optimization_leds_color([29, 255,0,255])
         #mimo.set_optimization_leds_color([30, 255,0,255])
-        factor = 0.15
-        loops = 10
+        factor = 0.05
+        loops = 100
         n_leds = 64+5
         #for index in range(0, n_leds*loops):
         #    self.AddTrigger((1+index)*factor, mimo, 'set_optimization_leds_color', [index%n_leds, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
         #    self.AddTrigger((1+index+0.9)*factor, mimo, 'set_optimization_leds_color', [index%n_leds, 0, 0, 0])
         
-        n_leds = 28
-        #for index in range(0, 28*loops):
-        #    self.AddTrigger((1.5+index)*factor, mimo, 'set_material_leds_color', [index%n_leds, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
-        #    self.AddTrigger((1.5+index+0.9)*factor, mimo, 'set_material_leds_color', [index%n_leds, 0, 0, 0])
+        n_leds = 64
+        leds = list(range(0, 64))
+        #for index in range(0, n_leds*loops):
+        #    led_i = leds[index%n_leds] + 5
+        #    self.AddTrigger((1.5+index)*factor, mimo, 'set_optimization_leds_color', [led_i, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
+        #    self.AddTrigger((1.5+index+0.9)*factor, mimo, 'set_optimization_leds_color', [led_i, 0, 0, 0])
         #self.comm.opt.activate_buttons(True)
-        #mimo.set_buttons_enable_status(False, False)
+        mimo.set_buttons_enable_status(False, True)
+        mimo.set_independent_lights(True, False)
+        mimo.set_led_brightness(250)
+        mimo.set_optimization_buttons_lock_status([0,0, 1,0, 2,0, 3,0, 4,0])
+        mimo.set_optimization_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0])
         #self.comm.opt.activate_tunners(False)
         #mimo.set_tunners_enable_status(False)
         #self.comm.opt.set_independent_lights(False)
         #self.comm.opt.clean_matrix()
         #graphics.clear()
         
-        #self.AddTrigger(1, self.comm.mat, 'set_led_light', [0, 125, 125, 0, 1, 255, 255, 0])
+        #self.AddTrigger(0, self.comm.mat, 'set_led_light', [1, 125, 125, 0, 1, 255, 255, 0])
         #self.AddTrigger(1, mimo, 'set_material_leds_color', [0, 125, 125, 0, 1, 255, 255, 0])
         #self.AddTrigger(2, self.comm.mat, 'set_led_light', [7, 0, 255, 0])
         #self.AddTrigger(2, mimo, 'set_material_leds_color', [7, 0, 255, 0])
