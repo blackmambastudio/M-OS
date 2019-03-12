@@ -194,8 +194,8 @@ def run():
     interval = math.pi/8
     radius = 40
     for index in range(0, 16):
-        j = radius*math.cos(interval*index)
-        i = radius*math.sin(interval*index)
+        i = radius*math.cos(interval*index+math.pi)
+        j = radius*math.sin(interval*index+math.pi)
         led = addNeopixelAt(500+i, 80+j)
         led.width = 10
         led.height = 10
