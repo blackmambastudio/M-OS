@@ -10,8 +10,8 @@ class SceneBase:
         self.tweens = []
         self.dirty_rects = [(0,0,1280,720)]
     
-    def ProcessInput(self, events):
-        print("uh-oh, you didn't override this in the child class")
+    def ProcessInput(self, events, keys):
+        pass
 
     def Update(self, dt):
         self.CheckTriggers(dt)

@@ -34,8 +34,6 @@ class LightScene(SceneBase):
             self.AddTrigger((1.5+index+0.9)*factor, mimo, 'set_optimization_leds_color', [led_i, 0, 0, 0])
 
 
-
-
     def Update(self, dt):
         SceneBase.Update(self, dt)
     

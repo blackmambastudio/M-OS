@@ -9,7 +9,7 @@ import math
 
 pixels = []
 brightness = 50
-MAX_BRIGHTNESS = 50
+MAX_BRIGHTNESS = 250
 MATRIX_START_ID = 33
 LCDS = []
 printer_text = None
@@ -185,18 +185,12 @@ def run():
     addNeopixelAt(10, 280)
     addNeopixelAt(120, 360)
     # material B side 4 - 7
-    addNeopixelAt(500, 360)
-    addNeopixelAt(590, 280)
-    addNeopixelAt(590, 220)
     addNeopixelAt(590, 160)
-    
-    #selected material 8 - 11
-    addNeopixelAt(245, 10)
-    addNeopixelAt(285, 10)
-    addNeopixelAt(325, 10)
-    addNeopixelAt(365, 10)
+    addNeopixelAt(590, 220)
+    addNeopixelAt(590, 280)
+    addNeopixelAt(500, 360)
 
-    # ring 12 - 27
+    # ring 8 - 23
     interval = math.pi/8
     radius = 40
     for index in range(0, 16):
@@ -205,6 +199,12 @@ def run():
         led = addNeopixelAt(500+i, 80+j)
         led.width = 10
         led.height = 10
+    
+    #selected material 24 - 27
+    addNeopixelAt(245, 10)
+    addNeopixelAt(285, 10)
+    addNeopixelAt(325, 10)
+    addNeopixelAt(365, 10)
     
     # optimization 28 - 32
     addNeopixelAt(265, 270)

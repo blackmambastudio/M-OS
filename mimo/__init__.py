@@ -31,15 +31,15 @@ except ImportError:
 # define all led ids for material and optimization modules
 #
 #                +   mat leds  +
-#                   8-09-10-11         
+#                   24-25-26-27         
 #                                   ring
-#                                  12 - 27
+#                                  8 - 23
 # +----- mat ----+---- opt ----+---- mat -----+
-# | button_a  0/q|   matrix    | button_d  7/o|
-# | button_b  1/a|   33-96     | button_e  6/k|
-# | button_c  2/z| 28d 30f 32g | button_f  5/m|
+# | button_a  0/q|   matrix    | button_d  4/o|
+# | button_b  1/a|   33-96     | button_e  5/k|
+# | button_c  2/z| 28d 30f 32g | button_f  6/m|
 # |              |   29c 31v   |              |
-# | button_no 3/w| button_0-4  | button_ok 4/i|
+# | button_no 3/w| button_0-4  | button_ok 7/i|
 # +--------------+-------------+--------------+
 #
 # material leds ids: 0-27
@@ -86,12 +86,9 @@ def lcd_display_at(id, message, line=1, pos=0):
         else:
             lcd.lcd_display_string(message, line)
         
-    print("should display:<", message, "> on", id, "lcd id")
-
 
 # 0x01 
 def set_buttons_enable_status(mat_enable, opt_enable):
-    print("set material buttons enable=", mat_enable, " and optimization buttons enable=", opt_enable)
     if EMULATOR:
         pass
     else:
@@ -100,7 +97,6 @@ def set_buttons_enable_status(mat_enable, opt_enable):
 
 # 0x02
 def set_tunners_enable_status(enable):
-    print("set all tunners enable=", enable)
     if EMULATOR:
         pass
     else:
@@ -109,7 +105,6 @@ def set_tunners_enable_status(enable):
 
 # 0x03
 def set_independent_lights(mat_value, opt_value):
-    print("should set material lights independent independent=", mat_value, " and optimization lights independent=", opt_value)
     if EMULATOR:
         pass
     else:
@@ -129,14 +124,12 @@ def set_led_brightness(brightness):
 
 # 0x10
 def set_material_buttons_light(values):
-    print("should set button colors for:<", values)
     if EMULATOR:
         pass
     else:
         comm.mat.set_buttons_backlight(values)
 
 def set_optimization_buttons_light(values):
-    print("should set button colors for:<", values)
     if EMULATOR:
         pass
     else:
@@ -144,14 +137,12 @@ def set_optimization_buttons_light(values):
 
 # 0x11 multiple
 def set_material_ligths_on(values):
-    print("should turn leds for mat:<", values)
     if EMULATOR:
         pass
     else:
         comm.mat.switch_buttons_backlight(values)
 
 def set_optimization_ligths_on(values):
-    print("should turn leds for opt:<", values)
     if EMULATOR:
         pass
     else:
@@ -159,14 +150,12 @@ def set_optimization_ligths_on(values):
 
 # 0x12 multiple 
 def set_material_leds_color(values):
-    print("should set colors for:<", values)
     if EMULATOR:
         emulator.set_led_light(values, 0)
     else:
         comm.mat.set_led_light(values)
 
 def set_optimization_leds_color(values):
-    print("should set colors for:<", values)
     if EMULATOR:
         emulator.set_led_light(values, 28)
     else:
@@ -188,14 +177,12 @@ def display_image(image):
 
 # 0x30 multiple
 def set_material_buttons_mode(values):
-    print("should set button modes for:<", values)
     if EMULATOR:
         pass
     else:
         comm.mat.switch_button_mode(values)
 
 def set_optimization_buttons_mode(values):
-    print("should set button modes for:<", values)
     if EMULATOR:
         pass
     else:
@@ -203,14 +190,12 @@ def set_optimization_buttons_mode(values):
 
 # 0x31 multiple
 def set_material_buttons_lock_status(values):
-    print("should set button locks for:<", values)
     if EMULATOR:
         pass
     else:
         comm.mat.lock_buttons(values)
 
 def set_optimization_buttons_lock_status(values):
-    print("should set button locks for:<", values)
     if EMULATOR:
         pass
     else:
@@ -218,14 +203,12 @@ def set_optimization_buttons_lock_status(values):
 
 # 0x32 multiple
 def set_material_buttons_active_status(values):
-    print("should set button active for:<", values)
     if EMULATOR:
         pass
     else:
         comm.mat.switch_buttons(values)
 
 def set_optimization_buttons_active_status(values):
-    print("should set button active for:<", values)
     if EMULATOR:
         pass
     else:
