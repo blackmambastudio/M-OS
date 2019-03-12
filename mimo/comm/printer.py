@@ -13,9 +13,6 @@ def mimo_printer_init():
     subtitle = 'Latest news from MiMo feed'
     author = 'MiMo Team'
 
-    # Initialize printer
-    printer = Adafruit_Thermal("/dev/serial0", 19200, timeout=5)
-
     # Print welcome message
     printer.print(unidecode(
             HTMLParser.HTMLParser().unescape(title)

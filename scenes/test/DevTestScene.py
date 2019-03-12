@@ -56,9 +56,11 @@ class DevTestScene(SceneBase):
         #    self.AddTrigger((1.5+index)*factor, mimo, 'set_optimization_leds_color', [led_i, int(random.random()*255), int(random.random()*255), int(random.random()*255)])
         #    self.AddTrigger((1.5+index+0.9)*factor, mimo, 'set_optimization_leds_color', [led_i, 0, 0, 0])
         #self.comm.opt.activate_buttons(True)
-        mimo.set_buttons_enable_status(False, True)
-        mimo.set_independent_lights(True, False)
+        mimo.set_buttons_enable_status(True, True)
+        mimo.set_independent_lights(False, False)
         mimo.set_led_brightness(250)
+        mimo.set_material_buttons_lock_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])
+        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])
         mimo.set_optimization_buttons_lock_status([0,0, 1,0, 2,0, 3,0, 4,0])
         mimo.set_optimization_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0])
         #self.comm.opt.activate_tunners(False)
@@ -76,9 +78,10 @@ class DevTestScene(SceneBase):
         #self.AddTrigger(3, mimo, 'set_optimization_leds_color', [10, 255, 0, 0])
        
         mimo.set_tunners_enable_status(True)
-        self.testSprite = AnimatedNeoSprite('assets/tilesprite.png')
-        self.testSprite.setFrameRate(8)
-        self.testSprite.playing = True
+        #self.testSprite = AnimatedNeoSprite('assets/tilesprite.png')
+        self.testSprite = AnimatedNeoSprite('assets/palomita.png')
+        #self.testSprite.setFrameRate(8)
+        #self.testSprite.playing = True
         self.label = TextNeoSprite("people")
 #
         self.label.y = 2
@@ -144,10 +147,10 @@ class DevTestScene(SceneBase):
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
         self.logo.RenderWithAlpha(screen)
-        #self.testSprite.render()
+        self.testSprite.render()
         #graphics.setColor(0xf0f)
         #self.label.render()
-        #graphics.render()
+        graphics.render()
         self.title.RenderWithAlpha(screen)
     
 

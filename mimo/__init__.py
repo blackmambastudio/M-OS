@@ -20,12 +20,12 @@ except ImportError:
     LCD = False
     print("can't import I2C_LCD")
 
-#try:
-#    from .comm import printer
-#    PRINTER = True
-#except ImportError:
-#    PRINTER = False
-#    print("can't import thermal printer")
+try:
+    from .comm import printer
+    PRINTER = True
+except ImportError:
+    PRINTER = False
+    print("can't import thermal printer")
 
 
 # define all led ids for material and optimization modules
@@ -59,6 +59,8 @@ def termal_print(formatted_message):
     print("should send:<", formatted_message, "> to thermal printer")
     if EMULATOR:
         emulator.termal_print(formatted_message)
+    else:
+        printer.mimo_printer_init()
 
 # use lcd display 
 def lcd_display_at(id, message, line=1, pos=0):

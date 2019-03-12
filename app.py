@@ -21,6 +21,8 @@ from scenes.ResultsScene import ResultsScene
 from scenes.optimizations.focus import FocusScene
 
 from scenes.test.DevTestScene import DevTestScene
+from scenes.test.VerificationScene import VerificationScene
+from scenes.test.LightScene import LightScene
 
 import mimo
 
@@ -43,6 +45,9 @@ SCENES = {
     "Results": ResultsScene,
 
     # dev test
+    "Verify": VerificationScene,
+    "Lights": LightScene,
+
     "Test": DevTestScene
 }
 
