@@ -185,7 +185,7 @@ class EditEventScene(SceneBase):
     
     def ClosePopup(self):
         self.popupActive = False
-        self.dirty_rects = [(0,0,1280,720)]
+        self.dirty_rects = [(0,0,1024,600)]
         pass
 
     def RenderPopup(self, screen):

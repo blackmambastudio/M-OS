@@ -13,7 +13,7 @@ class DevTestScene(SceneBase):
         SceneBase.__init__(self)
         mimo.reset()
 
-        self.logo = utils.Sprite('assets/sprites/logo_MCorp.png', 1280/2, 720/2)
+        self.logo = utils.Sprite('assets/sprites/logo_MCorp.png', 1024/2, 600/2)
         self.logo.opacity = 0
 
         self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/MimoLogo.ogg')

@@ -29,14 +29,14 @@ class OptimizationScene(SceneBase):
         SceneBase.__init__(self)
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
         self.title = utils.Text("Optimization event scene", titlefont)
-        self.title.SetPosition(1280/2, 546)
+        self.title.SetPosition(1024/2, 546)
 
         self.state = STATUS.PLAYING
 
         # in milliseconds
         self.countdown = 30000
         self.timer = utils.Text("00:00:00", titlefont)
-        self.timer.SetPosition(1280/2, 30)
+        self.timer.SetPosition(1024/2, 30)
 
 
     def ProcessInput(self, events, pressed_keys):

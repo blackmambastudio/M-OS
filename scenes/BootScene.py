@@ -23,8 +23,8 @@ class BootScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
 
-        self.logo = utils.Sprite('assets/sprites/logo_MCorp.png', 1280/2, 720/2)
-        self.logo.opacity = 0
+        self.logo = utils.Sprite('assets/sprites/logo_MCorp.png', 1024/2, 600/2)
+        self.logo.SetOpacity(0)
 
         self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/MimoLogo.ogg')
         
@@ -38,7 +38,7 @@ class BootScene(SceneBase):
         font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 18)
         self.title = utils.Text("M-OS STARTING", font)
         self.title.opacity = 0
-        self.title.SetPosition(1280/2, 500)
+        self.title.SetPosition(1024/2, 500)
         self.AddTween("easeInOutSine", 1, self.title, "opacity", 0, 255, 1)
         self.text_updater_counter = 0
         self.text_updater_frequency = 0.06

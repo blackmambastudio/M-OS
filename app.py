@@ -23,6 +23,7 @@ from scenes.optimizations.focus import FocusScene
 from scenes.test.DevTestScene import DevTestScene
 from scenes.test.VerificationScene import VerificationScene
 from scenes.test.LightScene import LightScene
+from scenes.test.TutorialScene import TutorialScene
 
 import mimo
 
@@ -47,6 +48,7 @@ SCENES = {
     # dev test
     "Verify": VerificationScene,
     "Lights": LightScene,
+    "Tutorial": TutorialScene,
 
     "Test": DevTestScene
 }
@@ -59,15 +61,15 @@ def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
     pygame.mouse.set_visible(True)
-    pygame.mouse.set_pos([1280/2, 720/2])
-    screen = pygame.display.set_mode((width, height), 0 , 16)
+    pygame.mouse.set_pos([1024/2, 600/2])
+    screen = pygame.display.set_mode((width, height), 0)
 
     print("tunners!!!!!!")
     tunners = mimo.get_tunners_position()
     print("tunners!!!!!!")
     print("tunners!!!!!!")
     print(tunners)
-    pygame.mouse.set_pos([1280*(tunners[0]/1024), 720*(tunners[1]/1024)])
+    pygame.mouse.set_pos([1024*(tunners[0]/1024), 600*(tunners[1]/1024)])
 
     clock = pygame.time.Clock()
 
@@ -135,5 +137,6 @@ if __name__ == '__main__':
 
     if mimo.EMULATOR:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (641, 50)
-    run_game(1280, 720, 60, SCENES[init_scene])
+    #run_game(1024, 600, 60, SCENES[init_scene])
+    run_game(1024, 600, 60, SCENES[init_scene])
 

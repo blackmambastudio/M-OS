@@ -40,7 +40,7 @@ def fadeout_music(time):
 def blit_alpha(target, source, location, opacity):
     x = location[0]
     y = location[1]
-    temp = pygame.Surface((source.get_width(), source.get_height()), pygame.SRCALPHA, 32).convert_alpha()
+    temp = pygame.Surface((source.get_width(), source.get_height())).convert()
     temp.blit(target, (-x, -y))
     temp.blit(source, (0, 0))
     temp.set_alpha(opacity)        
@@ -205,9 +205,9 @@ class Text():
             self.render_cached(screen)
             return
         if max_width == 0:
-            max_width = 1280
+            max_width = 1024
         if max_height == 0:
-            max_height = 720
+            max_height = 600
 
         temp = pygame.Surface((max_width, max_height), pygame.SRCALPHA, 32).convert_alpha()
         

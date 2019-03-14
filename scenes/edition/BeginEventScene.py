@@ -27,7 +27,7 @@ class BeginEventScene(SceneBase):
         
         self.title = utils.Text("Start event scene", titlefont)
         self.title.setAnchor(0.5, 0)
-        self.title.SetPosition(1280/2, 30)
+        self.title.SetPosition(1024/2, 30)
 
         # description area
         self.descriptionLabel = utils.Text("new event", subtitlefont)
@@ -41,10 +41,10 @@ class BeginEventScene(SceneBase):
         # objective area
         self.objectiveLabel = utils.Text("objective", subtitlefont)
         self.objectiveLabel.setAnchor(0.5, 1)
-        self.objectiveLabel.SetPosition(1280/2, 470)
+        self.objectiveLabel.SetPosition(1024/2, 470)
 
         self.objective = utils.Text("", descfont, color=(0,255,255))
-        self.objective.SetPosition(1280/2, 500)
+        self.objective.SetPosition(1024/2, 500)
 
         # next screen area
         self.editLabel = utils.Text("press     to edit event", descfont)

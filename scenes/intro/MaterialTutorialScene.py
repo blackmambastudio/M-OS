@@ -23,9 +23,9 @@ class MaterialTutorialScene(SceneBase):
 
         subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 32)
         self.subtitle = utils.Text("", subtitlefont)
-        self.subtitle.SetPosition(1280/2, 610)
+        self.subtitle.SetPosition(1024/2, 610)
         self.subtitle_shadow = utils.Text("", subtitlefont, color=(60,60,60))
-        self.subtitle_shadow.SetPosition(1280/2+2, 610+2)
+        self.subtitle_shadow.SetPosition(1024/2+2, 610+2)
 
         self.tutorial_part = -1
         self.textLoader = None

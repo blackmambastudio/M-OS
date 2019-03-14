@@ -19,7 +19,7 @@ class ResultsScene(SceneBase):
         self.AddTrigger(5, self, 'Terminate')
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
         self.title = utils.Text("Results last scene", titlefont)
-        self.title.SetPosition(1280/2, 546)
+        self.title.SetPosition(1024/2, 546)
 
     def ProcessInput(self, events, pressed_keys):
         pass
