@@ -115,7 +115,7 @@ def init_connections():
     for detected in res:
         port = detected.device
         try:
-            temp = serial.Serial(port, 9600, timeout=0.5)
+            temp = serial.Serial(port, 9600, timeout=0.5, write_timeout=0.5)
             temp.write([0x7e, 0x91, 0x01, 0x00])
             temp.flush()
             data = temp.read(4)

@@ -14,6 +14,7 @@ class SceneBase:
         pass
 
     def Update(self, dt):
+        self.dirty_rects = [(0,0,1280,720)]
         self.CheckTriggers(dt)
         self.CheckTweens(dt)
 
