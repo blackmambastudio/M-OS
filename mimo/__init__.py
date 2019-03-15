@@ -12,7 +12,7 @@ try:
     from .comm import I2C_LCD
     LCD = True
     lcds_displays = []
-    lcd_addresses = [0x22, 0x23, 0x24, 0x25, 0x26, 0x27]
+    lcd_addresses = [0x27, 0x26, 0x25, 0x24, 0x23, 0x22]
     for address in lcd_addresses:
         lcds_displays.append(I2C_LCD.lcd(address))
 
