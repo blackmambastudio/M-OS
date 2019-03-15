@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from emulator import client as emulator
 from .comm import comm
+import subprocess
 
 LCD = False
 PRINTER = False
@@ -55,12 +56,19 @@ except ImportError:
 # +--------------+-------------+-------------+
 
 # use printer 
-def termal_print(formatted_message):
+def printer_interface(logfile):
+    command = '/home/pi/M-OS/mimo/printer_server/printer_server.py /home/pi/M-OS/mimo/printer_server/data/{0}.json'.format(logfile)
+
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+
+def termal_print(formatted_message, logfile='agar3s'):
     print("should send:<", formatted_message, "> to thermal printer")
     if EMULATOR:
         emulator.termal_print(formatted_message)
     else:
-        printer.mimo_printer_init()
+        # printer.mimo_printer_init()
+        printer_interface(logfile)
 
 # use lcd display 
 def lcd_display_at(id, message, line=1, pos=0):
