@@ -57,21 +57,17 @@ SCENES = {
 
 init_scene = "Boot"
 using_emulator = False
-
+mouse_last_positions = [0, 0]
 
 def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
     pygame.mouse.set_visible(True)
-    pygame.mouse.set_pos([1024/2, 600/2])
     screen = pygame.display.set_mode((width, height), 0)
 
-    print("tunners!!!!!!")
     tunners = mimo.get_tunners_position()
-    print("tunners!!!!!!")
-    print("tunners!!!!!!")
-    print(tunners)
-    pygame.mouse.set_pos([1024*(tunners[0]/1024), 600*(tunners[1]/1024)])
+    mouse_last_positions = [1024*(tunners[0]/1024), 600*(tunners[1]/1024)]
+    pygame.mouse.set_pos(mouse_last_positions)
 
     clock = pygame.time.Clock()
 
@@ -102,6 +98,14 @@ def run_game(width, height, fps, starting_scene):
                     quit_attempt = True
                 elif event.key == pygame.K_F4 and alt_pressed:
                     quit_attempt = True
+            elif event.type == pygame.MOUSEMOTION:
+                difx = event.pos[0]-mouse_last_positions[0]
+                dify = event.pos[1]-mouse_last_positions[1]
+                mouse_last_positions = event.pos
+                if abs(difx)>10:
+                    active_scene.SwipeHorizontal(difx)
+                if abs(dify)>10:
+                    active_scene.SwipeVertical(dify)
             
             if quit_attempt:
                 active_scene.Terminate()

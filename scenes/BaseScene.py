@@ -53,3 +53,10 @@ class SceneBase:
 
     def getDirtyRects(self):
         return self.dirty_rects
+
+
+    def SwipeHorizontal(self, distance):
+        pass
+
+    def SwipeVertical(self, distance):
+        pass
