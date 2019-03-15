@@ -32,7 +32,6 @@ class SerialComm:
             data = self.comm.read(3)
 
     def handle_message(self, command, payload):
-        print("read command", command, payload)
         if command == 0x91:
             self.id = payload[0]
         if command == 0x41:
@@ -43,7 +42,6 @@ class SerialComm:
         if not self.active: return
         if command in self.unavailable_commands: return
         data = [0x7E, command, len(payload)] + payload
-        print("write", data)
         self.comm.write(bytearray(data))
         self.comm.flush()
 

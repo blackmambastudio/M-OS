@@ -11,7 +11,7 @@ class ScanningScene(OptimizationScene):
     def __init__(self):
         OptimizationScene.__init__(self)
         self.coldown = 0
-        mimo.set_led_brightness(250)
+        mimo.set_led_brightness(150)
         self.index = 8
         self.line_color = 0xf0f
         self.playing = False
@@ -27,15 +27,15 @@ class ScanningScene(OptimizationScene):
         if not self.playing: return
         
         self.coldown += dt
-        if self.coldown > 0.06:
+        if self.coldown > 0.03:
             self.coldown = 0
             self.UpdateLineMov()
 
     def UpdateLineMov(self):
         self.index += self.direction
-        if self.index < -4:
+        if self.index < -8:
             self.playing = False
-        elif self.index > 11:
+        elif self.index > 15:
             self.playing = False
 
         
@@ -43,11 +43,20 @@ class ScanningScene(OptimizationScene):
     def Render(self, screen):
         OptimizationScene.Render(self, screen)
         if self.playing == False: return
-
         self.draw_color_line(0xfff&self.line_color, self.index)
-        self.draw_color_line(0xbbb&self.line_color, self.index-self.direction)
-        self.draw_color_line(0x777&self.line_color, self.index-self.direction*2)
-        self.draw_color_line(0x333&self.line_color, self.index-self.direction*3)
+        self.draw_color_line(0xddd&self.line_color, self.index-self.direction)
+        self.draw_color_line(0xbbb&self.line_color, self.index-self.direction*2)
+        self.draw_color_line(0x999&self.line_color, self.index-self.direction*3)
+        self.draw_color_line(0x777&self.line_color, self.index-self.direction*4)
+        self.draw_color_line(0x555&self.line_color, self.index-self.direction*5)
+        self.draw_color_line(0x333&self.line_color, self.index-self.direction*6)
+        self.draw_color_line(0x111&self.line_color, self.index-self.direction*7)
+        
+        graphics.setColor(0)
+        graphics.plot(2, 2)
+        graphics.plot(3, 2)
+        graphics.plot(4, 2)
+        graphics.plot(3, 3)
         graphics.render()
 
     def draw_color_line(self, color, idx):

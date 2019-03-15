@@ -98,6 +98,14 @@ def run_game(width, height, fps, starting_scene):
                     quit_attempt = True
                 elif event.key == pygame.K_F4 and alt_pressed:
                     quit_attempt = True
+                elif event.key == pygame.K_LEFT:
+                    active_scene.SwipeHorizontal(-1)
+                elif event.key == pygame.K_RIGHT:
+                    active_scene.SwipeHorizontal(1)
+                elif event.key == pygame.K_UP:
+                    active_scene.SwipeVertical(-1)
+                elif event.key == pygame.K_DOWN:
+                    active_scene.SwipeVertical(1)
             elif event.type == pygame.MOUSEMOTION:
                 difx = event.pos[0]-mouse_last_positions[0]
                 dify = event.pos[1]-mouse_last_positions[1]
