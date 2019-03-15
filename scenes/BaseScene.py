@@ -1,23 +1,51 @@
 #!/usr/bin/env python
+import pygame
 import pytweening
 
 from utils import utils
+from utils import constants
 
 class SceneBase:
     def __init__(self):
         self.next = self
         self.time_triggers = []
         self.tweens = []
-        self.dirty_rects = [(0,0,1280,720)]
+        self.dirty_rects = [(
+            0,
+            0,
+            constants.VIEWPORT_WIDTH,
+            constants.VIEWPORT_HEIGHT
+        )]
+
+        self.title_font = pygame.font.Font(
+            constants.VCR_OSD_MONO,
+            constants.FONT_TITLE
+        )
+        self.subtitle_font = pygame.font.Font(
+            constants.VCR_OSD_MONO,
+            constants.FONT_SUBTITLE
+        )
+        self.normal_font = pygame.font.Font(
+            constants.VCR_OSD_MONO,
+            constants.FONT_NORMAL
+        )
+        self.small_font = pygame.font.Font(
+            constants.VCR_OSD_MONO,
+            constants.FONT_SMALL
+        )
     
     def ProcessInput(self, events, keys):
         pass
 
     def Update(self, dt):
-        self.dirty_rects = [(0,0,1280,720)]
+        self.dirty_rects = [(
+            0,
+            0,
+            constants.VIEWPORT_WIDTH,
+            constants.VIEWPORT_HEIGHT
+        )]
         self.CheckTriggers(dt)
         self.CheckTweens(dt)
-
 
     def Render(self, screen):
         print("uh-oh, you didn't override this in the child class")
@@ -54,9 +82,20 @@ class SceneBase:
     def getDirtyRects(self):
         return self.dirty_rects
 
-
     def SwipeHorizontal(self, distance):
         pass
 
     def SwipeVertical(self, distance):
         pass
+
+    def SetupUI(self):
+        self.ui_backgroun = utils.Sprite(constants.SPRITES_UI_BG, 0, 32)
+        self.ui_backgroun.setAnchor(0, 0)
+
+        self.editLabel = utils.Text("press    to start editing", self.subtitle_font)
+        self.editLabel.setAnchor(1, 1)
+        self.editLabel.SetPosition(
+            constants.VIEWPORT_WIDTH - constants.VIEWPORT_PADDING_X,
+            constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
+        )
+        self.editSprite = utils.Sprite( "assets/sprites/mtlL3.png", 885, 675)

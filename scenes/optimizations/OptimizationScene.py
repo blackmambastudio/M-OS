@@ -7,6 +7,7 @@ import enum
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
+from utils import constants
 
 from scenes.BaseScene import SceneBase
 from scenes.edition.FinishEventScene import FinishEventScene
@@ -27,17 +28,23 @@ class STATUS(enum.Enum):
 class OptimizationScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
-        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
-        self.title = utils.Text("Optimization event scene", titlefont)
-        self.title.SetPosition(1280/2, 546)
 
+        # -- initialize state --------------------------------------------------
         self.state = STATUS.PLAYING
-
         # in milliseconds
         self.countdown = 30000
-        self.timer = utils.Text("00:00:00", titlefont)
-        self.timer.SetPosition(1280/2, 30)
 
+        # -- setup layout ------------------------------------------------------
+        self.SetupLayout()
+
+    def SetupLayout(self):
+        titlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_TITLE)
+
+        self.title = utils.Text("Optimization event scene", titlefont)
+        self.title.SetPosition(constants.VIEWPORT_CENTER_X, 546)
+
+        self.timer = utils.Text("00:00:00", titlefont)
+        self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -63,7 +70,7 @@ class OptimizationScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
-        self.countdown -= int(1000*dt)
+        self.countdown -= int(1000 * dt)
         self.timer.SetText(OptimizationScene.format_time(self.countdown), False)
         if self.countdown < 0:
             print("time's up!")

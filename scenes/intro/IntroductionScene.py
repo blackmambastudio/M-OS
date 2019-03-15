@@ -6,6 +6,7 @@ import mimo
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
+from utils import constants
 
 from scenes.BaseScene import SceneBase
 from .MaterialTutorialScene import MaterialTutorialScene
@@ -21,9 +22,9 @@ class IntroductionScene(SceneBase):
         SceneBase.__init__(self)
         self.HWSetup()
 
-        subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 32)
+        subtitlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_SUBTITLE)
         self.subtitle = utils.Text("", subtitlefont)
-        self.subtitle.SetPosition(1280/2, 610)
+        self.subtitle.SetPosition(constants.VIEWPORT_CENTER_X, 610)
 
         self.intro_subtitles = [
             {
@@ -64,9 +65,6 @@ class IntroductionScene(SceneBase):
 
         self.intro_subtitles_index += 1
         self.textLoader = utils.TextLoader(self.intro_subtitles[self.intro_subtitles_index]["text"], 0.04, False)
-        #self.textLoader.complete()
-        #self.subtitle.SetText(self.textLoader.current_text)
-
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:

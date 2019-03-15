@@ -2,7 +2,7 @@ import os
 import pygame
 import random
 
-from utils import constants
+from . import constants
 
 _image_library = {}
 _sound_library = {}
@@ -15,7 +15,6 @@ def get_image(path):
             image = pygame.image.load(canonicalized_path).convert_alpha()
             _image_library[path] = image
     return image
-
 
 def get_sound(path):
     global _sound_library
@@ -48,7 +47,6 @@ def blit_alpha(target, source, location, opacity):
     temp.set_alpha(opacity)        
     target.blit(temp, location)
     return temp
-
 
 class Tween():
     def __init__(self, func, timeout, obj, prop, start, end, delay):
@@ -132,7 +130,7 @@ class Sprite():
 
 
 class Text():
-    def __init__(self, text, font, x=0, y=0, color=(255,255,255)):
+    def __init__(self, text, font, x = 0, y = 0, color = constants.PALETTE_WHITE):
         self.raw_text = text.upper()
         self.color = color
         self.font = font

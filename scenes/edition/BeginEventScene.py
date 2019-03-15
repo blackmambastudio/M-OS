@@ -23,77 +23,76 @@ class BeginEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
         
-        titlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_TITLE)
-        subtitlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_SUBTITLE)
-        descfont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_NORMAL)
-        
-        self.title = utils.Text("Start event scene", titlefont)
-        self.title.setAnchor(0.5, 0)
-        self.title.SetPosition(constants.VIEWPORT_WIDTH/2, 30)
+        # initialize state
 
-        # description area
-        self.descriptionLabel = utils.Text("new event", subtitlefont)
-        self.descriptionLabel.setAnchor(1, 0)
-        self.descriptionLabel.SetPosition(1170, 100)
-
-        self.description = utils.Text("", descfont, color=(0,255,255))
-        self.description.setAnchor(1, 0)
-        self.description.SetPosition(1180, 130)
-
-        # objective area
-        self.objectiveLabel = utils.Text("objective", subtitlefont)
-        self.objectiveLabel.setAnchor(0.5, 1)
-        self.objectiveLabel.SetPosition(constants.VIEWPORT_WIDTH/2, 470)
-
-        self.objective = utils.Text("", descfont, color=(0,255,255))
-        self.objective.SetPosition(constants.VIEWPORT_WIDTH/2, 500)
-
-        # next screen area
-        self.editLabel = utils.Text("press     to edit event", descfont)
-        self.editLabel.setAnchor(1, 0.5)
-        self.editLabel.SetPosition(1200, constants.VIEWPORT_HEIGHT)
-        self.editSprite = utils.Sprite(
-            "assets/sprites/mtlL3.png",
-            1000,
-            constants.VIEWPORT_HEIGHT
-        )
+        # setup the layout for the scene
+        self.SetupLayout()
         
         # load event, title, description, objective and material
         self.LoadEvent(news[0])
 
+    def SetupLayout(self):
+        # add da fact
+        self.fact_title = utils.Text("", self.title_font, color = constants.PALETTE_PINK)
+        self.fact_title.setAnchor(0.5, 0)
+        self.fact_title.SetPosition(constants.VIEWPORT_CENTER_X, 82)
+
+        self.fact_summary = utils.Text("", self.subtitle_font)
+        self.fact_summary.setAnchor(0.5, 0)
+        self.fact_summary.SetPosition(constants.VIEWPORT_CENTER_X, 416)
+
+        # add da goal
+        self.goal_title = utils.Text("goal", self.title_font, color = constants.PALETTE_PINK)
+        self.goal_title.setAnchor(0.5, 0)
+        self.goal_title.SetPosition(constants.VIEWPORT_CENTER_X, 518)
+
+        self.goal_desc = utils.Text("", self.subtitle_font)
+        self.goal_desc.setAnchor(0.5, 0)
+        self.goal_desc.SetPosition(constants.VIEWPORT_CENTER_X, 584)
+
+        # add da ui
+        self.SetupUI()
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 self.SwitchToScene(EditEventScene)
-                
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
 
-
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
-        self.title.renderWithChromaticDistortion(screen)
-        self.descriptionLabel.renderWithChromaticDistortion(screen)
-        self.description.render_multiline(screen)
-        self.objectiveLabel.renderWithChromaticDistortion(screen)
-        self.objective.render_multiline(screen)
+
+        # render the layout
+        self.ui_backgroun.RenderWithAlpha(screen)
+        self.fact_title.renderWithChromaticDistortion(screen)
+        self.fact_summary.renderWithChromaticDistortion(screen)
+        self.goal_title.renderWithChromaticDistortion(screen)
+        self.goal_desc.render_multiline(screen)
         self.editLabel.render(screen)
         self.editSprite.RenderWithAlpha(screen)
-        self.icon.RenderWithAlpha(screen)
-    
+        # self.icon.RenderWithAlpha(screen)
 
     def LoadEvent(self, event):
         self.current_event = event
+
+        # TODO: remove this when 
+        self.fact_title.SetText("da fact title")
+        self.fact_summary.SetText("da...fact...summary")
+        self.goal_desc.SetText("da goal description")
         self.icon = utils.Sprite(self.current_event["icon"], 320, 250)
-        self.description.SetText(self.current_event["description"])
-        self.title.SetText(self.current_event["title"])
-        self.objective.SetText(self.current_event["objective"])
+        return
+
+
+        self.icon = utils.Sprite(self.current_event["icon"], 320, 250)
+        self.fact_title.SetText(self.current_event["title"])
+        self.goal_desc.SetText(self.current_event["objective"])
         random.shuffle(self.current_event["material"])
         index = 0
         material_indexes = [0,1,2,7,6,5]
         mimo.set_independent_lights(True, True)
+
         # set buttons to switch mode
         for material in self.current_event["material"]:
             line1_text = utils.align_text(material["label"][0], index<3, 14, '-')

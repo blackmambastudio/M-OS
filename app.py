@@ -33,6 +33,7 @@ import mimo
 SCENES = {
     # boot
     "Boot": BootScene,
+
     # intro scenes
     "Intro": IntroductionScene,
     "TutorialMat": MaterialTutorialScene,
@@ -69,8 +70,8 @@ def run_game(width, height, fps, starting_scene):
 
     tunners = mimo.get_tunners_position()
     mouse_last_positions = [
-        constants.VIEWPORT_WIDTH*(tunners[0]/constants.VIEWPORT_WIDTH),
-        constants.VIEWPORT_HEIGHT*(tunners[1]/constants.VIEWPORT_WIDTH)
+        constants.VIEWPORT_WIDTH * (tunners[0] / constants.VIEWPORT_WIDTH),
+        constants.VIEWPORT_HEIGHT * (tunners[1] / constants.VIEWPORT_WIDTH)
     ]
     pygame.mouse.set_pos(mouse_last_positions)
 

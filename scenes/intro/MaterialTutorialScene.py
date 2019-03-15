@@ -6,6 +6,7 @@ import mimo
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
+from utils import constants
 
 from scenes.BaseScene import SceneBase
 from .OptimizationTutorialScene import OptimizationTutorialScene
@@ -21,11 +22,23 @@ class MaterialTutorialScene(SceneBase):
         SceneBase.__init__(self)
         self.HWSetup()
 
-        subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 32)
+        # initialize state
+        self.used_mtl = 0
+
+        # setup the layout for the scene
+        self.SetupLayout()
+
+    def HWSetup(self):
+        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 5,0, 6,0, 7,0])
+        mimo.set_material_buttons_lock_status([0,0, 1,0, 2,0, 5,0, 6,0, 7,0])
+
+    def SetupLayout(self):
+        subtitlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_SUBTITLE)
+
         self.subtitle = utils.Text("", subtitlefont)
-        self.subtitle.SetPosition(1280/2, 610)
+        self.subtitle.SetPosition(constants.VIEWPORT_CENTER_X, 610)
         self.subtitle_shadow = utils.Text("", subtitlefont, color=(60,60,60))
-        self.subtitle_shadow.SetPosition(1280/2+2, 610+2)
+        self.subtitle_shadow.SetPosition(constants.VIEWPORT_CENTER_X + 2, 610 + 2)
 
         self.tutorial_part = -1
         self.textLoader = None
@@ -35,11 +48,6 @@ class MaterialTutorialScene(SceneBase):
         self.text1 = "Please press the button with the label \"danger on border\""
         self.subtitle.SetText(self.text0)
         self.subtitle_shadow.SetText(self.text0)
-
-    def HWSetup(self):
-        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 5,0, 6,0, 7,0])
-        mimo.set_material_buttons_lock_status([0,0, 1,0, 2,0, 5,0, 6,0, 7,0])
-    
 
     def LoadNextPart(self):
         pass
@@ -58,9 +66,6 @@ class MaterialTutorialScene(SceneBase):
                 self.SelectMaterial(4)
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                 self.SelectMaterial(5)
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                print("nexT?")
-                
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
@@ -74,3 +79,7 @@ class MaterialTutorialScene(SceneBase):
 
     def SelectMaterial(self, index):
         print("select material", index)
+        self.used_mtl += 1
+
+        if self.used_mtl >= 4:
+            self.SwitchToScene(OptimizationTutorialScene)
