@@ -23,7 +23,7 @@ class FinishEventScene(SceneBase):
         SceneBase.__init__(self)
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
         self.title = utils.Text("Submit scene", titlefont)
-        self.title.SetPosition(1024/2, 546)
+        self.title.SetPosition(1280/2, 546)
         self.AddTrigger(60, self, 'SwitchToScene', ResultsScene)
 
     def ProcessInput(self, events, pressed_keys):

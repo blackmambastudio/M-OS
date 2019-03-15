@@ -3,10 +3,12 @@
 import pygame
 import mimo
 import random
+
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 from utils.NewsProvider import news
+from utils import constants
 
 from scenes.BaseScene import SceneBase
 from scenes.edition.EditEventScene import EditEventScene
@@ -21,13 +23,13 @@ class BeginEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
         
-        titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
-        subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 36)
-        descfont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 22)
+        titlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_TITLE)
+        subtitlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_SUBTITLE)
+        descfont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_NORMAL)
         
         self.title = utils.Text("Start event scene", titlefont)
         self.title.setAnchor(0.5, 0)
-        self.title.SetPosition(1024/2, 30)
+        self.title.SetPosition(constants.VIEWPORT_WIDTH/2, 30)
 
         # description area
         self.descriptionLabel = utils.Text("new event", subtitlefont)
@@ -41,16 +43,20 @@ class BeginEventScene(SceneBase):
         # objective area
         self.objectiveLabel = utils.Text("objective", subtitlefont)
         self.objectiveLabel.setAnchor(0.5, 1)
-        self.objectiveLabel.SetPosition(1024/2, 470)
+        self.objectiveLabel.SetPosition(constants.VIEWPORT_WIDTH/2, 470)
 
         self.objective = utils.Text("", descfont, color=(0,255,255))
-        self.objective.SetPosition(1024/2, 500)
+        self.objective.SetPosition(constants.VIEWPORT_WIDTH/2, 500)
 
         # next screen area
         self.editLabel = utils.Text("press     to edit event", descfont)
         self.editLabel.setAnchor(1, 0.5)
-        self.editLabel.SetPosition(1200, 600)
-        self.editSprite = utils.Sprite("assets/sprites/mtlL3.png", 1000, 600)
+        self.editLabel.SetPosition(1200, constants.VIEWPORT_HEIGHT)
+        self.editSprite = utils.Sprite(
+            "assets/sprites/mtlL3.png",
+            1000,
+            constants.VIEWPORT_HEIGHT
+        )
         
         # load event, title, description, objective and material
         self.LoadEvent(news[0])

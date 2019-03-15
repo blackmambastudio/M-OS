@@ -6,6 +6,8 @@ import time
 import serial
 import pygame
 
+from utils import constants
+
 from scenes.BootScene import BootScene
 
 from scenes.intro.IntroductionScene import IntroductionScene
@@ -66,7 +68,10 @@ def run_game(width, height, fps, starting_scene):
     screen = pygame.display.set_mode((width, height), 0)
 
     tunners = mimo.get_tunners_position()
-    mouse_last_positions = [1024*(tunners[0]/1024), 600*(tunners[1]/1024)]
+    mouse_last_positions = [
+        constants.VIEWPORT_WIDTH*(tunners[0]/constants.VIEWPORT_WIDTH),
+        constants.VIEWPORT_HEIGHT*(tunners[1]/constants.VIEWPORT_WIDTH)
+    ]
     pygame.mouse.set_pos(mouse_last_positions)
 
     clock = pygame.time.Clock()
@@ -75,7 +80,7 @@ def run_game(width, height, fps, starting_scene):
 
     last_time = time.time()
 
-    font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 22)
+    font = pygame.font.Font(constants.VCR_OSD_MONO, 22)
 
     while active_scene != None:
         current_time = time.time()
@@ -151,6 +156,5 @@ if __name__ == '__main__':
 
     if mimo.EMULATOR:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (641, 50)
-    #run_game(1024, 600, 60, SCENES[init_scene])
-    run_game(1024, 600, 60, SCENES[init_scene])
+    run_game(constants.VIEWPORT_WIDTH, constants.VIEWPORT_HEIGHT, 60, SCENES[init_scene])
 

@@ -64,11 +64,11 @@ class TutorialScene(SceneBase):
 
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
         self.title = utils.Text("", titlefont)
-        self.title.SetPosition(1024/2, 546)
+        self.title.SetPosition(1280/2, 546)
 
         subtitlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 32)
         self.subtitle = utils.Text("", subtitlefont)
-        self.subtitle.SetPosition(1024/2, 610)
+        self.subtitle.SetPosition(1280/2, 610)
 
         # second 0
         second = 0

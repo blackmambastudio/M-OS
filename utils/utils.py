@@ -2,6 +2,8 @@ import os
 import pygame
 import random
 
+from utils import constants
+
 _image_library = {}
 _sound_library = {}
 
@@ -205,9 +207,9 @@ class Text():
             self.render_cached(screen)
             return
         if max_width == 0:
-            max_width = 1024
+            max_width = constants.VIEWPORT_WIDTH
         if max_height == 0:
-            max_height = 600
+            max_height = constants.VIEWPORT_HEIGHT
 
         temp = pygame.Surface((max_width, max_height), pygame.SRCALPHA, 32).convert_alpha()
         
