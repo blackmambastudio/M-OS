@@ -19,6 +19,7 @@ from scenes.edition.FinishEventScene import FinishEventScene
 from scenes.ResultsScene import ResultsScene
 
 from scenes.optimizations.focus import FocusScene
+from scenes.optimizations.scanning import ScanningScene
 
 from scenes.test.DevTestScene import DevTestScene
 from scenes.test.VerificationScene import VerificationScene
@@ -41,6 +42,7 @@ SCENES = {
     # optimization
     "Optimization": OptimizationScene,
     "Focus": FocusScene,
+    "Scanning": ScanningScene,
 
     # end game, results
     "Results": ResultsScene,
