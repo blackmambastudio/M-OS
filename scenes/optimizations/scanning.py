@@ -4,8 +4,9 @@ import pygame
 from .OptimizationScene import OptimizationScene
 from utils import utils
 from utils import neopixelmatrix as graphics
-from random import random
+from random import random, shuffle
 import mimo
+import pygame
 
 class ScanningScene(OptimizationScene):
     def __init__(self):
@@ -19,10 +20,57 @@ class ScanningScene(OptimizationScene):
         self.direction = 1
         self.mode = 1
         self.speed = 0.02
-        
+        self.level = 0
+        self.displayed_figure_index = -1
+        self.fails = 0
+        self.detected_contact = False
+
+        self.colors = [
+            [0xff, 0x00, 0x00], 
+            [0xff, 0xff, 0x00],
+            [0x00, 0xff, 0x00],
+            [0x00, 0xff, 0xff],
+            [0x00, 0x00, 0xff]
+        ]
+        mimo.set_independent_lights(False, True)
+        mimo.set_buttons_enable_status(False, True)
+        led_lights = []
+        index = 0
+        for color in self.colors:
+            led_lights += [index] + color
+            index += 1
+        mimo.set_optimization_leds_color(led_lights)
+
+
+        self.radar_matrix = [
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0]
+        ]
+        self.NextFigure()       
+
 
     def ProcessInput(self, events, pressed_keys):
-        pass
+        for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
+                self.GuessFigure(0)
+            
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                self.GuessFigure(2)
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_g:
+                self.GuessFigure(4)
+            
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_c:
+                self.GuessFigure(1)
+            
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
+                self.GuessFigure(3)
 
 
     def Update(self, dt):
@@ -45,6 +93,11 @@ class ScanningScene(OptimizationScene):
 
     def Render(self, screen):
         OptimizationScene.Render(self, screen)
+        index = 0
+        for figure in FIGURES[self.level]:
+            self.DrawFigure(screen, figure, index)
+            index += 1
+
         if self.playing == False: return
         self.draw_color_line(0xfff&self.line_color, self.index)
         self.draw_color_line(0xddd&self.line_color, self.index-self.direction)
@@ -56,11 +109,31 @@ class ScanningScene(OptimizationScene):
         self.draw_color_line(0x111&self.line_color, self.index-self.direction*7)
         
         graphics.setColor(0)
-        graphics.plot(2, 2)
-        graphics.plot(3, 2)
-        graphics.plot(4, 2)
-        graphics.plot(3, 3)
+        for j in range(0, 8):
+            lock = False
+            y = j
+            for i in range(0, 8):
+                x = i
+                if self.mode == 2:
+                    y = i
+                    x = j
+                    if self.direction == -1:
+                        y = 7-y
+                elif self.direction == -1:
+                    x = 7-x
+
+                if self.radar_matrix[y][x]==1 or lock:
+                    lock = True
+                    if not self.detected_contact and graphics._buffer[y][x] !=0:
+                        self.Lock()
+                    graphics.plot(x, y)
+
         graphics.render()
+
+    def Lock(self):
+        if self.detected_contact: return
+        self.detected_contact = True
+        print("detected collision")
 
     def draw_color_line(self, color, idx):
         if idx < 0 or idx > 7: return
@@ -69,6 +142,14 @@ class ScanningScene(OptimizationScene):
             graphics.plotLine(idx, 0, idx, 7)
         elif self.mode == 2:
             graphics.plotLine(0, idx, 7, idx)
+
+
+    def DrawFigure(self, screen, figure, index):
+        for j in range(0, len(figure)):
+            for i in range(0, len(figure[0])):
+                if figure[j][i] == 1:
+                    pygame.draw.rect(screen, self.colors[index], (188*index+50+i*30, 150+j*30, 30,30))
+
 
     def NewScan(self, mode, direction):
         self.line_color = [0xf00, 0xff0, 0x0f0, 0x0ff, 0x00f, 0xf0f, 0xfff][int(random()*7)]
@@ -80,6 +161,8 @@ class ScanningScene(OptimizationScene):
             self.index = 8
             
         self.playing = True
+        self.detected_contact = False
+
 
     def SwipeHorizontal(self, distance):
         if self.playing or abs(distance)>10: return
@@ -90,3 +173,115 @@ class ScanningScene(OptimizationScene):
         if self.playing or abs(distance)>10: return
         self.speed = 0.02
         self.NewScan(2, distance/abs(distance))
+
+    def NextFigure(self):
+        self.radar_matrix = [
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0]
+        ]
+        shuffle(FIGURES[self.level])
+        self.displayed_figure_index = int(random()*len(FIGURES[self.level]))
+        self.figure = FIGURES[self.level][self.displayed_figure_index]
+        x = 1 + int(random()*(6-len(self.figure[0])))
+        y = 1+ int(random()*(6-len(self.figure[0])))
+        for j in range(0,len(self.figure)):
+            for i in range(0, len(self.figure[0])):
+                self.radar_matrix[j+y][i+x] = self.figure[j][i]
+
+        # display options in screen 
+
+
+    def GuessFigure(self, index):
+        if index == self.displayed_figure_index:
+            self.level += 1
+        else:
+            self.fails += 1
+        if self.level >= len(FIGURES):
+            print("You win!")
+        self.NextFigure()
+
+FIGURES = [
+    # first level
+    [[
+        [0,1,0],
+        [1,1,1]
+    ],[
+        [0,1],
+        [1,1],
+        [0,1]
+    ],[
+        [1,0],
+        [1,1],
+        [1,0]
+    ],[
+        [1,1,1],
+        [0,1,0]
+    ]],
+    # second level
+    [[
+        [0,1,0],
+        [1,1,1]
+    ],[
+        [0,1,1],
+        [1,1,0]
+    ],[
+        [1,1,0],
+        [0,1,1]
+    ],[
+        [0,1,1],
+        [0,1,1]
+    ],[
+        [0,0,1],
+        [1,1,1]
+    ]],
+    # third level
+    [[
+        [0,1,0],
+        [1,1,1],
+        [0,1,0]
+    ],[
+        [1,1,0],
+        [0,1,0],
+        [0,1,1]
+    ],[
+        [1,1,1],
+        [0,1,0],
+        [0,1,0]
+    ],[
+        [1,1,1],
+        [1,0,0],
+        [1,0,0]
+    ],[
+        [1,1,0],
+        [1,0,0],
+        [1,1,0]
+    ]],
+    # third level
+    [[
+        [0,0,0,0],
+        [1,0,0,1],
+        [1,1,1,1]
+    ],[
+        [0,1,1,0],
+        [0,1,1,1],
+        [0,0,1,0]
+    ],[
+        [0,1,0,0],
+        [1,1,1,1],
+        [0,0,1,0]
+    ],[
+        [0,0,0,1],
+        [1,1,1,1],
+        [0,0,0,1]
+    ],[
+        [0,0,1,1],
+        [0,1,1,1],
+        [0,0,0,1]
+    ]]
+]
