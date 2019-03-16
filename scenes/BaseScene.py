@@ -35,6 +35,9 @@ class SceneBase:
             constants.FONT_SMALL
         )
 
+        self.render_right_progress = True
+        self.render_left_progress = False
+
     def ProcessInput(self, events, keys):
         pass
 
@@ -101,8 +104,21 @@ class SceneBase:
         )
         self.right_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 885, 675)
 
+        self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font)
+        self.left_progress_label.setAnchor(0, 1)
+        self.left_progress_label.SetPosition(
+            constants.VIEWPORT_PADDING_X,
+            constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
+        )
+        self.left_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 164, 675)
+
     def RenderUI(self, screen):
         self.ui_background.RenderWithAlpha(screen)
-        self.right_progress_label.RenderWithAlpha(screen)
-        self.right_progress_icon.RenderWithAlpha(screen)
 
+        if self.render_right_progress:
+            self.right_progress_label.RenderWithAlpha(screen)
+            self.right_progress_icon.RenderWithAlpha(screen)
+
+        if self.render_left_progress:
+            self.left_progress_label.RenderWithAlpha(screen)
+            self.left_progress_icon.RenderWithAlpha(screen)

@@ -127,7 +127,6 @@ class Sprite():
         self.opacity = opacity
         self.must_update = True 
 
-
 class Text():
     def __init__(self, text, font, x = 0, y = 0, color = constants.PALETTE_WHITE):
         self.raw_text = text.upper()
@@ -188,7 +187,6 @@ class Text():
         self.text = self.font.render(prefix + self.raw_text + suffix, True, (255, 255, 255))
         self.SetPosition(self.x, self.y)
 
-   
     def render_multiline(self, screen):
         lines = self.raw_text.splitlines()
         x, y = self.position
@@ -197,6 +195,10 @@ class Text():
             word_width, word_height = word_surface.get_size()
             screen.blit(word_surface, (self.x - word_width*self.anchor[0], y))
             y += word_height
+
+    def SetColor(self, new_color):
+        self.color = new_color
+        self.cached_surface = None
 
     # cached function
     def render_multiline_truncated(self, screen, max_width=0, max_height=0):
@@ -213,7 +215,6 @@ class Text():
         lines = self.raw_text.splitlines()
         x, y = (0, 0)
         space = self.font.size(' ')[0]
-
 
         for line in lines:
             words = line.split(" ")

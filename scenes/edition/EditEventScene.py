@@ -8,6 +8,7 @@ from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 from utils.NewsProvider import news
 from utils import constants
+from random import random
 
 from scenes.BaseScene import SceneBase
 from scenes.optimizations import get_next_optimization_scene
@@ -50,6 +51,8 @@ class EditEventScene(SceneBase):
         self.busy_slots = 0
         self.popupActive = False
         self.can_optimize = False
+        self.showing_minigame_tutorial = False
+        self.selected_minigame = -1
 
         # setup the layout for the scene
         self.SetupLayout()
@@ -140,13 +143,26 @@ class EditEventScene(SceneBase):
         self.right_progress_label.SetText('press    to finish edition')
 
     def SetupPopupLayout(self):
+        self.popup_background = utils.Sprite(
+            constants.SPRITES_EDITION + 'optimization_background.png',
+            constants.VIEWPORT_CENTER_X,
+            351
+        )
+
         self.popup_title = utils.Text(
-            'da fact title',
+            'falla técnica en lab. monteasalvo',
             self.title_font,
             color = constants.PALETTE_PINK
         )
         self.popup_title.setAnchor(0.5, 0)
         self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 96)
+
+        self.popup_framing = utils.Text(
+            'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
+            self.subtitle_font
+        )
+        self.popup_framing.setAnchor(0, 0)
+        self.popup_framing.SetPosition(constants.POPUP_X + 32, 165)
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -163,13 +179,18 @@ class EditEventScene(SceneBase):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                 self.assign_material_to_sequence(5)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                if self.can_optimize:
+                if self.can_optimize and not self.popupActive:
                     # open the optimization popup
-                    # self.popupActive = True
+                    self.render_left_progress = True
                     self.OpenPopup()
-
-                    # next_scene = get_next_optimization_scene('some_value')
-                    # self.SwitchToScene(next_scene)
+                elif self.popupActive:
+                    if self.showing_minigame_tutorial:
+                        self.PlayMinigame(self.selected_minigame)
+                    else:
+                        self.ShowMinigame(constants.MINIGAME_RIGHT)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_w:
+                if self.popupActive:
+                    self.ShowMinigame(constants.MINIGAME_LEFT)
 
     def Update(self, dt):
         if not self.popupActive:
@@ -181,6 +202,7 @@ class EditEventScene(SceneBase):
             return
 
         screen.fill((0x1B, 0x0C, 0x43))
+
         self.info_frame.RenderWithAlpha(screen)
         self.fact_title.render_multiline_truncated(screen, 616, 94)
         self.goal_desc.render_multiline_truncated(screen, 300, 300)
@@ -199,8 +221,6 @@ class EditEventScene(SceneBase):
         self.news_conclusion.RenderWithAlpha(screen)
 
         self.ui_background.RenderWithAlpha(screen)
-        if self.can_optimize:
-            self.right_progress_label.RenderWithAlpha(screen)
 
         index = 0
         for slot in self.sequence:
@@ -211,6 +231,10 @@ class EditEventScene(SceneBase):
                 )
                 self.images[slot].RenderWithAlpha(screen)
             index += 1
+
+        if self.can_optimize:
+            self.right_progress_label.RenderWithAlpha(screen)
+            self.right_progress_icon.RenderWithAlpha(screen)
 
     def assign_material_to_sequence(self, index):
         if self.busy_slots == 4 and not self.material[index]: return
@@ -254,15 +278,79 @@ class EditEventScene(SceneBase):
 
     def OpenPopup(self):
         self.popupActive = True
-        self.dirty_rects = [(79, 79, 1122, 544)]
+        self.dirty_rects = [
+            (
+                constants.POPUP_X,
+                constants.POPUP_Y,
+                constants.POPUP_WIDTH,
+                constants.POPUP_HEIGHT
+            ),
+            (0, 630, constants.VIEWPORT_WIDTH, 90)
+        ]
+
+        random_color = (
+            int(random() * 255),
+            int(random() * 255),
+            int(random() * 255)
+        )
+        self.right_progress_label.SetColor(random_color)
+        self.right_progress_label.SetText('press    to play')
+        self.right_progress_icon.SetPosition(1074, 675)
+
+        random_color = (
+            int(random() * 255),
+            int(random() * 255),
+            int(random() * 255)
+        )
+        self.left_progress_label.SetColor(random_color)
+        self.left_progress_label.SetText('press    to play')
 
     def ClosePopup(self):
         self.popupActive = False
-        self.dirty_rects = [(79, 79, 1122, 544)]
+        self.dirty_rects = [
+            (
+                constants.POPUP_X,
+                constants.POPUP_Y,
+                constants.POPUP_WIDTH,
+                constants.POPUP_HEIGHT
+            ),
+            (0, 630, constants.VIEWPORT_WIDTH, 90)
+        ]
 
     def RenderPopup(self, screen):
-        # render the background color for the popup
-        screen.fill((0x11, 0x05, 0x2D))
+        self.RenderUI(screen)
 
-        self.popup_title.RenderWithAlpha(screen)
-        # self.popupLabel.renderWithChromaticDistortion(screen)
+        self.popup_background.RenderWithAlpha(screen)
+        self.popup_title.render_multiline_truncated(screen, 1088, 48)
+
+        if not self.showing_minigame_tutorial:
+            self.popup_framing.render_multiline_truncated(screen, 1088, 86)
+        else:
+            self.minigame_title.RenderWithAlpha(screen)
+
+    def ShowMinigame(self, side):
+        # TODO: load the specific mini-game info. based on the chosen side
+        self.showing_minigame_tutorial = True
+        self.selected_minigame = side
+
+        minigame_color = self.left_progress_label.color \
+            if side == constants.MINIGAME_LEFT else self.right_progress_label.color
+
+        self.minigame_title = utils.Text(
+            'mini-game-name',
+            self.subtitle_font,
+            color = constants.PALETTE_PINK
+        )
+        self.minigame_title.setAnchor(0, 0)
+        self.minigame_title.SetPosition(306, 206)
+
+        self.right_progress_label.SetColor(minigame_color)
+        self.right_progress_label.SetText('press    to start')
+        self.right_progress_icon.SetPosition(1056, 675)
+
+        self.render_left_progress = False
+
+    def PlayMinigame(self, side):
+        # TODO: load the specific mini-game based on the chosen side
+        next_scene = get_next_optimization_scene('some_value')
+        self.SwitchToScene(next_scene)
