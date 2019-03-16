@@ -203,8 +203,10 @@ class ScanningScene(OptimizationScene):
         else:
             self.fails += 1
         if self.level >= len(FIGURES):
+            self.level -= 1
             print("You win!")
-        self.NextFigure()
+        else:
+            self.NextFigure()
 
 FIGURES = [
     # first level
