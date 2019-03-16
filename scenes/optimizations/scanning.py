@@ -12,11 +12,14 @@ class ScanningScene(OptimizationScene):
         OptimizationScene.__init__(self)
         self.coldown = 0
         mimo.set_led_brightness(150)
+        mimo.set_tunners_enable_status(True)
         self.index = 8
         self.line_color = 0xf0f
         self.playing = False
         self.direction = 1
         self.mode = 1
+        self.speed = 0.02
+        
 
     def ProcessInput(self, events, pressed_keys):
         pass
@@ -27,7 +30,7 @@ class ScanningScene(OptimizationScene):
         if not self.playing: return
         
         self.coldown += dt
-        if self.coldown > 0.03:
+        if self.coldown > self.speed:
             self.coldown = 0
             self.UpdateLineMov()
 
@@ -79,9 +82,11 @@ class ScanningScene(OptimizationScene):
         self.playing = True
 
     def SwipeHorizontal(self, distance):
-        if self.playing: return
+        if self.playing or abs(distance)>10: return
+        self.speed = 0.02
         self.NewScan(1, distance/abs(distance))
 
     def SwipeVertical(self, distance):
-        if self.playing: return
+        if self.playing or abs(distance)>10: return
+        self.speed = 0.02
         self.NewScan(2, distance/abs(distance))

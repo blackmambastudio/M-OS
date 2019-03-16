@@ -62,7 +62,7 @@ def renderBuffer(image):
                 _backbuffer[j][i] = 0
 
 # assuming image = 8x8 pixels
-def drawImage(image, x=0, y=0):
+def drawImage(image, x=0, y=0, blend=0xfff):
     global _buffer
     x = int(x)
     y = int(y)
@@ -71,7 +71,7 @@ def drawImage(image, x=0, y=0):
     for j in range(0, 8):
         for i in range(0, 8):
             if i-x<0 or j-y<0 or j-y>=height or i-x>=width or image[j-y][i-x] == 0: continue
-            _buffer[j][i] = image[j-y][i-x]
+            _buffer[j][i] = image[j-y][i-x]&blend
 
 def drawMonoPixels(pixels, x=0, y=0):
     global _buffer
@@ -198,7 +198,11 @@ def setColor(color):
 # got a 3 value array, [r, g, b]
 def setColorRGB(color):
     global _current_color
-    _current_color = ((color[0]>>4)<<8) + ((color[1]>>4)<<4) + (color[2]>>4)
+    _current_color = getColorRGB(color)
+
+def getColorFromRGB(color):
+    return ((color[0]>>4)<<8) + ((color[1]>>4)<<4) + (color[2]>>4)
+
 
 # returns a 
 def wheel(pos):
@@ -212,3 +216,6 @@ def wheel(pos):
   
     pos -= 170;
     return [pos * 3, 255 - pos * 3, 0]
+
+def get_color_wheel(pos):
+    return getColorFromRGB(wheel(pos))

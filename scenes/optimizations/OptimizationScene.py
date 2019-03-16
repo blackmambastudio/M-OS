@@ -73,7 +73,6 @@ class OptimizationScene(SceneBase):
         self.countdown -= int(1000 * dt)
         self.timer.SetText(OptimizationScene.format_time(self.countdown), False)
         if self.countdown < 0:
-            print("time's up!")
             self.FinishOptimization()
 
     def RenderBackground(self, screen):

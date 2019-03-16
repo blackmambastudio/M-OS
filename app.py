@@ -22,6 +22,7 @@ from scenes.ResultsScene import ResultsScene
 
 from scenes.optimizations.focus import FocusScene
 from scenes.optimizations.scanning import ScanningScene
+from scenes.optimizations.push import PushScene
 
 from scenes.test.DevTestScene import DevTestScene
 from scenes.test.VerificationScene import VerificationScene
@@ -46,6 +47,7 @@ SCENES = {
     "Optimization": OptimizationScene,
     "Focus": FocusScene,
     "Scanning": ScanningScene,
+    "Push": PushScene,
 
     # end game, results
     "Results": ResultsScene,
@@ -116,9 +118,9 @@ def run_game(width, height, fps, starting_scene):
                 difx = event.pos[0]-mouse_last_positions[0]
                 dify = event.pos[1]-mouse_last_positions[1]
                 mouse_last_positions = event.pos
-                if abs(difx)>10:
+                if abs(difx)>1:
                     active_scene.SwipeHorizontal(difx)
-                if abs(dify)>10:
+                if abs(dify)>1:
                     active_scene.SwipeVertical(dify)
             
             if quit_attempt:

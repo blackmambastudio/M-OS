@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 from . import neopixelmatrix as Graphics
 from . import utils
 from .neofont import letters as font
@@ -11,8 +11,8 @@ class NeoSprite():
         self.width = len(self.image[0])
         self.height = len(self.image)
 
-    def render(self):
-        Graphics.drawImage(self.image, self.x, self.y)
+    def render(self, x=0, y=0, blend=0xfff):
+        Graphics.drawImage(self.image, x+int(self.x), y+int(self.y), blend)
 
 
 class AnimatedNeoSprite():
