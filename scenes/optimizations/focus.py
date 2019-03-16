@@ -88,7 +88,7 @@ class FocusScene(OptimizationScene):
                 piece = self.pieces[index]
                 piece.Rotate(piece.rotation)
                 self.dirty_rects.append(piece.GetClipRect())
-                
+
         if self.render_background:
             self.dirty_rects = [(0,0,1280,720)]
             self.render_background = False
@@ -97,12 +97,11 @@ class FocusScene(OptimizationScene):
         for rect in self.dirty_rects:        
             screen.fill((0x1B, 0x0C, 0x43), rect)
             self.background.RenderWithAlpha(screen, rect, rect)
-    
+
     def Render(self, screen):
         OptimizationScene.Render(self, screen)
         for index in self.rendering_order:
             self.pieces[index].RenderWithAlpha(screen)
-
 
     def SpinPiece(self, index):
         piece = self.pieces[index]
@@ -117,7 +116,6 @@ class FocusScene(OptimizationScene):
         self.rendering_order.remove(index)
         self.rendering_order.append(index)
 
-
     def UnlockPiece(self, index):
         self.render_background = True
         self.locked_pieces[index] = False
@@ -131,12 +129,11 @@ class FocusScene(OptimizationScene):
             print("you win!")
             self.FinishOptimization()
 
-
     def FinishOptimization(self):
         OptimizationScene.FinishOptimization(self)
 
         for index in range(0, 5):
             self.sfx_pieces[index].fadeout(500)
-            
+
         utils.stop_music()
 

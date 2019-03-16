@@ -33,18 +33,40 @@ class OptimizationScene(SceneBase):
         self.state = STATUS.PLAYING
         # in milliseconds
         self.countdown = 30000
+        self.popup_active = False
 
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
+        self.SetupPopupLayout()
 
     def SetupLayout(self):
-        titlefont = pygame.font.Font(constants.VCR_OSD_MONO, constants.FONT_TITLE)
-
-        self.title = utils.Text("Optimization event scene", titlefont)
+        self.title = utils.Text("Optimization event scene", self.title_font)
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 546)
 
-        self.timer = utils.Text("00:00:00", titlefont)
+        self.timer = utils.Text("00:00:00", self.title_font)
         self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
+
+    def SetupPopupLayout(self):
+        self.popup_background = utils.Sprite(
+            constants.SPRITES_EDITION + 'optimization_background.png',
+            constants.VIEWPORT_CENTER_X,
+            351
+        )
+
+        self.popup_title = utils.Text(
+            'falla técnica en lab. monteasalvo',
+            self.title_font,
+            color = constants.PALETTE_PINK
+        )
+        self.popup_title.setAnchor(0.5, 0)
+        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 96)
+
+        self.popup_framing = utils.Text(
+            'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
+            self.subtitle_font
+        )
+        self.popup_framing.setAnchor(0, 0)
+        self.popup_framing.SetPosition(constants.POPUP_X + 32, 165)
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -80,9 +102,12 @@ class OptimizationScene(SceneBase):
         self.title.RenderWithAlpha(screen)
 
     def Render(self, screen):
+        if self.popup_active:
+            self.RenderPopup(screen)
+            return
+
         self.RenderBackground(screen)
         self.timer.RenderWithAlpha(screen)
-    
 
     # should display the results
     # then shutdown this scene and change it to next one
@@ -95,4 +120,7 @@ class OptimizationScene(SceneBase):
         return self.state == STATUS.PLAYING
 
     def DisplayResults(self):
+        pass
+
+    def RenderPopup(self, screen):
         pass

@@ -141,6 +141,7 @@ class EditEventScene(SceneBase):
         # add da ui
         self.SetupUI()
         self.right_progress_label.SetText('press    to finish edition')
+        self.right_progress_icon.SetPosition(862, 675)
 
     def SetupPopupLayout(self):
         self.popup_background = utils.Sprite(
