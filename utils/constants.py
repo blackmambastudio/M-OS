@@ -7,22 +7,29 @@ VIEWPORT_CENTER_Y = VIEWPORT_HEIGHT / 2
 VIEWPORT_PADDING_X = 16
 VIEWPORT_PADDING_Y = 32
 
+POPUP_WIDTH = 1122
+POPUP_HEIGHT = 544
+
 FONT_TITLE = 48
 FONT_SUBTITLE = 36
 FONT_NORMAL = 24
 FONT_SMALL = 18
 
-FONTS = "assets/fonts/"
-VCR_OSD_MONO = FONTS + "VCR_OSD_MONO_1.001.ttf"
-SPRITES = "assets/sprites/"
-SPRITES_COMMON = SPRITES + "scenes/common/"
-SPRITES_EDITION = SPRITES + "scenes/intro/"
-SPRITES_EDITION = SPRITES + "scenes/edition/"
-SPRITES_OPTIMIZATION = SPRITES + "scenes/optimization/"
-SPRITES_UI_BG = SPRITES_COMMON + "ui-background.png"
+FONTS = 'assets/fonts/'
+VCR_OSD_MONO = FONTS + 'VCR_OSD_MONO_1.001.ttf'
+SPRITES = 'assets/sprites/'
+SPRITES_COMMON = SPRITES + 'scenes/common/'
+SPRITES_EDITION = SPRITES + 'scenes/intro/'
+SPRITES_EDITION = SPRITES + 'scenes/edition/'
+SPRITES_OPTIMIZATION = SPRITES + 'scenes/optimization/'
+SPRITES_UI_BG = SPRITES_COMMON + 'ui-background.png'
+MATERIAL = 'assets/material/'
 
 PALETTE_WHITE = (234, 225, 243)
 PALETTE_PINK = (241, 100, 243)
+PALETTE_CYAN = (163, 223, 224)
+PALETTE_BLUE = (9, 9, 67)
+PALETTE_DARK_BLUE = (17, 5, 45)
 
 # TODO: put the constants related to the keyboard keys that will emulate the buttons
 #   in la MiMo.

@@ -118,7 +118,6 @@ class Sprite():
             if not position:
                 position = self.position
             screen.blit(self.cached_image, position, area)
-        #pass
 
     def setAnchor(self, x, y):
         self.anchor = (x, y)

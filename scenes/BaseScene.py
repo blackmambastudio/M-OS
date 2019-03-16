@@ -7,6 +7,7 @@ from utils import constants
 
 class SceneBase:
     def __init__(self):
+        # initialize state
         self.next = self
         self.time_triggers = []
         self.tweens = []
@@ -33,7 +34,7 @@ class SceneBase:
             constants.VCR_OSD_MONO,
             constants.FONT_SMALL
         )
-    
+
     def ProcessInput(self, events, keys):
         pass
 
@@ -89,13 +90,19 @@ class SceneBase:
         pass
 
     def SetupUI(self):
-        self.ui_backgroun = utils.Sprite(constants.SPRITES_UI_BG, 0, 32)
-        self.ui_backgroun.setAnchor(0, 0)
+        self.ui_background = utils.Sprite(constants.SPRITES_UI_BG, 0, 32)
+        self.ui_background.setAnchor(0, 0)
 
-        self.editLabel = utils.Text("press    to start editing", self.subtitle_font)
-        self.editLabel.setAnchor(1, 1)
-        self.editLabel.SetPosition(
+        self.right_progress_label = utils.Text("press    to start editing", self.subtitle_font)
+        self.right_progress_label.setAnchor(1, 1)
+        self.right_progress_label.SetPosition(
             constants.VIEWPORT_WIDTH - constants.VIEWPORT_PADDING_X,
             constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
         )
-        self.editSprite = utils.Sprite( "assets/sprites/mtlL3.png", 885, 675)
+        self.right_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 885, 675)
+
+    def RenderUI(self, screen):
+        self.ui_background.RenderWithAlpha(screen)
+        self.right_progress_label.RenderWithAlpha(screen)
+        self.right_progress_icon.RenderWithAlpha(screen)
+
