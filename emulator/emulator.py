@@ -95,7 +95,6 @@ def handlecommand(command, data):
     global brightness
     global printer_text
     data = list(data)
-    print("data", data)
     if command == 0x12:
         length = data[0]
         for index in range(0, length):

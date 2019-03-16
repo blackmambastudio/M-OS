@@ -6,6 +6,7 @@ import enum
 
 from utils import utils
 from utils import neopixelmatrix as graphics
+from utils import ringpixel as ring
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 from utils import constants
 
@@ -38,6 +39,8 @@ class OptimizationScene(SceneBase):
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
         self.SetupPopupLayout()
+        #ring.fill()
+        #ring.current_color = [0,0,0]
 
     def SetupLayout(self):
         self.title = utils.Text("Optimization event scene", self.title_font)
@@ -93,6 +96,7 @@ class OptimizationScene(SceneBase):
     def Update(self, dt):
         SceneBase.Update(self, dt)
         self.countdown -= int(1000 * dt)
+        ring.fill_percentage(self.countdown/30000)
         self.timer.SetText(OptimizationScene.format_time(self.countdown), False)
         if self.countdown < 0:
             self.FinishOptimization()
