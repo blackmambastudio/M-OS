@@ -9,7 +9,6 @@ from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteF
 from utils import constants
 
 from scenes.BaseScene import SceneBase
-from .OptimizationTutorialScene import OptimizationTutorialScene
 
 # Material tutorial Scene
 # Available actions: back / next + material buttons
@@ -82,4 +81,4 @@ class MaterialTutorialScene(SceneBase):
         self.used_mtl += 1
 
         if self.used_mtl >= 4:
-            self.SwitchToScene(OptimizationTutorialScene)
+            self.SwitchToScene("TutorialOpt")

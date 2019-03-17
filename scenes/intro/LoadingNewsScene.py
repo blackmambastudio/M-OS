@@ -9,7 +9,6 @@ from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteF
 from utils import constants
 
 from scenes.BaseScene import SceneBase
-from ..edition.BeginEventScene import BeginEventScene
 
 # Loading News Scene
 # Available actions: back / next
@@ -62,7 +61,7 @@ class LoadingNewsScene(SceneBase):
 
         self.countdown -= int(1000 * dt) if self.loading else 0
         if self.countdown < 0:
-            self.SwitchToScene(BeginEventScene)
+            self.SwitchToScene("Begin")
 
     def Render(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))

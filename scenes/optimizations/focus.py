@@ -2,7 +2,6 @@
 import pygame
 
 from .OptimizationScene import OptimizationScene
-import scenes.edition.BeginEventScene as B
 from utils import utils
 from random import random
 import mimo
@@ -59,7 +58,7 @@ class FocusScene(OptimizationScene):
         if not self.IsPlaying():
             for event in events:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                    self.AddTrigger(0.16, self, 'SwitchToScene', B.BeginEventScene)
+                    self.AddTrigger(0.16, self, 'SwitchToScene', "Begin")
                     pass
             return
         for event in events:

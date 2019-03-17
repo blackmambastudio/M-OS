@@ -9,7 +9,6 @@ from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteF
 from utils import constants
 
 from scenes.BaseScene import SceneBase
-from .LoadingNewsScene import LoadingNewsScene
 
 # Optimization Scene
 # Available actions: back / next - optimization buttons and tunner
@@ -72,4 +71,4 @@ class OptimizationTutorialScene(SceneBase):
         self.pressed_keys += 1
 
         if self.pressed_keys >= 5:
-            self.SwitchToScene(LoadingNewsScene)
+            self.SwitchToScene("LoadingNews")

@@ -10,7 +10,7 @@ import math
 class SceneBase:
     def __init__(self):
         # initialize state
-        self.next = self
+        self.next = None
         self.time_triggers = []
         self.tweens = []
         self.dirty_rects = [(
@@ -88,7 +88,7 @@ class SceneBase:
         if next_scene == None:
             self.next = None
             return
-        self.next = next_scene()
+        self.next = next_scene
 
     def Terminate(self):
         self.SwitchToScene(None)

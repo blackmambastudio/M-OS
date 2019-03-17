@@ -9,7 +9,6 @@ from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteF
 from utils import constants
 
 from scenes.BaseScene import SceneBase
-from .MaterialTutorialScene import MaterialTutorialScene
 
 # Introduction Scene
 # Available actions: back / next
@@ -60,7 +59,7 @@ class IntroductionScene(SceneBase):
 
     def LoadNextSubtitle(self):
         if self.intro_subtitles_index + 1 == len(self.intro_subtitles):
-            self.SwitchToScene(MaterialTutorialScene)
+            self.SwitchToScene("TutorialMat")
             return
 
         self.intro_subtitles_index += 1

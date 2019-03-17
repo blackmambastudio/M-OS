@@ -11,7 +11,6 @@ from utils.NewsProvider import news
 from utils import constants
 
 from scenes.BaseScene import SceneBase
-from scenes.edition.EditEventScene import EditEventScene
 
 # StartEvent Scene
 # PLAY STATUS #1
@@ -70,7 +69,7 @@ class BeginEventScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 self.CloseEvent()
-                self.AddTrigger(0.16, self, 'SwitchToScene', EditEventScene)
+                self.AddTrigger(0.16, self, 'SwitchToScene', "Edit")
 
     def Update(self, dt):
         SceneBase.Update(self, dt)

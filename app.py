@@ -13,6 +13,7 @@ from scenes.BootScene import BootScene
 from scenes.intro.IntroductionScene import IntroductionScene
 from scenes.intro.MaterialTutorialScene import MaterialTutorialScene
 from scenes.intro.OptimizationTutorialScene import OptimizationTutorialScene
+from scenes.intro.LoadingNewsScene import LoadingNewsScene
 
 from scenes.edition.BeginEventScene import BeginEventScene
 from scenes.edition.EditEventScene import EditEventScene
@@ -42,6 +43,7 @@ SCENES = {
     "Intro": IntroductionScene,
     "TutorialMat": MaterialTutorialScene,
     "TutorialOpt": OptimizationTutorialScene,
+    "LoadingNews": LoadingNewsScene,
     # edit
     "Begin": BeginEventScene,
     "Edit": EditEventScene,
@@ -147,7 +149,9 @@ def run_game(width, height, fps, starting_scene):
             dirty_rects.append((50, 20, 20,20))
             pygame.display.update(dirty_rects)
         
-        active_scene = active_scene.next
+        if active_scene.next:
+            active_scene = SCENES[active_scene.next]()
+
         game_session.current_scene = active_scene
 
 

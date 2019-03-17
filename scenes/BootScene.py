@@ -4,7 +4,6 @@ import pygame
 import mimo
 
 from .BaseScene import SceneBase
-from scenes.intro.IntroductionScene import IntroductionScene
 
 from utils import utils
 from utils import neopixelmatrix as graphics
@@ -35,7 +34,7 @@ class BootScene(SceneBase):
         
         self.AddTween("easeInOutSine", 1, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(18, self, 'SwitchToScene', IntroductionScene)
+        self.AddTrigger(18, self, 'SwitchToScene', "Intro")
 
         mimo.set_led_brightness(50)
         mimo.set_optimization_buttons_lock_status([0, 0, 1, 0, 2, 0])

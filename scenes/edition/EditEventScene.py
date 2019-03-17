@@ -359,4 +359,4 @@ class EditEventScene(SceneBase):
     def PlayMinigame(self, side):
         # TODO: load the specific mini-game based on the chosen side
         next_scene = get_next_optimization_scene('some_value')
-        self.SwitchToScene(next_scene)
+        self.SwitchToScene("Focus")
