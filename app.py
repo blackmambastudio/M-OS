@@ -91,8 +91,9 @@ def run_game(width, height, fps, starting_scene):
 
     font = pygame.font.Font(constants.VCR_OSD_MONO, 22)
     game_session = get_game_session()
+    playing = True
 
-    while active_scene != None:
+    while playing:
         current_time = time.time()
         dt = current_time - last_time
         last_time = current_time
@@ -134,6 +135,7 @@ def run_game(width, height, fps, starting_scene):
             
             if quit_attempt:
                 active_scene.Terminate()
+                playing = False
             else:
                 filtered_events.append(event)
         
