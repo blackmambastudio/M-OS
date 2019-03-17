@@ -94,13 +94,15 @@ class OptimizationScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
-        self.current_time -= int(1000 * dt)
-        if self.current_time < 0:
-            self.FinishOptimization()
-            self.current_time = 0
 
-        ring.fill_percentage(self.current_time/self.countdown)
-        self.timer.SetText(OptimizationScene.format_time(self.current_time), False)
+        if self.IsPlaying():
+            self.current_time -= int(1000 * dt)
+            if self.current_time < 0:
+                self.FinishOptimization()
+                self.current_time = 0
+
+            ring.fill_percentage(self.current_time/self.countdown)
+            self.timer.SetText(OptimizationScene.format_time(self.current_time), False)
 
     def RenderBackground(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
@@ -119,7 +121,15 @@ class OptimizationScene(SceneBase):
     def FinishOptimization(self):
         self.state = STATUS.FINISHING
         self.DisplayResults()
-        #self.AddTrigger(15, self, 'SwitchToScene', FinishEventScene)
+        self.BlinkTimer()
+        self.times = 0
+        self.AddTrigger(3.0, self, 'SwitchToScene', FinishEventScene)
+
+    def BlinkTimer(self):
+        print("blink")
+        self.AddTween("easeInOutSine", 0.3, self.timer, "opacity", 255, 0, 0)
+        self.AddTween("easeInOutSine", 0.3, self.timer, "opacity", 0, 255, 0.31)
+        self.AddTrigger(0.6, self, 'BlinkTimer')
 
     def IsPlaying(self):
         return self.state == STATUS.PLAYING

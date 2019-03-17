@@ -4,10 +4,12 @@ import pygame
 from .OptimizationScene import OptimizationScene
 from utils import utils
 from random import random
+import mimo
 
 class FocusScene(OptimizationScene):
     def __init__(self):
         OptimizationScene.__init__(self)
+        mimo.set_led_brightness(150)
         self.pieces = []
         self.rendering_order = [0,1,2,3,4]
         self.render_background = True
