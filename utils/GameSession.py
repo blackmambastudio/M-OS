@@ -10,9 +10,25 @@ class GameSession():
         self.news_played = []
         self.score = 0
         self.results = []
+        self.time = 60*1.1
 
-def new_game_session():
-    gamesession = GameSession()
+        self.alert_displayed = False
+        self.current_scene = None
+
+    def update(self, dt):
+        self.time -= dt
+        if self.time < 61 and not self.alert_displayed:
+            self.alert_displayed = True
+            self.current_scene.display_timeout_alert()
+        if self.time < 0:
+            self.current_scene.time_up()
+
+
+def get_game_session():
+    global gamesession
+    if not gamesession:
+        gamesession = GameSession()
+    return gamesession
 
 def close_session():
     pass

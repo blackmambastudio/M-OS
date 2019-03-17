@@ -1,5 +1,6 @@
 
 import mimo
+import math
 
 ring_led_ids = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 8, 9, 10, 11]
 # progress a float between 0 and 1
@@ -13,7 +14,7 @@ def fill_percentage(progress):
     # 0 is first one
     # 100 is last one
     message = []
-    value = int(progress*16)
+    value = math.ceil(progress*16)
     if cached_progress == value: return
     current_color = wheel(int(progress*64))
     cached_progress = value

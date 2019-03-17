@@ -4,6 +4,8 @@ import pytweening
 
 from utils import utils
 from utils import constants
+import math
+
 
 class SceneBase:
     def __init__(self):
@@ -42,8 +44,12 @@ class SceneBase:
         self.height_cortain = 360
         self.AddTrigger(0.1, self, 'OpenEvent')
 
+        self.countdown_label = utils.Text("00:00", self.title_font)
+        self.countdown_label.SetPosition(constants.VIEWPORT_CENTER_X, 50)
+
     def ProcessInput(self, events, keys):
         pass
+
 
     def Update(self, dt):
         self.dirty_rects = [(
@@ -55,6 +61,7 @@ class SceneBase:
         self.CheckTriggers(dt)
         self.CheckTweens(dt)
 
+
     def Render(self, screen):
         pass
 
@@ -62,7 +69,20 @@ class SceneBase:
         if self.transition_cortain or self.height_cortain>=360:
             pygame.draw.rect(screen, [0x1B, 0x0C, 0x43], (0, 0, 1280,self.height_cortain))
             pygame.draw.rect(screen, [0x1B, 0x0C, 0x43], (0, 720, 1280,-self.height_cortain))
-        
+
+    # in milliseconds
+    def format_time(time):
+        time = int(time)
+        to_string = ""
+        mins = time//60
+        seconds = math.ceil(time%60)
+        if mins < 10:
+            to_string += "0"
+        to_string += str(mins) + ":"
+        if seconds < 10:
+            to_string += "0"
+        to_string += str(seconds)
+        return to_string 
 
     def SwitchToScene(self, next_scene):
         if next_scene == None:
@@ -133,6 +153,7 @@ class SceneBase:
             self.left_progress_label.RenderWithAlpha(screen)
             self.left_progress_icon.RenderWithAlpha(screen)
 
+        self.countdown_label.RenderWithAlpha(screen)
 
     def OpenEvent(self):
         self.transition_cortain = True
@@ -146,4 +167,17 @@ class SceneBase:
 
     def StopTransition(self):
         self.transition_cortain = False
-        
+    
+    def display_timeout_alert(self):
+        print("allllalalla")
+        self.countdown_label.SetColor([0xff, 0x00, 0x00])
+        self.countdown_red = True
+
+    def time_up(self):
+        print("time's up")
+        #mimo.reset()
+
+    def set_countdown(self, time):
+        countdown_time = time 
+        self.countdown_label.SetText(SceneBase.format_time(countdown_time), False)
+            

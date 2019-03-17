@@ -237,6 +237,8 @@ class EditEventScene(SceneBase):
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
 
+        # render countdown
+        self.countdown_label.RenderWithAlpha(screen)
         self.RenderCortain(screen)
 
     def assign_material_to_sequence(self, index):
@@ -288,7 +290,8 @@ class EditEventScene(SceneBase):
                 constants.POPUP_WIDTH,
                 constants.POPUP_HEIGHT
             ),
-            (0, 630, constants.VIEWPORT_WIDTH, 90)
+            (0, 630, constants.VIEWPORT_WIDTH, 90),
+            (self.countdown_label.position[0], self.countdown_label.position[1], self.countdown_label.text.get_width(), self.countdown_label.text.get_height())
         ]
 
         random_color = (

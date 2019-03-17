@@ -30,6 +30,8 @@ from scenes.test.LightScene import LightScene
 from scenes.test.TutorialScene import TutorialScene
 from scenes.test.RingScene import RingScene
 
+from utils.GameSession import get_game_session
+
 import mimo
 
 SCENES = {
@@ -86,6 +88,7 @@ def run_game(width, height, fps, starting_scene):
     last_time = time.time()
 
     font = pygame.font.Font(constants.VCR_OSD_MONO, 22)
+    game_session = get_game_session()
 
     while active_scene != None:
         current_time = time.time()
@@ -93,6 +96,8 @@ def run_game(width, height, fps, starting_scene):
         last_time = current_time
 
         mimo.update()
+        game_session.update(dt)
+        active_scene.set_countdown(game_session.time)
         pressed_keys = pygame.key.get_pressed()
         
         # Event filtering 
@@ -130,7 +135,7 @@ def run_game(width, height, fps, starting_scene):
             else:
                 filtered_events.append(event)
         
-        if active_scene:
+        if active_scene and game_session.time > 0:
             active_scene.ProcessInput(filtered_events, pressed_keys)
             active_scene.Update(dt)
             active_scene.Render(screen)
@@ -143,6 +148,7 @@ def run_game(width, height, fps, starting_scene):
             pygame.display.update(dirty_rects)
         
         active_scene = active_scene.next
+        game_session.current_scene = active_scene
 
 
         clock.tick(fps)
