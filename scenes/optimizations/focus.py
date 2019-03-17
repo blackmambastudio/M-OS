@@ -2,6 +2,7 @@
 import pygame
 
 from .OptimizationScene import OptimizationScene
+import scenes.edition.BeginEventScene as B
 from utils import utils
 from random import random
 import mimo
@@ -55,28 +56,26 @@ class FocusScene(OptimizationScene):
 
 
     def ProcessInput(self, events, pressed_keys):
-        if not self.IsPlaying(): return
+        if not self.IsPlaying():
+            for event in events:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
+                    self.AddTrigger(0.16, self, 'SwitchToScene', B.BeginEventScene)
+                    pass
+            return
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d and not self.locked_pieces[0]:
-                print("d pressed")
                 self.SpinPiece(0)
             
-            if event.type == pygame.KEYUP and event.key == pygame.K_d:
-                print("d released")
             if event.type == pygame.KEYDOWN and event.key == pygame.K_f and not self.locked_pieces[1]:
-                print("f pressed")
                 self.SpinPiece(1)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_g and not self.locked_pieces[2]:
-                print("g pressed")
                 self.SpinPiece(2)
             
             if event.type == pygame.KEYDOWN and event.key == pygame.K_c and not self.locked_pieces[3]:
-                print("c pressed")
                 self.SpinPiece(3)
             
             if event.type == pygame.KEYDOWN and event.key == pygame.K_v and not self.locked_pieces[4]:
-                print("x pressed")
                 self.SpinPiece(4)
 
 
@@ -95,13 +94,18 @@ class FocusScene(OptimizationScene):
             self.dirty_rects = [(0,0,1280,720)]
             self.render_background = False
 
+
+    def StopTransition(self):
+        self.transition_cortain = False
+        self.render_background = True
+
+
     def RenderBackground(self, screen):
-        for rect in self.dirty_rects:        
+        for rect in self.dirty_rects:
             screen.fill((0x1B, 0x0C, 0x43), rect)
             self.background.RenderWithAlpha(screen, rect, rect)
 
-    def Render(self, screen):
-        OptimizationScene.Render(self, screen)
+    def RenderBody(self, screen):
         for index in self.rendering_order:
             self.pieces[index].RenderWithAlpha(screen)
 

@@ -39,7 +39,7 @@ class OptimizationScene(SceneBase):
 
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
-        self.SetupPopupLayout()
+        #self.SetupPopupLayout()
         #ring.fill()
         #ring.current_color = [0,0,0]
 
@@ -109,21 +109,26 @@ class OptimizationScene(SceneBase):
         self.title.RenderWithAlpha(screen)
 
     def Render(self, screen):
+        self.RenderBackground(screen)
+        self.timer.RenderWithAlpha(screen)
+        
+        self.RenderBody(screen)
+
         if self.popup_active:
             self.RenderPopup(screen)
             return
+        self.RenderCortain(screen)
 
-        self.RenderBackground(screen)
-        self.timer.RenderWithAlpha(screen)
+    def RenderBody(screen):
+        pass
 
     # should display the results
     # then shutdown this scene and change it to next one
     def FinishOptimization(self):
         self.state = STATUS.FINISHING
-        self.DisplayResults()
         self.BlinkTimer()
-        self.times = 0
-        self.AddTrigger(3.0, self, 'SwitchToScene', FinishEventScene)
+        self.DisplayResults()
+        #self.AddTrigger(3.0, self, 'SwitchToScene', FinishEventScene)
 
     def BlinkTimer(self):
         self.AddTween("easeInOutSine", 0.3, self.timer, "opacity", 255, 0, 0)
@@ -134,7 +139,8 @@ class OptimizationScene(SceneBase):
         return self.state == STATUS.PLAYING
 
     def DisplayResults(self):
+        self.popup_active = True
         pass
 
     def RenderPopup(self, screen):
-        pass
+        pygame.draw.rect(screen, [0x0, 0x0, 0x0], (100, 120, 1080,480))

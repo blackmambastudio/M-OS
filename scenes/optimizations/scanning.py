@@ -120,8 +120,7 @@ class ScanningScene(OptimizationScene):
 
         
 
-    def Render(self, screen):
-        OptimizationScene.Render(self, screen)
+    def RenderBody(self, screen):
         index = 0
         for figure in FIGURES[self.level]:
             self.DrawFigure(screen, figure, index)
@@ -158,7 +157,7 @@ class ScanningScene(OptimizationScene):
                     graphics.plot(x, y)
 
         graphics.render()
-        self.RenderCortain(screen)
+        
 
     def Lock(self):
         if self.detected_contact: return
@@ -238,9 +237,11 @@ class ScanningScene(OptimizationScene):
         else:
             self.fails += 1
             self.MG1_Failed.play()
+            if self.fails >= 3:
+                self.FinishOptimization()
         if self.level >= len(FIGURES):
             self.level -= 1
-            print("You win!")
+            self.FinishOptimization()
         else:
             self.NextFigure()
 
