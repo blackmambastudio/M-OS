@@ -57,9 +57,6 @@ class ScanningScene(OptimizationScene):
         self.MG1_ObjSort = utils.get_sound(audio_path + 'MG1_ObjSort.ogg')
         self.MG1_ObjSort.set_volume(0.08)
 
-        audio_path = 'assets/audio/SFX/Scanning/'
-        self.MG1_ObjDetect = utils.get_sound(audio_path + 'MG1_ObjDetect.ogg')
-        self.MG1_ObjDetect.set_volume(1)
 
         self.NextFigure()   
 
@@ -181,7 +178,6 @@ class ScanningScene(OptimizationScene):
 
     def NewScan(self, mode, direction):
         self.MG1_Sweep.play()
-        self.MG1_ObjSort.play()
         self.line_color = [0xf00, 0xff0, 0x0f0, 0x0ff, 0x00f, 0xf0f, 0xfff][int(random()*7)]
         self.mode = mode
         self.direction = int(direction)
@@ -224,7 +220,7 @@ class ScanningScene(OptimizationScene):
             for i in range(0, len(self.figure[0])):
                 self.radar_matrix[j+y][i+x] = self.figure[j][i]
 
-        self.MG1_ObjDetect.play()
+        self.MG1_ObjSort.play()
         # display options in screen 
 
 
