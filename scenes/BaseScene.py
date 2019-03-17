@@ -132,7 +132,7 @@ class SceneBase:
             constants.VIEWPORT_WIDTH - constants.VIEWPORT_PADDING_X,
             constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
         )
-        self.right_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 885, 675)
+        self.right_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 925, 675)
 
         self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font)
         self.left_progress_label.setAnchor(0, 1)
@@ -140,7 +140,7 @@ class SceneBase:
             constants.VIEWPORT_PADDING_X,
             constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
         )
-        self.left_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 164, 675)
+        self.left_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 148, 675)
 
     def RenderUI(self, screen):
         self.ui_background.RenderWithAlpha(screen)

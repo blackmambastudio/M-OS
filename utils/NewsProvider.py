@@ -1,131 +1,203 @@
+from . import constants
 
-news = [{
-    "id": 0,
-    "title": "Falla tecnica en Monteasalvo",
-
-    "description": """El tanque de aguas residuales para tratamiento del
-laboratorio farmacéutico de Monteasalvo sufrió una
-fuga regando  desperdicios  industriales en el río
-Saluino  una de las  principales  fuentes hidricas
-del Distrito 2.
-
-Ambientalistas  alertan  acerca  de  los daños que
-esto causará en el ecosistema.""",
-
-    "objective": """Monteasalvo es un aliado estratégico de MCorp, evitar que este
-problema signifique una baja en las acciones de la compañía.""",
-    "icon": "assets/events/biohazard.png",
-    "material": [
-        # bad emotions
-        {
-            "label": ["Fake material", "Data 00"],
-            "color": [255,0,0],
-            "material": "court.png",
-            "hook": 0.2,
-            "emotion": -0.6,
-            "drama": 0.1
-        },
-        {
-            "label": ["Fake material", "Data 01"],
-            "color": [255,255,0],
-            "material": "expert-confirm.png",
-            "hook": 0.3,
-            "emotion": -0.4,
-            "drama": 0.3
-        },
-        # semi neutral
-        {
-            "label": ["Fake material", "Data 02"],
-            "color": [0,255,0],
-            "material": "expert-deny.png",
-            "hook": 0.35,
-            "emotion": -0.1,
-            "drama": 0.55
-        },
-        {
-            "label": ["Fake material", "Data 03"],
-            "color": [0,255,255],
-            "material": "hospital.png",
-            "hook": 0.65,
-            "emotion": 0.1,
-            "drama": 0.25
-        },
-        {
-            "label": ["Fake material", "Data 04"],
-            "color": [0,0,255],
-            "material": "illness.png",
-            "hook": 0.4,
-            "emotion": 0.3,
-            "drama": 0.3
-        },
-        {
-            "label": ["Fake material", "Data 05"],
-            "color": [255,255,255],
-            "material": "monteasalvo-logo.png",
-            "hook": 0.1,
-            "emotion": 0.4,
-            "drama": 0.5
-        },
-    ]
-},
-{
-    "id": 1,
-    "title": "Title for news event #02",
-    "description": """Description is something that can be displayed in screen.
-Several lines including line breaks\ncould be displayed.
-Maybe one paragrah is fair enough.""",
-    "material": [
-        # bad emotions
-        {
-            "label": ["Fake material", "Data 10"],
-            "color": [255,0,0],
-            "material": ".png",
-            "hook": 0.2,
-            "emotion": -0.6,
-            "drama": 0.1
-        },
-        {
-            "label": ["Fake material", "Data 11"],
-            "color": [255,255,0],
-            "material": ".png",
-            "hook": 0.3,
-            "emotion": -0.4,
-            "drama": 0.3
-        },
-        # semi neutral
-        {
-            "label": ["Fake material", "Data 12"],
-            "color": [0,255,0],
-            "material": ".png",
-            "hook": 0.35,
-            "emotion": -0.1,
-            "drama": 0.55
-        },
-        {
-            "label": ["Fake material", "Data 13"],
-            "color": [0,255,255],
-            "material": ".png",
-            "hook": 0.65,
-            "emotion": 0.1,
-            "drama": 0.25
-        },
-        {
-            "label": ["Fake material", "Data 14"],
-            "color": [0,0,255],
-            "material": ".png",
-            "hook": 0.4,
-            "emotion": 0.3,
-            "drama": 0.3
-        },
-        {
-            "label": ["Fake material", "Data 15"],
-            "color": [255,255,255],
-            "material": ".png",
-            "hook": 0.1,
-            "emotion": 0.4,
-            "drama": 0.5
-        },
-    ]
-}
+news = [
+    {
+        'id': 0,
+        'hdl': 'industrial disaster at monteasalvo\’s “health and joy” laboratories',
+        'ovw': 'monteasalvo\’s reputation...enviromental alert...salunio river at risk',
+        'arg': 'environmentalist warning',
+        'gol': 'whitewash monteasalvo\’s reputation',
+        'ico': 'biohazard.png',
+        'material': [
+            # ---- comb 01 -----------------------------------------------------
+            {
+                'label': ['environmentalists', 'demand'],
+                'color': [255, 0, 0],
+                'img': 'generic-mtl-HOOK.png',
+                'story_position': constants.STORY_HOOK,
+                'supports': 's2'
+            },
+            {
+                'label': ['lab\’s negligence', constants.EMPTY_LCD_LABEL],
+                'color': [255, 255, 0],
+                'img': 'generic-mtl-CON1.png',
+                'story_position': constants.STORY_CONFLICT_1,
+                'supports': 's2'
+            },
+            {
+                'label': ['environmental', 'impact'],
+                'color': [0, 255, 0],
+                'img': 'generic-mtl-CON2.png',
+                'story_position': constants.STORY_CONFLICT_2,
+                'supports': 's2'
+            },
+            {
+                'label': ['community in', 'danger'],
+                'color': [0, 255, 255],
+                'img': 'generic-mtl-CCLS.png',
+                'story_position': constants.STORY_CONCLUSION,
+                'supports': 's2'
+            },
+            # ---- comb 02 -----------------------------------------------------
+            {
+                'label': ['monteasalvo labs', constants.EMPTY_LCD_LABEL],
+                'color': [0, 0, 255],
+                'img': 'generic-mtl-HOOK.png',
+                'story_position': constants.STORY_HOOK,
+                'supports': 's1'
+            },
+            {
+                'label': ['deny risky alert', constants.EMPTY_LCD_LABEL],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON1.png',
+                'story_position': constants.STORY_CONFLICT_1,
+                'supports': 's1'
+            },
+            {
+                'label': ['activist', 'overreact'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON2.png',
+                'story_position': constants.STORY_CONFLICT_2,
+                'supports': 's1'
+            },
+            {
+                'label': ['leakage', 'contained'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CCLS.png',
+                'story_position': constants.STORY_CONCLUSION,
+                'supports': 's1'
+            },
+            # ---- comb 03 -----------------------------------------------------
+            {
+                'label': ['polluted saluino', 'river'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-HOOK.png',
+                'story_position': constants.STORY_HOOK,
+                'supports': None
+            },
+            {
+                'label': ['chemical', 'leak'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON1.png',
+                'story_position': constants.STORY_CONFLICT_1,
+                'supports': None
+            },
+            {
+                'label': ['severe ecosystem', 'damage'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON2.png',
+                'story_position': constants.STORY_CONFLICT_2,
+                'supports': None
+            },
+            {
+                'label': ['monteasalvo\’s', 'involvement'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CCLS.png',
+                'story_position': constants.STORY_CONCLUSION,
+                'supports': None
+            },
+            # ---- comb 04 -----------------------------------------------------
+            {
+                'label': ['laboratory', 'incident'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-HOOK.png',
+                'story_position': constants.STORY_HOOK,
+                'supports': None
+            },
+            {
+                'label': ['environmental', 'impact'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON1.png',
+                'story_position': constants.STORY_CONFLICT_1,
+                'supports': None
+            },
+            {
+                'label': ['environmentalists', 'demand'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON2.png',
+                'story_position': constants.STORY_CONFLICT_2,
+                'supports': 's2'
+            },
+            {
+                'label': ['illegal', 'experimentation'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CCLS.png',
+                'story_position': constants.STORY_CONCLUSION,
+                'supports': 's2'
+            },
+            # ---- comb 05 -----------------------------------------------------
+            {
+                'label': ['incident', 'consequences'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-HOOK.png',
+                'story_position': constants.STORY_HOOK,
+                'supports': None
+            },
+            {
+                'label': ['20 dead', '65 injured'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON1.png',
+                'story_position': constants.STORY_CONFLICT_1,
+                'supports': None
+            },
+            {
+                'label': ['monteasalvo labs', constants.EMPTY_LCD_LABEL],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON2.png',
+                'story_position': constants.STORY_CONFLICT_2,
+                'supports': 's2'
+            },
+            {
+                'label': ['responsibile for', 'tragedy'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CCLS.png',
+                'story_position': constants.STORY_CONCLUSION,
+                'supports': 's2'
+            },
+            # ---- comb 06 -----------------------------------------------------
+            {
+                'label': ['activists lie', constants.EMPTY_LCD_LABEL],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-HOOK.png',
+                'story_position': constants.STORY_HOOK,
+                'supports': 's1'
+            },
+            {
+                'label': ['illegal', 'experimentation'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON1.png',
+                'story_position': constants.STORY_CONFLICT_1,
+                'supports': None
+            },
+            {
+                'label': ['monteasalvo\’s', 'ideals'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CON2.png',
+                'story_position': constants.STORY_CONFLICT_2,
+                'supports': 's1'
+            },
+            {
+                'label': ['population\’s', 'health'],
+                'color': [255, 255, 255],
+                'img': 'generic-mtl-CCLS.png',
+                'story_position': constants.STORY_CONCLUSION,
+                'supports': 's1'
+            }
+        ],
+        'framing': [
+            {
+                'heavier': 's1',
+                'text': 'audience will trust monteasalvo and lose credibility in environmentalists'
+            },
+            {
+                'heavier': 's2',
+                'text': 'audience will support the environmentalists and protest against monteasalvo'
+            },
+            {
+                'heavier': None,
+                'text': "audience will worry about the disaster but won't do anything"
+            }
+        ]
+    },
 ]
 

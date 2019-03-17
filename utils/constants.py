@@ -12,10 +12,10 @@ POPUP_Y = 79
 POPUP_WIDTH = 1122
 POPUP_HEIGHT = 544
 
-FONT_TITLE = 48
-FONT_SUBTITLE = 36
-FONT_NORMAL = 24
-FONT_SMALL = 18
+FONT_TITLE = 48 - 4 # 48
+FONT_SUBTITLE = 36 - 4 # 36
+FONT_NORMAL = 24 - 4 # 24
+FONT_SMALL = 18 - 4 # 18
 
 FONTS = 'assets/fonts/'
 VCR_OSD_MONO = FONTS + 'VCR_OSD_MONO_1.001.ttf'
@@ -26,6 +26,7 @@ SPRITES_EDITION = SPRITES + 'scenes/edition/'
 SPRITES_OPTIMIZATION = SPRITES + 'scenes/optimization/'
 SPRITES_UI_BG = SPRITES_COMMON + 'ui-background.png'
 MATERIAL = 'assets/material/'
+EVENTS = 'assets/events/'
 
 PALETTE_WHITE = (234, 225, 243)
 PALETTE_PINK = (241, 100, 243)
@@ -37,6 +38,13 @@ PALETTE_GREEN = (77, 232, 140)
 
 MINIGAME_LEFT = 0
 MINIGAME_RIGHT = 1
+
+EMPTY_LCD_LABEL = '- - - - - - - - '
+
+STORY_HOOK = 0
+STORY_CONFLICT_1 = 1
+STORY_CONFLICT_2 = 2
+STORY_CONCLUSION = 3
 
 # TODO: put the constants related to the keyboard keys that will emulate the buttons
 #   in la MiMo.

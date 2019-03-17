@@ -31,15 +31,6 @@ class EditEventScene(SceneBase):
         self.current_event = news[0]
 
         # initialize state
-        event_mtl = self.current_event['material']
-        self.images = [
-            utils.Sprite(constants.MATERIAL + event_mtl[0]['material']),
-            utils.Sprite(constants.MATERIAL + event_mtl[1]['material']),
-            utils.Sprite(constants.MATERIAL + event_mtl[2]['material']),
-            utils.Sprite(constants.MATERIAL + event_mtl[3]['material']),
-            utils.Sprite(constants.MATERIAL + event_mtl[4]['material']),
-            utils.Sprite(constants.MATERIAL + event_mtl[5]['material'])
-        ]
         self.image_positions = [
             { 'x': 400, 'y': 500 },
             { 'x': 400 + 340, 'y': 500 },
@@ -60,8 +51,13 @@ class EditEventScene(SceneBase):
         # setup the layout for the optimization popup
         self.SetupPopupLayout()
 
-        # self.AddTrigger(2, self, 'OpenPopup')
-        # self.AddTrigger(4, self, 'ClosePopup')
+        # load the material for the HOOK
+        self.event_mtl = self.current_event['material']
+
+        self.images = []
+        for mtl in self.event_mtl:
+            if mtl['story_position'] == constants.STORY_HOOK:
+                self.images.append(utils.Sprite(constants.MATERIAL + mtl['img']))
 
         # reset material buttons
         # lock optimization buttons and knobs
@@ -74,22 +70,23 @@ class EditEventScene(SceneBase):
             364,
             240
         )
-        # self.fact_title = utils.Text(self.current_event['title'], self.title_font)
         self.fact_title = utils.Text(
-            'da fact title',
+            self.current_event['hdl'],
             self.subtitle_font,
             color = constants.PALETTE_PINK
         )
-        self.fact_title.setAnchor(0.5, 0)
-        self.fact_title.SetPosition(364, 94)
+        self.fact_title.setAnchor(0, 0)
+        self.fact_title.SetPosition(78, 94)
 
-        # self.goal_desc = utils.Text(self.current_event['description'].replace('\n', '. '), self.normal_font)
-        self.goal_desc = utils.Text('goal: da goal desc', self.normal_font)
+        self.goal_desc = utils.Text(
+            'goal: ' + self.current_event['gol'],
+            self.normal_font
+        )
         self.goal_desc.setAnchor(0, 0)
-        self.goal_desc.SetPosition(56, 191)
+        self.goal_desc.SetPosition(56, 207)
 
         self.news_framing = utils.Text(
-            'da news resulting frame',
+            'no opinion bias set yet. select material to start framing the news.',
             self.normal_font,
             color = constants.PALETTE_CYAN
         )
@@ -141,7 +138,7 @@ class EditEventScene(SceneBase):
         # add da ui
         self.SetupUI()
         self.right_progress_label.SetText('press    to finish edition')
-        self.right_progress_icon.SetPosition(862, 675)
+        self.right_progress_icon.SetPosition(900, 675)
 
     def SetupPopupLayout(self):
         self.popup_background = utils.Sprite(
@@ -151,19 +148,22 @@ class EditEventScene(SceneBase):
         )
 
         self.popup_title = utils.Text(
-            'falla técnica en lab. monteasalvo',
+            self.current_event['hdl'],
             self.title_font,
             color = constants.PALETTE_PINK
         )
-        self.popup_title.setAnchor(0.5, 0)
-        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 96)
+        self.popup_title.setAnchor(0, 0)
+        self.popup_title.SetPosition(constants.POPUP_X + 16, 96)
 
         self.popup_framing = utils.Text(
             'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
             self.subtitle_font
         )
         self.popup_framing.setAnchor(0, 0)
-        self.popup_framing.SetPosition(constants.POPUP_X + 32, 165)
+        self.popup_framing.SetPosition(
+            constants.POPUP_X + 16,
+            205
+        )
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -205,14 +205,15 @@ class EditEventScene(SceneBase):
         screen.fill((0x1B, 0x0C, 0x43))
 
         self.info_frame.RenderWithAlpha(screen)
+
+        # render texts
         self.fact_title.render_multiline_truncated(screen, 616, 94)
-        self.goal_desc.render_multiline_truncated(screen, 300, 300)
-        self.news_framing.RenderWithAlpha(screen)
+        self.goal_desc.render_multiline_truncated(screen, 617, 52)
+        self.news_framing.render_multiline_truncated(screen, 617, 52)
 
         self.anchor_frame.RenderWithAlpha(screen)
 
         self.storyline_bg.RenderWithAlpha(screen)
-
         for slot in self.mtl_slots_frames:
             # TODO: change the frame of the mtl slot if it is being used
             slot.RenderWithAlpha(screen)
@@ -258,8 +259,57 @@ class EditEventScene(SceneBase):
                 self.set_material_inactive(index, slot_index)
                 self.busy_slots -= 1
                 break
-
             slot_index += 1
+
+        print('current mtl sequence: >>>>>>>>>>>>>>>>>>>>>>>>>')
+        print(self.sequence)
+
+        next_story_part = 0
+        for used_slot in self.sequence:
+            if used_slot == -1:
+                # update the LCDs and the images so they show the material
+                # available for the free slot
+                if next_story_part == constants.STORY_CONFLICT_1:
+                    break
+                elif next_story_part == constants.STORY_CONFLICT_2:
+                    break
+                else:
+                    break
+            next_story_part += 1
+
+        new_mtl = []
+        for mtl in self.event_mtl:
+            # check which is the next free story slot and update the material
+            if mtl['story_position'] == next_story_part:
+                new_mtl.append(mtl)
+
+        # change the default order of the material
+        # random.shuffle(new_mtl)
+
+        # replace the images and the texts on the LCD displays with the new material
+        index = 0
+        for mtl_img in self.images:
+            xxx = index in self.sequence
+            if not xxx:
+                self.images[index] = utils.Sprite(
+                    constants.MATERIAL + new_mtl[index]['img']
+                )
+                line1_text = utils.align_text(
+                    new_mtl[index]['label'][0],
+                    index < 3, 14, '-'
+                )
+                line2_text = utils.align_text(
+                    new_mtl[index]['label'][1],
+                    index < 3, 14, '-'
+                )
+                mimo.lcd_display_at(index, line1_text, 1)
+                mimo.lcd_display_at(index, line2_text, 2)
+                print("index to change", index, line1_text)
+
+                # TODO: update the color for the LEDs
+            else:
+                print('gonorrea!')
+            index += 1
 
         self.can_optimize = self.busy_slots == 4
         # if busy_slots>4 should lock the unselected buttons
@@ -267,19 +317,18 @@ class EditEventScene(SceneBase):
     def set_material_active(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([8+slot_index]+material['color'])
-        line1_text = utils.align_text(material['label'][0], index<3, 14, '*')
-        line2_text = utils.align_text(material['label'][1], index<3, 14, '*')
-        mimo.lcd_display_at(index, line1_text, 1)
-        mimo.lcd_display_at(index, line2_text, 2)
+        #line1_text = utils.align_text(material['label'][0], index<3, 14, '*')
+        #line2_text = utils.align_text(material['label'][1], index<3, 14, '*')
+        #mimo.lcd_display_at(index, line1_text, 1)
+        #mimo.lcd_display_at(index, line2_text, 2)
 
     def set_material_inactive(self, index, slot_index):
-        print('inactive', index, slot_index)
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([8+slot_index, 0,0,0])
-        line1_text = utils.align_text(material['label'][0], index<3, 14, ' ')
-        line2_text = utils.align_text(material['label'][1], index<3, 14, ' ')
-        mimo.lcd_display_at(index, line1_text, 1)
-        mimo.lcd_display_at(index, line2_text, 2)
+        #line1_text = utils.align_text(material['label'][0], index<3, 14, ' ')
+        #line2_text = utils.align_text(material['label'][1], index<3, 14, ' ')
+        #mimo.lcd_display_at(index, line1_text, 1)
+        #mimo.lcd_display_at(index, line2_text, 2)
 
     def OpenPopup(self):
         self.popupActive = True
@@ -301,7 +350,7 @@ class EditEventScene(SceneBase):
         )
         self.right_progress_label.SetColor(random_color)
         self.right_progress_label.SetText('press    to play')
-        self.right_progress_icon.SetPosition(1074, 675)
+        self.right_progress_icon.SetPosition(1094, 675)
 
         random_color = (
             int(random() * 255),
@@ -327,7 +376,11 @@ class EditEventScene(SceneBase):
         self.RenderUI(screen)
 
         self.popup_background.RenderWithAlpha(screen)
-        self.popup_title.render_multiline_truncated(screen, 1088, 48)
+        self.popup_title.render_multiline_truncated(
+            screen,
+            1089,
+            constants.FONT_TITLE * 2
+        )
 
         if not self.showing_minigame_tutorial:
             self.popup_framing.render_multiline_truncated(screen, 1088, 86)
