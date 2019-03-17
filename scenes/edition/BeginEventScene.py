@@ -78,7 +78,7 @@ class BeginEventScene(SceneBase):
     def Update(self, dt):
         SceneBase.Update(self, dt)
 
-    def Render(self, screen):
+    def RenderBody(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))
 
         # render the layout
@@ -97,9 +97,6 @@ class BeginEventScene(SceneBase):
         self.goal_frame.RenderWithAlpha(screen)
         self.goal_title.renderWithChromaticDistortion(screen)
         self.goal_desc.render_multiline(screen)
-
-        self.RenderUI(screen)
-        self.RenderCortain(screen)
 
 
     def LoadEvent(self, event):

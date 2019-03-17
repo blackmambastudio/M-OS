@@ -271,7 +271,6 @@ def update():
         comm.read_response()
 
 def shutdown():
-    print("mimo shutdown")
     reset()
     comm.close_connections()
     if EMULATOR:

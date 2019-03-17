@@ -5,7 +5,7 @@ import pytweening
 from utils import utils
 from utils import constants
 import math
-
+import mimo
 
 class SceneBase:
     def __init__(self):
@@ -46,6 +46,24 @@ class SceneBase:
 
         self.countdown_label = utils.Text("00:00", self.title_font)
         self.countdown_label.SetPosition(constants.VIEWPORT_CENTER_X, 50)
+        self.countdown_in_red = False
+
+        # timer popup elements
+        self.timeout_popup_active = False
+        self.popup_timer_title = utils.Text("Alert", self.title_font, color=[0xff, 0xff, 0xff])
+        self.popup_timer_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
+        
+        self.popup_timer_description = utils.Text("60 seconds to finish", self.normal_font, color=[0xff, 0xff, 0xff])
+        self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
+        self.timeoutends_popup_active = False
+
+        self.popup_timerends_title = utils.Text("Time's over", self.title_font, color=[0xff, 0xff, 0xff])
+        self.popup_timerends_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
+        
+        self.popup_timerends_description = utils.Text("leave the machine de inmediati!", self.normal_font, color=[0xff, 0xff, 0xff])
+        self.popup_timerends_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
+        
+        # -- end popup elements
 
     def ProcessInput(self, events, keys):
         pass
@@ -63,6 +81,12 @@ class SceneBase:
 
 
     def Render(self, screen):
+        self.RenderBody(screen)
+        self.RenderUI(screen)
+        self.RenderCortain(screen)
+        self.RenderTimeoutAlert(screen)
+
+    def RenderBody(self, screen):
         pass
 
     def RenderCortain(self, screen):
@@ -169,15 +193,36 @@ class SceneBase:
         self.transition_cortain = False
     
     def display_timeout_alert(self):
-        print("allllalalla")
         self.countdown_label.SetColor([0xff, 0x00, 0x00])
-        self.countdown_red = True
+        self.countdown_in_red = True
+        self.timeout_popup_active = True
+        self.AddTrigger(3, self, 'CloseTimeoutAlert')
+        
 
     def time_up(self):
-        print("time's up")
-        #mimo.reset()
+        self.timeoutends_popup_active = True
+        mimo.shutdown()
 
     def set_countdown(self, time):
-        countdown_time = time 
+        countdown_time = time
+        if countdown_time<60 and not self.countdown_in_red:
+            self.countdown_label.SetColor([0xff, 0x00, 0x00])
+            self.countdown_in_red = True
         self.countdown_label.SetText(SceneBase.format_time(countdown_time), False)
-            
+        
+
+    def RenderTimeoutAlert(self, screen):
+        # display popup if applies
+        if not self.timeout_popup_active: return
+        pygame.draw.rect(screen, [0x0f, 0x0, 0x0], (100, 120, 1080,480))
+        self.popup_timer_title.render(screen)
+        self.popup_timer_description.render(screen)
+
+    def CloseTimeoutAlert(self):
+        self.timeout_popup_active = False
+
+    def RenderTimeoutEnds(self, screen):
+        if not self.timeoutends_popup_active: return
+        pygame.draw.rect(screen, [0x0f, 0x0, 0x0], (100, 120, 1080,480))
+        self.popup_timerends_title.render(screen)
+        self.popup_timerends_description.render(screen)

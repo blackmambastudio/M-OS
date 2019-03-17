@@ -32,7 +32,7 @@ class PushScene(OptimizationScene):
         mimo.set_optimization_leds_color(led_lights)
         self.playing = False
 
-    def ProcessInput(self, events, pressed_keys):
+    def ProcessInputOpt(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
                 self.PushDown()

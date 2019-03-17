@@ -33,13 +33,13 @@ class OptimizationScene(SceneBase):
         # -- initialize state --------------------------------------------------
         self.state = STATUS.PLAYING
         # in milliseconds
-        self.countdown = 30000
-        self.current_time = 30000
+        self.countdown = 20000
+        self.current_time = 20000
         self.popup_active = False
 
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
-        #self.SetupPopupLayout()
+        self.SetupPopup()
         #ring.fill()
         #ring.current_color = [0,0,0]
 
@@ -50,30 +50,22 @@ class OptimizationScene(SceneBase):
         self.timer = utils.Text("00:00:00", self.title_font)
         self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
 
-    def SetupPopupLayout(self):
-        self.popup_background = utils.Sprite(
-            constants.SPRITES_EDITION + 'optimization_background.png',
-            constants.VIEWPORT_CENTER_X,
-            351
-        )
+    def SetupPopup(self):
+        self.popup_title = utils.Text("Results", self.title_font, color=[0xff, 0xff, 0xff])
+        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
+        
+        self.popup_description = utils.Text("you are awesome!", self.normal_font, color=[0xff, 0xff, 0xff])
+        self.popup_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
 
-        self.popup_title = utils.Text(
-            'falla técnica en lab. monteasalvo',
-            self.title_font,
-            color = constants.PALETTE_PINK
-        )
-        self.popup_title.setAnchor(0.5, 0)
-        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 96)
-
-        self.popup_framing = utils.Text(
-            'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
-            self.subtitle_font
-        )
-        self.popup_framing.setAnchor(0, 0)
-        self.popup_framing.SetPosition(constants.POPUP_X + 32, 165)
 
     def ProcessInput(self, events, pressed_keys):
-        pass
+        if not self.IsPlaying():
+            for event in events:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
+                    self.AddTrigger(0.16, self, 'SwitchToScene', "Begin")
+                    pass
+            return
+        self.ProcessInputOpt(events, pressed_keys)
 
     # in milliseconds
     def format_time(time):
@@ -118,7 +110,8 @@ class OptimizationScene(SceneBase):
             self.RenderPopup(screen)
             return
         self.RenderCortain(screen)
-
+        self.RenderTimeoutAlert(screen)
+    
     def RenderBody(screen):
         pass
 
@@ -144,3 +137,5 @@ class OptimizationScene(SceneBase):
 
     def RenderPopup(self, screen):
         pygame.draw.rect(screen, [0x0, 0x0, 0x0], (100, 120, 1080,480))
+        self.popup_title.render(screen)
+        self.popup_description.render(screen)

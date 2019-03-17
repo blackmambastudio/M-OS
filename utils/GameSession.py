@@ -18,7 +18,7 @@ class GameSession():
 
     def update(self, dt):
         self.time -= dt
-        if self.time < 61 and not self.alert_displayed:
+        if self.current_scene and self.time < 61 and not self.alert_displayed:
             self.alert_displayed = True
             self.current_scene.display_timeout_alert()
         if self.time < 0:

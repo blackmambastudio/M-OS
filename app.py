@@ -7,6 +7,7 @@ import serial
 import pygame
 
 from utils import constants
+from utils import utils
 
 from scenes.BootScene import BootScene
 
@@ -70,6 +71,7 @@ init_scene = "Boot"
 using_emulator = False
 mouse_last_positions = [0, 0]
 
+
 def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
@@ -92,6 +94,7 @@ def run_game(width, height, fps, starting_scene):
     font = pygame.font.Font(constants.VCR_OSD_MONO, 22)
     game_session = get_game_session()
     playing = True
+
 
     while playing:
         current_time = time.time()
@@ -145,12 +148,18 @@ def run_game(width, height, fps, starting_scene):
             active_scene.Render(screen)
             
             dirty_rects = active_scene.getDirtyRects()
+
             #fps display active
             fps_text = font.render(str(int(clock.get_fps())), True, pygame.Color('red'))
             screen.blit(fps_text, (50, 20))
             dirty_rects.append((50, 20, 20,20))
+
             pygame.display.update(dirty_rects)
-        
+        else:
+            active_scene.RenderTimeoutEnds(screen)
+            pygame.display.flip()
+
+
         if active_scene.next:
             active_scene = SCENES[active_scene.next]()
 

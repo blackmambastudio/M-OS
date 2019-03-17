@@ -24,9 +24,7 @@ class ScanningScene(OptimizationScene):
         self.displayed_figure_index = -1
         self.fails = 0
         self.detected_contact = False
-
-        self.countdown = 30000
-        self.current_time = 30000
+        
 
         self.colors = [
             [0xff, 0x00, 0x00], 
@@ -81,10 +79,7 @@ class ScanningScene(OptimizationScene):
         self.MG1_Failed.set_volume(1)
 
         
-
-
-    def ProcessInput(self, events, pressed_keys):
-        if self.state == STATUS.FINISHING: return
+    def ProcessInputOpt(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
                 self.GuessFigure(0)

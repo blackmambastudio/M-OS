@@ -22,6 +22,7 @@ class FocusScene(OptimizationScene):
 
         self.customRotation = 0
         self.correct_pieces = 0
+        self.current_time = 20000
 
         for piece in self.pieces:
             rotation = int(random()*4)
@@ -54,13 +55,7 @@ class FocusScene(OptimizationScene):
         utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
 
 
-    def ProcessInput(self, events, pressed_keys):
-        if not self.IsPlaying():
-            for event in events:
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                    self.AddTrigger(0.16, self, 'SwitchToScene', "Begin")
-                    pass
-            return
+    def ProcessInputOpt(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d and not self.locked_pieces[0]:
                 self.SpinPiece(0)
@@ -142,3 +137,7 @@ class FocusScene(OptimizationScene):
 
         utils.stop_music()
 
+
+    def DisplayResults(self):
+        OptimizationScene.DisplayResults(self)
+        self.render_background = True

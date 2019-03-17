@@ -252,7 +252,9 @@ class EditEventScene(SceneBase):
 
         # render countdown
         self.countdown_label.RenderWithAlpha(screen)
+
         self.RenderCortain(screen)
+        self.RenderTimeoutAlert(screen)
 
     def assign_material_to_sequence(self, index):
         if self.busy_slots == 4 and not self.material[index]: return
