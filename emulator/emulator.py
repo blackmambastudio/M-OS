@@ -250,7 +250,6 @@ def run():
                 data = connection.recv(3)
                 if len(data)>0:
                     command = data[1]
-                    print ("command", data[0], data[1], data[2])
                     data = connection.recv(data[2])
                     handlecommand(command, data)
                     if command == 0x90:

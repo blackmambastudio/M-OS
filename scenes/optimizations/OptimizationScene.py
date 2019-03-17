@@ -34,6 +34,7 @@ class OptimizationScene(SceneBase):
         self.state = STATUS.PLAYING
         # in milliseconds
         self.countdown = 30000
+        self.current_time = 30000
         self.popup_active = False
 
         # -- setup layout ------------------------------------------------------
@@ -72,9 +73,7 @@ class OptimizationScene(SceneBase):
         self.popup_framing.SetPosition(constants.POPUP_X + 32, 165)
 
     def ProcessInput(self, events, pressed_keys):
-        for event in events:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                self.SwitchToScene(FinishEventScene)
+        pass
 
     # in milliseconds
     def format_time(time):
@@ -95,11 +94,13 @@ class OptimizationScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
-        self.countdown -= int(1000 * dt)
-        ring.fill_percentage(self.countdown/30000)
-        self.timer.SetText(OptimizationScene.format_time(self.countdown), False)
-        if self.countdown < 0:
+        self.current_time -= int(1000 * dt)
+        if self.current_time < 0:
             self.FinishOptimization()
+            self.current_time = 0
+
+        ring.fill_percentage(self.current_time/self.countdown)
+        self.timer.SetText(OptimizationScene.format_time(self.current_time), False)
 
     def RenderBackground(self, screen):
         screen.fill((0x1B, 0x0C, 0x43))

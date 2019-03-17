@@ -15,6 +15,7 @@ def fill_percentage(progress):
     message = []
     value = int(progress*16)
     if cached_progress == value: return
+    current_color = wheel(int(progress*64))
     cached_progress = value
     for i in range(0, 16):
         if i < value:
@@ -29,3 +30,16 @@ def fill():
     for led in ring_led_ids:
         message += [led] + current_color
     mimo.set_material_leds_color(message)
+
+# returns a 
+def wheel(pos):
+    pos = 255 - pos
+    if(pos < 85):
+        return [255 - pos * 3, 0, pos * 3]
+
+    if(pos < 170):
+        pos -= 85
+        return [0, pos * 3, 255 - pos * 3]
+  
+    pos -= 170;
+    return [pos * 3, 255 - pos * 3, 0]

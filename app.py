@@ -28,6 +28,7 @@ from scenes.test.DevTestScene import DevTestScene
 from scenes.test.VerificationScene import VerificationScene
 from scenes.test.LightScene import LightScene
 from scenes.test.TutorialScene import TutorialScene
+from scenes.test.RingScene import RingScene
 
 import mimo
 
@@ -56,6 +57,7 @@ SCENES = {
     "Verify": VerificationScene,
     "Lights": LightScene,
     "Tutorial": TutorialScene,
+    "Ring": RingScene,
 
     "Test": DevTestScene
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pygame
 
-from .OptimizationScene import OptimizationScene
+from .OptimizationScene import OptimizationScene, STATUS
 from utils import utils
 from utils import neopixelmatrix as graphics
 from random import random, shuffle
@@ -24,6 +24,9 @@ class ScanningScene(OptimizationScene):
         self.displayed_figure_index = -1
         self.fails = 0
         self.detected_contact = False
+
+        self.countdown = 30000
+        self.current_time = 30000
 
         self.colors = [
             [0xff, 0x00, 0x00], 
@@ -81,6 +84,7 @@ class ScanningScene(OptimizationScene):
 
 
     def ProcessInput(self, events, pressed_keys):
+        if self.state == STATUS.FINISHING: return
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
                 self.GuessFigure(0)
@@ -191,11 +195,13 @@ class ScanningScene(OptimizationScene):
 
 
     def SwipeHorizontal(self, distance):
+        if self.state == STATUS.FINISHING: return
         if self.playing or abs(distance)>10: return
         self.speed = 0.02
         self.NewScan(1, distance/abs(distance))
 
     def SwipeVertical(self, distance):
+        if self.state == STATUS.FINISHING: return
         if self.playing or abs(distance)>10: return
         self.speed = 0.02
         self.NewScan(2, distance/abs(distance))
