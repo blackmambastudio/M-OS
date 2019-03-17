@@ -237,6 +237,8 @@ class EditEventScene(SceneBase):
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
 
+        self.RenderCortain(screen)
+
     def assign_material_to_sequence(self, index):
         if self.busy_slots == 4 and not self.material[index]: return
 

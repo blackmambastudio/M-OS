@@ -38,6 +38,10 @@ class SceneBase:
         self.render_right_progress = True
         self.render_left_progress = False
 
+        self.transition_cortain = False
+        self.height_cortain = 360
+        self.AddTrigger(0.1, self, 'OpenEvent')
+
     def ProcessInput(self, events, keys):
         pass
 
@@ -52,7 +56,13 @@ class SceneBase:
         self.CheckTweens(dt)
 
     def Render(self, screen):
-        print("uh-oh, you didn't override this in the child class")
+        pass
+
+    def RenderCortain(self, screen):
+        if self.transition_cortain or self.height_cortain>=360:
+            pygame.draw.rect(screen, [0x1B, 0x0C, 0x43], (0, 0, 1280,self.height_cortain))
+            pygame.draw.rect(screen, [0x1B, 0x0C, 0x43], (0, 720, 1280,-self.height_cortain))
+        
 
     def SwitchToScene(self, next_scene):
         if next_scene == None:
@@ -122,3 +132,18 @@ class SceneBase:
         if self.render_left_progress:
             self.left_progress_label.RenderWithAlpha(screen)
             self.left_progress_icon.RenderWithAlpha(screen)
+
+
+    def OpenEvent(self):
+        self.transition_cortain = True
+        self.AddTween("easeInOutSine", 0.15, self, "height_cortain", 360, 0, 0)
+        self.AddTrigger(0.16, self, 'StopTransition')
+
+    def CloseEvent(self):
+        self.transition_cortain = True
+        self.AddTween("easeInOutSine", 0.15, self, "height_cortain", 0, 360, 0)
+        self.AddTrigger(0.16, self, 'StopTransition')
+
+    def StopTransition(self):
+        self.transition_cortain = False
+        

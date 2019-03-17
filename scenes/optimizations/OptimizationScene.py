@@ -126,7 +126,6 @@ class OptimizationScene(SceneBase):
         self.AddTrigger(3.0, self, 'SwitchToScene', FinishEventScene)
 
     def BlinkTimer(self):
-        print("blink")
         self.AddTween("easeInOutSine", 0.3, self.timer, "opacity", 255, 0, 0)
         self.AddTween("easeInOutSine", 0.3, self.timer, "opacity", 0, 255, 0.31)
         self.AddTrigger(0.6, self, 'BlinkTimer')

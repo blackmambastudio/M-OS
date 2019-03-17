@@ -158,6 +158,7 @@ class ScanningScene(OptimizationScene):
                     graphics.plot(x, y)
 
         graphics.render()
+        self.RenderCortain(screen)
 
     def Lock(self):
         if self.detected_contact: return

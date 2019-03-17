@@ -30,6 +30,8 @@ class BeginEventScene(SceneBase):
         
         # load event, title, description, objective and material
         self.LoadEvent(news[0])
+        
+        
 
     def SetupLayout(self):
         # add da fact
@@ -67,7 +69,8 @@ class BeginEventScene(SceneBase):
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                self.SwitchToScene(EditEventScene)
+                self.CloseEvent()
+                self.AddTrigger(0.16, self, 'SwitchToScene', EditEventScene)
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
@@ -85,6 +88,8 @@ class BeginEventScene(SceneBase):
         # self.icon.RenderWithAlpha(screen)
 
         self.RenderUI(screen)
+        self.RenderCortain(screen)
+
 
     def LoadEvent(self, event):
         self.current_event = event
