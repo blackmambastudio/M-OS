@@ -33,25 +33,25 @@ class FocusScene(OptimizationScene):
 
         # sfx and audio
         audio_path = 'assets/audio/SFX/Focus/'
-        self.ui_turn = utils.get_sound(audio_path + 'UI_Turn.ogg')
-        self.ui_turn.set_volume(0.5)
+        self.MG2_Turn = utils.get_sound(audio_path + 'MG2_Turn.ogg')
+        self.MG2_Turn.set_volume(0.5)
 
-        self.ui_pos = []
-        self.ui_pos.append(utils.get_sound(audio_path + 'UI_Pos_01.ogg'))
-        self.ui_pos.append(utils.get_sound(audio_path + 'UI_Pos_02.ogg'))
-        self.ui_pos.append(utils.get_sound(audio_path + 'UI_Pos_03.ogg'))
-        self.ui_pos.append(utils.get_sound(audio_path + 'UI_Pos_04.ogg'))
-        self.ui_pos.append(utils.get_sound(audio_path + 'UI_Pos_05.ogg'))
+        self.MG2_Pos = []
+        self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_01.ogg'))
+        self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_02.ogg'))
+        self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_03.ogg'))
+        self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_04.ogg'))
+        self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_05.ogg'))
 
         self.sfx_pieces = []
-        self.sfx_pieces.append(utils.get_sound(audio_path + 'SFX_A.ogg'))
-        self.sfx_pieces.append(utils.get_sound(audio_path + 'SFX_B.ogg'))
-        self.sfx_pieces.append(utils.get_sound(audio_path + 'SFX_C.ogg'))
-        self.sfx_pieces.append(utils.get_sound(audio_path + 'SFX_D.ogg'))
-        self.sfx_pieces.append(utils.get_sound(audio_path + 'SFX_E.ogg'))
+        self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_A.ogg'))
+        self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_B.ogg'))
+        self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_C.ogg'))
+        self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_D.ogg'))
+        self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_E.ogg'))
 
         # base loop
-        utils.play_music(audio_path + 'SFX_BasicLoop.ogg', -1, 0.1)
+        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
 
 
     def ProcessInput(self, events, pressed_keys):
@@ -110,7 +110,7 @@ class FocusScene(OptimizationScene):
 
     def SpinPiece(self, index):
         piece = self.pieces[index]
-        self.ui_turn.play()
+        self.MG2_Turn.play()
         self.AddTween('easeOutCubic', 0.5, piece, 'rotation', piece.rotation, piece.rotation+90, 0)
         self.locked_pieces[index] = True
         self.AddTrigger(0.5, self, 'UnlockPiece', index)
@@ -126,7 +126,7 @@ class FocusScene(OptimizationScene):
         self.locked_pieces[index] = False
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:
-            self.ui_pos[index].play()
+            self.MG2_Pos[index].play()
             self.sfx_pieces[index].play(-1)
             self.correct_pieces += 1
         
