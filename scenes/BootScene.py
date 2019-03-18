@@ -34,7 +34,7 @@ class BootScene(SceneBase):
         
         self.AddTween("easeInOutSine", 1, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(10, self, 'SwitchToScene', "Intro")
+        self.AddTrigger(10, self, 'SwitchToScene', "Begin")
 
         mimo.set_led_brightness(50)
         mimo.set_optimization_buttons_lock_status([0, 0, 1, 0, 2, 0])
@@ -115,9 +115,9 @@ class BootScene(SceneBase):
         self.AddTween("easeInOutSine", 1, self, "brightness", 50, 1, 7.5)
         self.AddTween("easeInOutSine", 1, self, "brightness", 1, 50, 9)
         
-        self.AddTrigger(9.5, mimo, 'set_material_leds_color', mat_lights_on)
-        self.AddTrigger(9.5, mimo, 'set_optimization_leds_color', opt_lights_on)
-        self.AddTrigger(9.5, mimo, 'clean_matrix')
+        self.AddTrigger(9.7, mimo, 'set_material_leds_color', mat_lights_on)
+        self.AddTrigger(9.7, mimo, 'set_optimization_leds_color', opt_lights_on)
+        self.AddTrigger(9.7, mimo, 'clean_matrix')
 
 
 
