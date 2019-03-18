@@ -127,6 +127,10 @@ class Sprite():
         self.opacity = opacity
         self.must_update = True 
 
+    def fill(self, color):
+        self.image.fill(color, special_flags=pygame.BLEND_MULT)
+        self.must_update = True
+
 class Text():
     def __init__(self, text, font, x = 0, y = 0, color = constants.PALLETE_DARK_BLUE):
         self.raw_text = text.upper()

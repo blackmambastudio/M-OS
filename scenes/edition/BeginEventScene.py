@@ -23,7 +23,6 @@ class BeginEventScene(SceneBase):
         SceneBase.__init__(self)
         
         # initialize state
-
         # setup the layout for the scene
         self.SetupLayout()
         
@@ -37,39 +36,51 @@ class BeginEventScene(SceneBase):
         self.fact_title = utils.Text(
             '',
             self.title_font,
-            color = constants.PALETTE_PINK
+            color = constants.PALETTE_TITLES_DARK_BLUE
         )
-        self.fact_title.setAnchor(0, 0)
-        self.fact_title.SetPosition(constants.VIEWPORT_PADDING_X, 82)
+        self.fact_title.setAnchor(0.5, 0)
+        self.fact_title.SetPosition(constants.VIEWPORT_CENTER_X, 100)
 
         self.current_evt_frame = utils.Sprite(
-            constants.SPRITES_EDITION + 'current-nws.png',
-            constants.VIEWPORT_CENTER_X,
-            263
+            constants.SPRITES_EDITION + 'current-nws.png'
         )
+        self.current_evt_frame.setAnchor(0.5, 0.5)
+        self.current_evt_frame.SetPosition(constants.VIEWPORT_CENTER_X, 303)
 
-        self.fact_summary = utils.Text('', self.subtitle_font)
-        self.fact_summary.setAnchor(0, 0)
-        self.fact_summary.SetPosition(constants.VIEWPORT_PADDING_X, 416)
+        self.fact_summary = utils.Text('', self.normal_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.fact_summary.setAnchor(0.5, 0)
+        self.fact_summary.SetPosition(constants.VIEWPORT_CENTER_X, 463)
+
+        self.fact_argument = utils.Text('', self.normal_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.fact_argument.setAnchor(0.5, 0)
+        self.fact_argument.SetPosition(constants.VIEWPORT_CENTER_X, 496)
 
         # add da goal
-        self.goal_frame = utils.Sprite(
-            constants.SPRITES_EDITION + 'goal-lines.png',
-            constants.VIEWPORT_CENTER_X,
-            541
-        )
-        self.goal_title = utils.Text('goal', self.title_font, color = constants.PALETTE_PINK)
-        self.goal_title.setAnchor(0.5, 0)
-        self.goal_title.SetPosition(constants.VIEWPORT_CENTER_X, 518)
+        self.goal_title = utils.Text('goal:', self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.goal_title.setAnchor(0, 0)
+        self.goal_title.SetPosition(78, 554)
 
-        self.goal_desc = utils.Text('', self.subtitle_font)
-        self.goal_desc.setAnchor(0.5, 0)
-        self.goal_desc.SetPosition(constants.VIEWPORT_CENTER_X, 584)
+        self.goal_desc = utils.Text('', self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.goal_desc.setAnchor(0, 0)
+        self.goal_desc.SetPosition(78+115, 554)
+
+        # background for other news:
+        self.back_news = []
+        for i in range(1, 3):
+            temp = utils.Sprite(
+                constants.SPRITES_EDITION + 'next-nws.png'
+            )
+            temp.setAnchor(0.5, 0.5)
+            temp.SetPosition(constants.VIEWPORT_CENTER_X+273*i, 303)
+            self.back_news.append(temp)
 
         # add da ui
         self.SetupUI()
 
     def ProcessInput(self, events, pressed_keys):
+        if self.closing: return
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 self.CloseEvent()
@@ -79,56 +90,54 @@ class BeginEventScene(SceneBase):
         SceneBase.Update(self, dt)
 
     def RenderBody(self, screen):
-        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
+
+        for back_image in self.back_news:
+            back_image.RenderWithAlpha(screen)
 
         # render the layout
-        self.fact_title.render_multiline_truncated(
-            screen,
-            constants.VIEWPORT_WIDTH - 32,
-            constants.FONT_TITLE * 2
-        )
-        self.icon.RenderWithAlpha(screen)
+        self.fact_title.render(screen)
         self.current_evt_frame.RenderWithAlpha(screen)
-        self.fact_summary.render_multiline_truncated(
-            screen,
-            constants.VIEWPORT_WIDTH - 32,
-            constants.FONT_TITLE * 3
-        )
-        self.goal_frame.RenderWithAlpha(screen)
-        self.goal_title.renderWithChromaticDistortion(screen)
-        self.goal_desc.render_multiline(screen)
+        self.icon.RenderWithAlpha(screen)
+        self.fact_summary.render(screen)
+        self.fact_argument.render(screen)
+        self.goal_title.render(screen)
+        self.goal_desc.render(screen)
 
 
     def LoadEvent(self, event):
         self.current_event = event
 
         self.icon = utils.Sprite(
-            constants.EVENTS + self.current_event['ico'],
-            constants.VIEWPORT_CENTER_X,
-            263
+            constants.EVENTS + self.current_event['ico']
         )
+
+        self.icon.setAnchor(0.5, 0.5)
+        self.icon.SetPosition(constants.VIEWPORT_CENTER_X, 303)
+
         self.fact_title.SetText(self.current_event['hdl'])
-        self.fact_summary.SetText(self.current_event['ovw'] \
-            + '\n' + self.current_event['arg'])
+        self.fact_summary.SetText(self.current_event['ovw'])
+        self.fact_argument.SetText(self.current_event['arg'])
         self.goal_desc.SetText(self.current_event['gol'])
 
         # change the default order of the material
         random.shuffle(self.current_event['material'])
 
-        index = 0
-        material_indexes = [0, 1, 2, 7, 6, 5]
         mimo.set_independent_lights(True, True)
-
+        mimo.set_buttons_enable_status(True, False)
+        mimo.set_material_leds_color([7, 0xf7, 0x5a, 0xff])
+        #material_indexes = [0, 1, 2, 7, 6, 5]
+        #index = 0
         # set buttons to switch mode
-        for material in self.current_event['material']:
+        #for material in self.current_event['material']:
             # if material['story_position'] == constants.STORY_HOOK:
-            line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
-            line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
-            mimo.lcd_display_at(index, line1_text, 1)
-            mimo.lcd_display_at(index, line2_text, 2)
+        #    line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
+        #    line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
+        #    mimo.lcd_display_at(index, line1_text, 1)
+        #    mimo.lcd_display_at(index, line2_text, 2)
 
-            mimo.set_material_buttons_light([index] + material['color'])
-            mimo.set_material_leds_color([material_indexes[index]] + material['color'])
-            index += 1
+        #    mimo.set_material_buttons_light([index] + material['color'])
+        #    mimo.set_material_leds_color([material_indexes[index]] + material['color'])
+        #    index += 1
 
-        mimo.termal_print(self.current_event['hdl'].upper())
+        #mimo.termal_print(self.current_event['hdl'].upper())
+        #### imprimir la noticia en pantalla?

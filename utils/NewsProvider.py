@@ -3,7 +3,7 @@ from . import constants
 news = [
     {
         'id': 0,
-        'hdl': 'industrial disaster at monteasalvo\'s “health and joy” laboratories',
+        'hdl': 'industrial disaster at monteasalvo\'s labs',
         'ovw': 'monteasalvo\'s reputation...enviromental alert...salunio river at risk',
         'arg': 'environmentalist warning',
         'gol': 'whitewash monteasalvo\'s reputation',

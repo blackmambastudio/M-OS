@@ -42,10 +42,11 @@ class SceneBase:
 
         self.transition_cortain = False
         self.height_cortain = 0
+        self.closing = False
         #self.AddTrigger(0.1, self, 'OpenEvent')
 
-        self.countdown_label = utils.Text("00:00", self.title_font)
-        self.countdown_label.SetPosition(constants.VIEWPORT_CENTER_X, 50)
+        self.countdown_label = utils.Text("00:00", self.subtitle_font, color = constants.PALETTE_DARK_BLUE)
+        self.countdown_label.SetPosition(constants.VIEWPORT_CENTER_X, 28)
         self.countdown_in_red = False
 
         # timer popup elements
@@ -79,12 +80,15 @@ class SceneBase:
         self.CheckTriggers(dt)
         self.CheckTweens(dt)
 
+    def RenderBackground(self, screen):
+        self.ui_background.RenderWithAlpha(screen)
 
     def Render(self, screen):
+        self.RenderBackground(screen)
         self.RenderBody(screen)
         self.RenderUI(screen)
         self.RenderCortain(screen)
-        self.RenderTimeoutAlert(screen)
+        #self.RenderTimeoutAlert(screen)
 
     def RenderBody(self, screen):
         pass
@@ -148,27 +152,26 @@ class SceneBase:
         pass
 
     def SetupUI(self):
-        self.ui_background = utils.Sprite(constants.SPRITES_UI_BG, 0, 32)
+        self.ui_background = utils.Sprite(constants.SPRITES_UI_BG, 0, 0)
         self.ui_background.setAnchor(0, 0)
 
-        self.right_progress_label = utils.Text("press    to start editing", self.subtitle_font)
-        self.right_progress_label.setAnchor(1, 1)
-        self.right_progress_label.SetPosition(
-            constants.VIEWPORT_WIDTH - constants.VIEWPORT_PADDING_X,
-            constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
-        )
-        self.right_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 925, 675)
+        self.right_progress_label = utils.Text("press    to start editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.right_progress_label.setAnchor(1, 0)
+        self.right_progress_label.SetPosition(1200, 660)
+        self.right_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button.png", 855, 642)
+        self.right_progress_icon.setAnchor(1, 0)
+        self.right_progress_icon.fill((0xf7, 0x5a, 0xff, 100))
 
-        self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font)
-        self.left_progress_label.setAnchor(0, 1)
+        self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.left_progress_label.setAnchor(0.5, 0.5)
         self.left_progress_label.SetPosition(
             constants.VIEWPORT_PADDING_X,
             constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
         )
-        self.left_progress_icon = utils.Sprite( "assets/sprites/mtlL3.png", 148, 675)
+        self.left_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button.png", 148, 675)
+        self.left_progress_icon.fill((0xf7, 0x5a, 0xff, 100))
 
     def RenderUI(self, screen):
-        self.ui_background.RenderWithAlpha(screen)
 
         if self.render_right_progress:
             self.right_progress_label.RenderWithAlpha(screen)
@@ -189,6 +192,7 @@ class SceneBase:
         self.transition_cortain = True
         self.AddTween("easeOutSine", 0.5, self, "height_cortain", 0, 1, 0)
         self.AddTrigger(0.51, self, 'StopTransition')
+        self.closing = True 
 
     def StopTransition(self):
         self.transition_cortain = False
