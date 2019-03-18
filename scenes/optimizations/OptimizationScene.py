@@ -53,8 +53,15 @@ class OptimizationScene(SceneBase):
         self.title = utils.Text('news optimizaion - ', self.title_font)
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 546)
 
-        self.timer = utils.Text("00:00:00", self.title_font)
-        self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
+        self.timerprogress = 1.0
+        self.timerBackground = utils.Sprite(
+            constants.SPRITES_OPTIMIZATION+'timer_bar-background.png',
+            0,
+            77
+        )
+        self.timerBackground.setAnchor(0,0)
+        #self.timer = utils.Text("00:00:00", self.title_font)
+        #self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
 
     def SetupPopup(self):
         self.popup_title = utils.Text("Results", self.title_font, color=[0xff, 0xff, 0xff])
@@ -99,18 +106,18 @@ class OptimizationScene(SceneBase):
             if self.current_time < 0:
                 self.FinishOptimization()
                 self.current_time = 0
+            self.timerprogress = self.current_time/self.countdown
+            ring.fill_percentage(self.timerprogress)
 
-            ring.fill_percentage(self.current_time/self.countdown)
-            self.timer.SetText(OptimizationScene.format_time(self.current_time), False)
+            #self.timer.SetText(OptimizationScene.format_time(self.current_time), False)
 
     def RenderBackground(self, screen):
-        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
         self.frame.RenderWithAlpha(screen)
         self.title.RenderWithAlpha(screen)
 
     def Render(self, screen):
         self.RenderBackground(screen)
-        self.timer.RenderWithAlpha(screen)
+        self.RenderTimer(screen)
         
         self.RenderBody(screen)
 
@@ -123,11 +130,19 @@ class OptimizationScene(SceneBase):
     def RenderBody(screen):
         pass
 
+    def RenderTimer(self, screen):
+        self.timerBackground.RenderWithAlpha(screen)
+        #pygame.draw.rect(screen, [0x00, 0x5F, 0xFF], (0, 77, self.timerprogress*1280, 38))
+        interval = (int(self.timerprogress*30))/30
+        pygame.draw.rect(screen, [0xf7, 0x5a, 0xff], (0, 77, interval*1280, 38))
+        pygame.draw.rect(screen, [0x21, 0x1c, 0x7F], (0, 77, 1280, 38), 2)
+        
+
     # should display the results
     # then shutdown this scene and change it to next one
     def FinishOptimization(self):
         self.state = STATUS.FINISHING
-        self.BlinkTimer()
+        #self.BlinkTimer()
         self.DisplayResults()
         #self.AddTrigger(3.0, self, 'SwitchToScene', FinishEventScene)
 
