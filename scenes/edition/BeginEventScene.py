@@ -21,19 +21,33 @@ from scenes.BaseScene import SceneBase
 class BeginEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
-        
+         #musique
+        self.MX = []
+        self.MX.append('assets/audio/MX/DirtySoil.ogg')
+        self.MX.append('assets/audio/MX/DystopianBallad.ogg')
+        self.MX.append('assets/audio/MX/LazyBartender.ogg')
+        self.MX.append('assets/audio/MX/LostInParadise.ogg')
+        self.MX.append('assets/audio/MX/PapayaJuice.ogg')
+        self.MX.append('assets/audio/MX/RetroDance.ogg')
+        self.MX.append('assets/audio/MX/SunnyBeach.ogg')
+        self.MX.append('assets/audio/MX/TimeTraveler.ogg')
+        self.MX.append('assets/audio/MX/WeirdJungle.ogg')
+        self.MX.append('assets/audio/MX/WhereAreYou.ogg')
+
         # initialize state
         # setup the layout for the scene
         self.SetupLayout()
         
         # load event, title, description, objective and material
         self.LoadEvent(news[0])
-        utils.play_music('assets/audio/MX/DystopianBallad.ogg', -1, 0.1, 0.2)
+
 
         
         
 
     def SetupLayout(self):
+        
+        utils.play_music(self.MX[1], -1, 0.1, 0.2)
         # add da fact
         self.fact_title = utils.Text(
             '',
