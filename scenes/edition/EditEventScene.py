@@ -88,6 +88,19 @@ class EditEventScene(SceneBase):
         # set material buttons mode to switch
         # animate emosensemeter...
 
+        # sfx and audio
+       
+        audio_path = 'assets/audio/SFX/M_OS/'
+
+        self.UI_MatSel = []
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_01.ogg'))
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_02.ogg'))
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_03.ogg'))
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_04.ogg'))
+
+        self.UI_EndGame = utils.get_sound(audio_path + 'UI_EndGame.ogg')
+        self.UI_EndGame.set_volume(1)
+
     def SetupLayout(self):
         self.info_frame = utils.Sprite(
             constants.SPRITES_EDITION + 'current_news-frame.png',
@@ -271,6 +284,7 @@ class EditEventScene(SceneBase):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 if self.can_optimize and not self.popupActive:
                     # open the optimization popup
+
                     self.render_left_progress = True
                     self.OpenPopup()
                 elif self.popupActive:
@@ -332,7 +346,6 @@ class EditEventScene(SceneBase):
 
     def assign_material_to_sequence(self, index):
         if self.busy_slots == 4 and not self.material[index]: return
-
         self.material[index] = not self.material[index]
         slot_index = 0
 
@@ -436,12 +449,14 @@ class EditEventScene(SceneBase):
                 break
 
     def set_material_active(self, index, slot_index):
+        self.UI_MatSel[int(random()*3)].play()
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([8+slot_index]+material['color'])
         line1_text = utils.align_text(material['label'][0], index < 3, 16, '*')
         line2_text = utils.align_text(material['label'][1], index < 3, 16, '*')
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
+       
 
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]

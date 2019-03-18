@@ -68,6 +68,14 @@ class FocusScene(OptimizationScene):
         self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_D.ogg'))
         self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_E.ogg'))
 
+
+        self.UI_OptWin = utils.get_sound('assets/audio/SFX/M_OS/UI_OptWin.ogg')
+        self.UI_OptWin.set_volume(1.6)
+
+        self.UI_OptFail = utils.get_sound('assets/audio/SFX/M_OS/UI_OptFail.ogg')
+        self.UI_OptFail.set_volume(1.6)
+
+
         # base loop
         utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
 
@@ -141,12 +149,21 @@ class FocusScene(OptimizationScene):
             self.MG2_Pos[self.correct_pieces].play()
             self.sfx_pieces[self.correct_pieces].play(-1)
             self.correct_pieces += 1
+            
         
         if self.correct_pieces == 5:
             print("you win!")
             self.FinishOptimization()
+            
 
     def FinishOptimization(self):
+        utils.stop_music()
+        for sfx in self.sfx_pieces:
+            sfx.stop()
+        if self.correct_pieces == 5:
+            self.UI_OptWin.play()
+        else:
+             self.UI_OptFail.play()
         OptimizationScene.FinishOptimization(self)
 
         for index in range(0, 5):

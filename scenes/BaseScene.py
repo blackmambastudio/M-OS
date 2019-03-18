@@ -66,6 +66,19 @@ class SceneBase:
         
         # -- end popup elements
 
+        # sfx and audio
+
+        audio_path = 'assets/audio/SFX/M_OS/'
+
+        self.UI_BarLoad = utils.get_sound(audio_path + 'UI_BarLoad.ogg')
+        self.UI_BarLoad.set_volume(1)
+
+        self.UI_TimeAlert = utils.get_sound(audio_path + 'UI_TimeAlert.ogg')
+        self.UI_TimeAlert.set_volume(1)
+
+        self.UI_EndGame = utils.get_sound(audio_path + 'UI_EndGame.ogg')
+        self.UI_EndGame.set_volume(1)
+
     def ProcessInput(self, events, keys):
         pass
 
@@ -184,11 +197,13 @@ class SceneBase:
         self.countdown_label.RenderWithAlpha(screen)
 
     def OpenEvent(self):
+    
         self.transition_cortain = True
         self.AddTween("easeOutSine", 0.5, self, "height_cortain", 1, 0, 0)
         self.AddTrigger(0.51, self, 'StopTransition')
 
     def CloseEvent(self):
+        self.UI_BarLoad.play()
         self.transition_cortain = True
         self.AddTween("easeOutSine", 0.5, self, "height_cortain", 0, 1, 0)
         self.AddTrigger(0.51, self, 'StopTransition')
