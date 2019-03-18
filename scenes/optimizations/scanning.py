@@ -66,7 +66,7 @@ class ScanningScene(OptimizationScene):
 
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_Sweep = utils.get_sound(audio_path + 'MG1_Sweep.ogg')
-        self.MG1_Sweep.set_volume(1)
+        self.MG1_Sweep.set_volume(0.6)
 
         
 

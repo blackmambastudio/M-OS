@@ -101,6 +101,10 @@ class EditEventScene(SceneBase):
         self.UI_EndGame = utils.get_sound(audio_path + 'UI_EndGame.ogg')
         self.UI_EndGame.set_volume(1)
 
+        utils.play_music('assets/audio/MX/DystopianBallad.ogg', -1, 0.1, 0.2)
+
+
+
     def SetupLayout(self):
         self.info_frame = utils.Sprite(
             constants.SPRITES_EDITION + 'current_news-frame.png',

@@ -74,10 +74,10 @@ class FocusScene(OptimizationScene):
 
 
         self.UI_OptWin = utils.get_sound('assets/audio/SFX/M_OS/UI_OptWin.ogg')
-        self.UI_OptWin.set_volume(1.6)
+        self.UI_OptWin.set_volume(1)
 
         self.UI_OptFail = utils.get_sound('assets/audio/SFX/M_OS/UI_OptFail.ogg')
-        self.UI_OptFail.set_volume(1.6)
+        self.UI_OptFail.set_volume(1)
 
 
         # base loop
@@ -151,9 +151,9 @@ class FocusScene(OptimizationScene):
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:
             self.MG2_Pos[self.correct_pieces].play()
-             self.MG2_Pos[self.correct_pieces].set_volume(0.7)
+            self.MG2_Pos[self.correct_pieces].set_volume(0.5)
             #self.sfx_pieces[self.correct_pieces].play(-1)
-            self.sfx_pieces[self.correct_pieces].set_volume(1)
+            self.sfx_pieces[self.correct_pieces].set_volume(0.5)
             self.correct_pieces += 1
             
         

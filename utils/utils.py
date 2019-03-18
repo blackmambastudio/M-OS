@@ -27,10 +27,11 @@ def get_sound(path):
 
 # music capabilites 
 # https://www.pygame.org/docs/ref/music.html?highlight=pygame%20mixer%20sound
-def play_music(path, loop=0, delay=0.0):
+def play_music(path, loop=0, delay=0.0, volume=1):
     canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
     pygame.mixer.music.load(canonicalized_path)
     pygame.mixer.music.play(loop, delay)
+    pygame.mixer.music.set_volume(volume)
 
 def stop_music():
     pygame.mixer.music.stop()

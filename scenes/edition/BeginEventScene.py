@@ -28,6 +28,8 @@ class BeginEventScene(SceneBase):
         
         # load event, title, description, objective and material
         self.LoadEvent(news[0])
+        utils.play_music('assets/audio/MX/DystopianBallad.ogg', -1, 0.1, 0.2)
+
         
         
 
