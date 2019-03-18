@@ -32,27 +32,31 @@ class BootScene(SceneBase):
 
         self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/MimoLogo.ogg')
         
-        self.AddTween("easeInOutSine", 1, self.logo, "opacity", 0, 255, 1)
-        self.AddTrigger(1, self.sfx_mimo_logo, 'play')
-        self.AddTrigger(10, self, 'SwitchToScene', "Begin")
+        self.AddTrigger(0.1, self.sfx_mimo_logo, 'play')
+        self.AddTrigger(9.2, self, 'SwitchToScene', "Begin")
 
-        mimo.set_led_brightness(50)
+        mimo.set_led_brightness(150)
         mimo.set_optimization_buttons_lock_status([0, 0, 1, 0, 2, 0])
 
-        font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 18)
+        font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 24)
         self.title = utils.Text("M-OS STARTING", font)
-        self.title.opacity = 0
+        self.title.SetOpacity(0)
         self.title.SetColor(constants.PALLETE_DARK_BLUE)
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 500)
-        self.AddTween("easeInOutSine", 1, self.title, "opacity", 0, 255, 1)
         self.text_updater_counter = 0
         self.text_updater_frequency = 0.06
         self.text_updater_values = ['|', '\\', '-', '/']
         self.text_updater_index = 0
-        
 
-        self.AddTween("easeInOutSine", 1, self.title, "opacity", 255, 0, 16.5)
-        self.AddTween("easeInOutSine", 1, self.logo, "opacity", 255, 0, 16.5)
+
+        self.AddTween("easeInOutSine", 1.5, self.title, "opacity", 0, 255, 0)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 0)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 1.5)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 3)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 4.5)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 6)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 7.5)
+        self.AddTween("easeInOutSine", 1.5, self.title, "opacity", 255, 0, 7.5)
         
         self.brightness = 1
         self.cache_brightness = 1
@@ -88,6 +92,7 @@ class BootScene(SceneBase):
 
     def reset_mimo(self):
         mimo.set_led_brightness(1)
+        max_brightness = 150
 
         mat_all_lights = []
         for index in range(0, 28):
@@ -107,18 +112,16 @@ class BootScene(SceneBase):
             opt_lights_on += [index, 0, 0, 0]
 
         self.brightness = 1
-        self.AddTween("easeInOutSine", 1, self, "brightness", 1, 50, 0)
-        self.AddTween("easeInOutSine", 1, self, "brightness", 50, 1, 1.5)
-        self.AddTween("easeInOutSine", 1, self, "brightness", 1, 50, 3)
-        self.AddTween("easeInOutSine", 1, self, "brightness", 50, 1, 4.5)
-        self.AddTween("easeInOutSine", 1, self, "brightness", 1, 50, 6)
-        self.AddTween("easeInOutSine", 1, self, "brightness", 50, 1, 7.5)
-        self.AddTween("easeInOutSine", 1, self, "brightness", 1, 50, 9)
+        self.AddTween("easeInOutSine", 1, self, "brightness", 1, max_brightness, 0)
+        self.AddTween("easeInOutSine", 1, self, "brightness", max_brightness, 1, 1.5)
+        self.AddTween("easeInOutSine", 1, self, "brightness", 1, max_brightness, 3)
+        self.AddTween("easeInOutSine", 1, self, "brightness", max_brightness, 1, 4.5)
+        self.AddTween("easeInOutSine", 1, self, "brightness", 1, max_brightness, 6)
+        self.AddTween("easeInOutSine", 1, self, "brightness", max_brightness, 1, 7.5)
         
-        self.AddTrigger(9.7, mimo, 'set_material_leds_color', mat_lights_on)
-        self.AddTrigger(9.7, mimo, 'set_optimization_leds_color', opt_lights_on)
-        self.AddTrigger(9.7, mimo, 'clean_matrix')
-
+        self.AddTrigger(9.1, mimo, 'set_material_leds_color', mat_lights_on)
+        self.AddTrigger(9.1, mimo, 'set_optimization_leds_color', opt_lights_on)
+        self.AddTrigger(9.1, mimo, 'clean_matrix')
 
 
     def scheduleTextLoader(self):
@@ -129,33 +132,33 @@ class BootScene(SceneBase):
         self.AddTrigger(2.3, self.title, 'SetText', 'LOADING EMOSENSE PREDICTOR.')
         self.AddTrigger(2.4, self.title, 'SetText', 'LOADING EMOSENSE PREDICTOR..')
         self.AddTrigger(2.5, self.title, 'SetText', 'LOADING EMOSENSE PREDICTOR...')
-        self.AddTrigger(4.0, self.title, 'SetText', '')
-        self.AddTrigger(4.1, self.title, 'SetText', 'PROCESSING')
-        self.AddTrigger(4.2, self.title, 'SetText', 'PROCESSING EMOTIONAL')
-        self.AddTrigger(4.3, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION')
-        self.AddTrigger(4.4, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES')
-        self.AddTrigger(4.5, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES.')
-        self.AddTrigger(4.6, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES..')
-        self.AddTrigger(4.7, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES...')
-        self.AddTrigger(6.0, self.title, 'SetText', '')
-        self.AddTrigger(6.1, self.title, 'SetText', 'INITIALIZING')
-        self.AddTrigger(6.2, self.title, 'SetText', 'INITIALIZING PUCHINTZKY')
-        self.AddTrigger(6.3, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM')
-        self.AddTrigger(6.4, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE')
-        self.AddTrigger(6.5, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE.')
-        self.AddTrigger(6.6, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE..')
-        self.AddTrigger(6.7, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE...')
-        self.AddTrigger(8.0, self.title, 'SetText', 'M')
-        self.AddTrigger(8.1, self.title, 'SetText', 'M-')
-        self.AddTrigger(8.2, self.title, 'SetText', 'M-O')
-        self.AddTrigger(8.3, self.title, 'SetText', 'M-OS')
-        self.AddTrigger(8.4, self.title, 'SetText', 'M-OS ')
-        self.AddTrigger(8.5, self.title, 'SetText', 'M-OS I')
-        self.AddTrigger(8.6, self.title, 'SetText', 'M-OS IS')
-        self.AddTrigger(8.7, self.title, 'SetText', 'M-OS IS ')
-        self.AddTrigger(8.8, self.title, 'SetText', 'M-OS IS R')
-        self.AddTrigger(8.9, self.title, 'SetText', 'M-OS IS RE')
-        self.AddTrigger(9.0, self.title, 'SetText', 'M-OS IS REA')
-        self.AddTrigger(9.1, self.title, 'SetText', 'M-OS IS READ')
-        self.AddTrigger(9.2, self.title, 'SetText', 'M-OS IS READY')
+        self.AddTrigger(3.5, self.title, 'SetText', '')
+        self.AddTrigger(3.6, self.title, 'SetText', 'PROCESSING')
+        self.AddTrigger(3.7, self.title, 'SetText', 'PROCESSING EMOTIONAL')
+        self.AddTrigger(3.8, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION')
+        self.AddTrigger(3.9, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES')
+        self.AddTrigger(4.0, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES.')
+        self.AddTrigger(4.1, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES..')
+        self.AddTrigger(4.2, self.title, 'SetText', 'PROCESSING EMOTIONAL OPTIMIZATION MODULES...')
+        self.AddTrigger(5.0, self.title, 'SetText', '')
+        self.AddTrigger(5.1, self.title, 'SetText', 'INITIALIZING')
+        self.AddTrigger(5.2, self.title, 'SetText', 'INITIALIZING PUCHINTZKY')
+        self.AddTrigger(5.3, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM')
+        self.AddTrigger(5.4, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE')
+        self.AddTrigger(5.5, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE.')
+        self.AddTrigger(5.6, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE..')
+        self.AddTrigger(5.7, self.title, 'SetText', 'INITIALIZING PUCHINTZKY ALGORITHM ENGINE...')
+        self.AddTrigger(6.0, self.title, 'SetText', 'M')
+        self.AddTrigger(6.1, self.title, 'SetText', 'M-')
+        self.AddTrigger(6.2, self.title, 'SetText', 'M-O')
+        self.AddTrigger(6.3, self.title, 'SetText', 'M-OS')
+        self.AddTrigger(6.4, self.title, 'SetText', 'M-OS ')
+        self.AddTrigger(6.5, self.title, 'SetText', 'M-OS I')
+        self.AddTrigger(6.6, self.title, 'SetText', 'M-OS IS')
+        self.AddTrigger(6.7, self.title, 'SetText', 'M-OS IS ')
+        self.AddTrigger(6.8, self.title, 'SetText', 'M-OS IS R')
+        self.AddTrigger(6.9, self.title, 'SetText', 'M-OS IS RE')
+        self.AddTrigger(7.0, self.title, 'SetText', 'M-OS IS REA')
+        self.AddTrigger(7.1, self.title, 'SetText', 'M-OS IS READ')
+        self.AddTrigger(7.2, self.title, 'SetText', 'M-OS IS READY')
 
