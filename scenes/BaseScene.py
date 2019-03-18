@@ -51,11 +51,32 @@ class SceneBase:
 
         # timer popup elements
         self.timeout_popup_active = False
-        self.popup_timer_title = utils.Text("Alert", self.title_font)
-        self.popup_timer_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
-        
-        self.popup_timer_description = utils.Text("60 seconds to finish", self.normal_font)
-        self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
+        self.timeoutends_move_x = 0
+        self.popup_timer_background = utils.Sprite(
+            constants.SPRITES+'timeout/alert-background.png',
+            constants.VIEWPORT_CENTER_X,
+            constants.VIEWPORT_CENTER_Y
+        )
+        self.popup_timer_top_bar = utils.Sprite(
+            constants.SPRITES+'timeout/alert-line.png',
+            640,
+            197
+        )
+        self.popup_timer_top_bar.setAnchor(0,0.5)
+        self.popup_timer_bottom_bar = utils.Sprite(
+            constants.SPRITES+'timeout/alert-line.png',
+            0,
+            513
+        )
+        self.popup_timer_bottom_bar.setAnchor(0,0.5)
+        self.popup_timer_icon = utils.Sprite(
+            constants.SPRITES+'timeout/alert-icon.png',
+            constants.VIEWPORT_CENTER_X,
+            328
+        )
+
+        self.popup_timer_description = utils.Text("the test will finish in one minute", self.subtitle_font, color=(0,0x55, 0xff))
+        self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 427)
         self.timeoutends_popup_active = False
 
         self.popup_timerends_title = utils.Text("Time's over", self.title_font)
@@ -63,7 +84,6 @@ class SceneBase:
         
         self.popup_timerends_description = utils.Text("leave the machine de inmediati!", self.normal_font)
         self.popup_timerends_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
-        
         # -- end popup elements
 
         # sfx and audio
@@ -101,7 +121,7 @@ class SceneBase:
         self.RenderBody(screen)
         self.RenderUI(screen)
         self.RenderCortain(screen)
-        #self.RenderTimeoutAlert(screen)
+        self.RenderTimeoutAlert(screen)
 
     def RenderBody(self, screen):
         pass
@@ -216,6 +236,7 @@ class SceneBase:
         self.countdown_label.SetColor([0xff, 0x00, 0x00])
         self.countdown_in_red = True
         self.timeout_popup_active = True
+        self.timeoutends_move_x = 0
         self.AddTrigger(3, self, 'CloseTimeoutAlert')
         
 
@@ -234,8 +255,12 @@ class SceneBase:
     def RenderTimeoutAlert(self, screen):
         # display popup if applies
         if not self.timeout_popup_active: return
-        pygame.draw.rect(screen, [0x0f, 0x0, 0x0], (100, 120, 1080,480))
-        self.popup_timer_title.render(screen)
+        self.timeoutends_move_x += 2.5
+        interval = (int(self.timeoutends_move_x*20))/20
+        self.popup_timer_background.RenderWithAlpha(screen)
+        self.popup_timer_top_bar.RenderWithAlpha(screen, (-640+interval, 197))
+        self.popup_timer_bottom_bar.RenderWithAlpha(screen,(-interval, 513))
+        self.popup_timer_icon.RenderWithAlpha(screen)
         self.popup_timer_description.render(screen)
 
     def CloseTimeoutAlert(self):
