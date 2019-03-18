@@ -63,6 +63,7 @@ class OptimizationScene(SceneBase):
             for event in events:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                     self.AddTrigger(0.16, self, 'SwitchToScene', "Begin")
+                    utils.stop_music()
                     pass
             return
         self.ProcessInputOpt(events, pressed_keys)

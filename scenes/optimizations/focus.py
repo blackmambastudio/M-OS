@@ -26,6 +26,8 @@ class FocusScene(OptimizationScene):
 
         for piece in self.pieces:
             rotation = int(random()*4)
+            if rotation == 0:
+                rotation += 1
             piece.Rotate(rotation*90)
             if rotation == 0:
                 self.correct_pieces += 1
@@ -110,7 +112,7 @@ class FocusScene(OptimizationScene):
         self.locked_pieces[index] = True
         self.AddTrigger(0.5, self, 'UnlockPiece', index)
         if piece.rotation%360 == 0: # dont fix this
-            self.sfx_pieces[index].fadeout(500) # in milliseconds
+            self.sfx_pieces[self.correct_pieces-1].fadeout(500) # in milliseconds
             self.correct_pieces -= 1
 
         self.rendering_order.remove(index)
@@ -121,8 +123,8 @@ class FocusScene(OptimizationScene):
         self.locked_pieces[index] = False
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:
-            self.MG2_Pos[index].play()
-            self.sfx_pieces[index].play(-1)
+            self.MG2_Pos[self.correct_pieces].play()
+            self.sfx_pieces[self.correct_pieces].play(-1)
             self.correct_pieces += 1
         
         if self.correct_pieces == 5:
@@ -133,9 +135,7 @@ class FocusScene(OptimizationScene):
         OptimizationScene.FinishOptimization(self)
 
         for index in range(0, 5):
-            self.sfx_pieces[index].fadeout(500)
-
-        utils.stop_music()
+            self.sfx_pieces[index].fadeout(1500)
 
 
     def DisplayResults(self):
