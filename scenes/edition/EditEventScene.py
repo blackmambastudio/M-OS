@@ -527,6 +527,12 @@ class EditEventScene(SceneBase):
             self.description_minigame_b.render_multiline_truncated(screen, 450, 300)
         else:
             self.minigame_title.RenderWithAlpha(screen)
+            self.minigame_optimization_sub.render(screen)
+            self.minigame_icon_back.RenderWithAlpha(screen)
+            self.minigame_icon.RenderWithAlpha(screen)
+            self.minigame_desc.render_multiline_truncated(screen, 450, 500)
+            self.minigame_goal_label.render(screen)
+            self.minigame_goal.render_multiline_truncated(screen, 450, 500)
 
     def ShowMinigame(self, side):
         # TODO: load the specific mini-game info. based on the chosen side
@@ -539,10 +545,51 @@ class EditEventScene(SceneBase):
         self.minigame_title = utils.Text(
             'mini-game-name',
             self.subtitle_font,
-            color = constants.PALETTE_PINK
+            color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.minigame_title.setAnchor(0, 0)
         self.minigame_title.SetPosition(306, 206)
+
+        self.minigame_optimization_sub = utils.Text(
+            'optimization',
+            self.normal_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE
+        )
+        self.minigame_optimization_sub.SetPosition(constants.VIEWPORT_CENTER_X, 206)
+
+        self.minigame_icon_back = utils.Sprite(
+            'assets/sprites/scenes/edition/icon_frame.png',
+            336,
+            360
+        )
+        self.minigame_icon = utils.Sprite(
+            'assets/minigame_icons/focus.png',
+            336,
+            360
+        )
+        self.minigame_desc = utils.Text(
+            'fix imperfections to augment news reach in high society',
+            self.normal_font,
+            111,
+            500,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
+
+
+        self.minigame_goal_label = utils.Text(
+            'goal',
+            self.normal_font,
+            111,
+            550,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
+        self.minigame_goal = utils.Text(
+            'alter bla bla bla bla bla bla ',
+            self.normal_font,
+            160,
+            550,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
 
         self.right_progress_label.SetColor(minigame_color)
         self.right_progress_label.SetText('press    to start')
