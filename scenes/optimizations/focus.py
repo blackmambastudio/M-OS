@@ -68,6 +68,10 @@ class FocusScene(OptimizationScene):
         self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_D.ogg'))
         self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_E.ogg'))
 
+        for sfx in self.sfx_pieces:
+            sfx.set_volume(0)
+            sfx.play(-1)
+
 
         self.UI_OptWin = utils.get_sound('assets/audio/SFX/M_OS/UI_OptWin.ogg')
         self.UI_OptWin.set_volume(1.6)
@@ -102,7 +106,7 @@ class FocusScene(OptimizationScene):
         OptimizationScene.Update(self, dt)
         self.background.opacity = (0.5 + self.correct_pieces*0.1)*255
         
-        self.dirty_rects = [(50,20,40,40), (490, 10, 300, 50)]
+        self.dirty_rects = [(0, 77, 1280, 38), (490, 10, 300, 50)]
         for index, locked in enumerate(self.locked_pieces):
             if locked:
                 piece = self.pieces[index]
@@ -135,7 +139,7 @@ class FocusScene(OptimizationScene):
         self.locked_pieces[index] = True
         self.AddTrigger(0.5, self, 'UnlockPiece', index)
         if piece.rotation%360 == 0: # dont fix this
-            self.sfx_pieces[self.correct_pieces-1].fadeout(500) # in milliseconds
+            self.sfx_pieces[self.correct_pieces-1].set_volume(0) # in milliseconds
             self.correct_pieces -= 1
 
         self.rendering_order.remove(index)
@@ -147,7 +151,8 @@ class FocusScene(OptimizationScene):
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:
             self.MG2_Pos[self.correct_pieces].play()
-            self.sfx_pieces[self.correct_pieces].play(-1)
+            #self.sfx_pieces[self.correct_pieces].play(-1)
+            self.sfx_pieces[self.correct_pieces].set_volume(1)
             self.correct_pieces += 1
             
         

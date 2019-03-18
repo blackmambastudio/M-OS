@@ -133,7 +133,7 @@ class OptimizationScene(SceneBase):
     def RenderTimer(self, screen):
         self.timerBackground.RenderWithAlpha(screen)
         #pygame.draw.rect(screen, [0x00, 0x5F, 0xFF], (0, 77, self.timerprogress*1280, 38))
-        interval = (int(self.timerprogress*30))/30
+        interval = (int(self.timerprogress*35))/35
         pygame.draw.rect(screen, [0xf7, 0x5a, 0xff], (0, 77, interval*1280, 38))
         pygame.draw.rect(screen, [0x21, 0x1c, 0x7F], (0, 77, 1280, 38), 2)
         
