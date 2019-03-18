@@ -43,7 +43,7 @@ news = [
             {
                 'label': ['community in', 'danger'],
                 'color': [0, 255, 255],
-                'img': 'generic-mtl.png',
+                'img': 'biohazard.png',
                 'supports': constants.STORY_SUBJECT_2,
                 'damages': None
             },
