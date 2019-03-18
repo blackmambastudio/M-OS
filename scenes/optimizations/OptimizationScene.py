@@ -44,7 +44,13 @@ class OptimizationScene(SceneBase):
         #ring.current_color = [0,0,0]
 
     def SetupLayout(self):
-        self.title = utils.Text("Optimization event scene", self.title_font)
+        self.frame = utils.Sprite(
+            constants.SPRITES_OPTIMIZATION + 'optimization-frame.png',
+            constants.VIEWPORT_CENTER_X,
+            constants.VIEWPORT_CENTER_Y
+        )
+
+        self.title = utils.Text('news optimizaion - ', self.title_font)
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 546)
 
         self.timer = utils.Text("00:00:00", self.title_font)
@@ -99,6 +105,7 @@ class OptimizationScene(SceneBase):
 
     def RenderBackground(self, screen):
         screen.fill(constants.PALLETE_BACKGROUND_BLUE)
+        self.frame.RenderWithAlpha(screen)
         self.title.RenderWithAlpha(screen)
 
     def Render(self, screen):

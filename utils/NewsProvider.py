@@ -50,35 +50,35 @@ news = [
             {
                 'label': ['deny risky alert', constants.EMPTY_LCD_LABEL],
                 'color': [255, 255, 255],
-                'img': 'generic-mtl.png',
+                'img': 'expert_deny.png',
                 'supports': constants.STORY_SUBJECT_1,
                 'damages': None
             },
             {
                 'label': ['activist', 'overreact'],
                 'color': [255, 255, 255],
-                'img': 'generic-mtl.png',
+                'img': 'environmentalists_protests.png',
                 'supports': constants.STORY_SUBJECT_1,
                 'damages': constants.STORY_SUBJECT_2
             },
             {
                 'label': ['leakage', 'contained'],
                 'color': [255, 255, 255],
-                'img': 'generic-mtl.png',
+                'img': 'laboratories.png',
                 'supports': constants.STORY_SUBJECT_1,
                 'damages': None
             },
             {
                 'label': ['severe ecosystem', 'damage'],
                 'color': [255, 255, 255],
-                'img': 'generic-mtl.png',
+                'img': 'forest.png',
                 'supports': constants.STORY_SUBJECT_2,
                 'damages': constants.STORY_SUBJECT_1
             },
             {
                 'label': ['20 dead', '65 injured'],
                 'color': [255, 255, 255],
-                'img': 'generic-mtl.png',
+                'img': 'hospital.png',
                 'supports': constants.STORY_SUBJECT_2,
                 'damages': constants.STORY_SUBJECT_1
             }

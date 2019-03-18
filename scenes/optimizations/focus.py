@@ -115,6 +115,7 @@ class FocusScene(OptimizationScene):
         for rect in self.dirty_rects:
             screen.fill((0x1B, 0x0C, 0x43), rect)
             self.background.RenderWithAlpha(screen, rect, rect)
+            self.frame.RenderWithAlpha(screen)
 
     def RenderBody(self, screen):
         for index in self.rendering_order:
