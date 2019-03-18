@@ -77,7 +77,6 @@ class MaterialTutorialScene(SceneBase):
         graphics.render()
 
     def SelectMaterial(self, index):
-        print("select material", index)
         self.used_mtl += 1
 
         if self.used_mtl >= 4:

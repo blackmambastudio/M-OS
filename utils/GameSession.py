@@ -1,3 +1,4 @@
+from . import constants
 
 gamesession = None
 
@@ -10,7 +11,7 @@ class GameSession():
         self.news_played = []
         self.score = 0
         self.results = []
-        self.time = 60*1.1
+        self.time = 60 * constants.SESSION_TIME
 
         self.alert_displayed = False
         self.current_scene = None

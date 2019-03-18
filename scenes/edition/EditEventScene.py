@@ -45,6 +45,18 @@ class EditEventScene(SceneBase):
         self.showing_minigame_tutorial = False
         self.selected_minigame = -1
 
+        # variables related with the support and damage of the involved subjects
+        self.affections = {
+            constants.STORY_SUBJECT_1: {
+                'support': 0,
+                'damage': 0
+            },
+            constants.STORY_SUBJECT_2: {
+                'support': 0,
+                'damage': 0
+            }
+        }
+
         # setup the layout for the scene
         self.SetupLayout()
 
@@ -56,8 +68,7 @@ class EditEventScene(SceneBase):
 
         self.images = []
         for mtl in self.event_mtl:
-            if mtl['story_position'] == constants.STORY_HOOK:
-                self.images.append(utils.Sprite(constants.MATERIAL + mtl['img']))
+            self.images.append(utils.Sprite(constants.MATERIAL + mtl['img']))
 
         # reset material buttons
         # lock optimization buttons and knobs
@@ -209,7 +220,6 @@ class EditEventScene(SceneBase):
         # render texts
         self.fact_title.render_multiline_truncated(screen, 616, 94)
         self.goal_desc.render_multiline_truncated(screen, 617, 52)
-        self.news_framing.render_multiline_truncated(screen, 617, 52)
 
         self.anchor_frame.RenderWithAlpha(screen)
 
@@ -238,6 +248,8 @@ class EditEventScene(SceneBase):
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
 
+        self.news_framing.render_multiline_truncated(screen, 617, 52)
+
         # render countdown
         self.countdown_label.RenderWithAlpha(screen)
         self.RenderCortain(screen)
@@ -249,86 +261,119 @@ class EditEventScene(SceneBase):
         slot_index = 0
 
         for slot in self.sequence:
-            if slot == -1 and self.material[index]:
-                self.sequence[slot_index] = index
-                self.set_material_active(index, slot_index)
-                self.busy_slots += 1
-                break
-            elif not self.material[index] and slot == index:
+            if not self.material[index] and slot == index:
                 self.sequence[slot_index] = -1
                 self.set_material_inactive(index, slot_index)
                 self.busy_slots -= 1
+                self.update_affections(index, False)
+                break
+            elif slot == -1 and self.material[index]:
+                self.sequence[slot_index] = index
+                self.set_material_active(index, slot_index)
+                self.busy_slots += 1
+                self.update_affections(index)
                 break
             slot_index += 1
 
-        print('current mtl sequence: >>>>>>>>>>>>>>>>>>>>>>>>>')
-        print(self.sequence)
+        # ──────────────────────────────────────────────────────────────────────┐
+        # we won't have material label updates for the momento
+        # next_story_part = 0
+        # for used_slot in self.sequence:
+        #     if used_slot == -1:
+        #         # update the LCDs and the images so they show the material
+        #         # available for the free slot
+        #         if next_story_part == constants.STORY_CONFLICT_1:
+        #             break
+        #         elif next_story_part == constants.STORY_CONFLICT_2:
+        #             break
+        #         else:
+        #             break
+        #     next_story_part += 1
 
-        next_story_part = 0
-        for used_slot in self.sequence:
-            if used_slot == -1:
-                # update the LCDs and the images so they show the material
-                # available for the free slot
-                if next_story_part == constants.STORY_CONFLICT_1:
-                    break
-                elif next_story_part == constants.STORY_CONFLICT_2:
-                    break
-                else:
-                    break
-            next_story_part += 1
+        # new_mtl = []
+        # for mtl in self.event_mtl:
+        #     # check which is the next free story slot and update the material
+        #     if mtl['story_position'] == next_story_part:
+        #         new_mtl.append(mtl)
 
-        new_mtl = []
-        for mtl in self.event_mtl:
-            # check which is the next free story slot and update the material
-            if mtl['story_position'] == next_story_part:
-                new_mtl.append(mtl)
+        # # change the default order of the material
+        # # random.shuffle(new_mtl)
 
-        # change the default order of the material
-        # random.shuffle(new_mtl)
+        # # replace the images and the texts on the LCD displays with the new material
+        # index = 0
+        # for mtl_img in self.images:
+        #     xxx = index in self.sequence
+        #     if not xxx:
+        #         self.images[index] = utils.Sprite(
+        #             constants.MATERIAL + new_mtl[index]['img']
+        #         )
+        #         line1_text = utils.align_text(
+        #             new_mtl[index]['label'][0],
+        #             index < 3, 14, '-'
+        #         )
+        #         line2_text = utils.align_text(
+        #             new_mtl[index]['label'][1],
+        #             index < 3, 14, '-'
+        #         )
+        #         mimo.lcd_display_at(index, line1_text, 1)
+        #         mimo.lcd_display_at(index, line2_text, 2)
+        #         print("index to change", index, line1_text)
 
-        # replace the images and the texts on the LCD displays with the new material
-        index = 0
-        for mtl_img in self.images:
-            xxx = index in self.sequence
-            if not xxx:
-                self.images[index] = utils.Sprite(
-                    constants.MATERIAL + new_mtl[index]['img']
-                )
-                line1_text = utils.align_text(
-                    new_mtl[index]['label'][0],
-                    index < 3, 14, '-'
-                )
-                line2_text = utils.align_text(
-                    new_mtl[index]['label'][1],
-                    index < 3, 14, '-'
-                )
-                mimo.lcd_display_at(index, line1_text, 1)
-                mimo.lcd_display_at(index, line2_text, 2)
-                print("index to change", index, line1_text)
-
-                # TODO: update the color for the LEDs
-            else:
-                print('gonorrea!')
-            index += 1
+        #         # TODO: update the color for the LEDs
+        #     index += 1
+        # ──────────────────────────────────────────────────────────────────────┘
 
         self.can_optimize = self.busy_slots == 4
         # if busy_slots>4 should lock the unselected buttons
 
+    def update_affections(self, index, sum = True):
+        sbj_support = None
+        sbj_damage = None
+
+        if not self.event_mtl[index]['supports'] == None:
+            sbj_support = self.event_mtl[index]['supports']
+        if not self.event_mtl[index]['damages'] == None:
+            sbj_damage = self.event_mtl[index]['damages']
+
+        if not sbj_support == None:
+            self.affections[sbj_support]['support'] += 1 if sum else -1
+        if not sbj_damage == None:
+            self.affections[sbj_damage]['damage'] += 1 if sum else -1
+
+        sbj1 = self.affections[constants.STORY_SUBJECT_1]
+        sbj2 = self.affections[constants.STORY_SUBJECT_2]
+
+        # check which framing rule matches the current state of affections
+        for rule in self.current_event['framing']:
+            if rule['operator'] == '>':
+                if self.affections[rule['left_operate']][rule['property']] \
+                        > self.affections[rule['right_operate']][rule['property']]:
+                    self.news_framing.SetText(rule['text'])
+                    break
+            elif rule['operator'] == '=':
+                if self.affections[rule['left_operate']][rule['property']] \
+                        == self.affections[rule['right_operate']][rule['property']]:
+                    self.news_framing.SetText(rule['text'])
+                    break
+            elif rule['operator'] == 'none':
+                self.news_framing.SetText(rule['text'])
+                break
+
     def set_material_active(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([8+slot_index]+material['color'])
-        #line1_text = utils.align_text(material['label'][0], index<3, 14, '*')
-        #line2_text = utils.align_text(material['label'][1], index<3, 14, '*')
-        #mimo.lcd_display_at(index, line1_text, 1)
-        #mimo.lcd_display_at(index, line2_text, 2)
+        line1_text = utils.align_text(material['label'][0], index < 3, 16, '*')
+        line2_text = utils.align_text(material['label'][1], index < 3, 16, '*')
+        mimo.lcd_display_at(index, line1_text, 1)
+        mimo.lcd_display_at(index, line2_text, 2)
 
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([8+slot_index, 0,0,0])
-        #line1_text = utils.align_text(material['label'][0], index<3, 14, ' ')
-        #line2_text = utils.align_text(material['label'][1], index<3, 14, ' ')
-        #mimo.lcd_display_at(index, line1_text, 1)
-        #mimo.lcd_display_at(index, line2_text, 2)
+        line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
+        line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
+        mimo.lcd_display_at(index, line1_text, 1)
+        mimo.lcd_display_at(index, line2_text, 2)
 
     def OpenPopup(self):
         self.popupActive = True
@@ -340,7 +385,12 @@ class EditEventScene(SceneBase):
                 constants.POPUP_HEIGHT
             ),
             (0, 630, constants.VIEWPORT_WIDTH, 90),
-            (self.countdown_label.position[0], self.countdown_label.position[1], self.countdown_label.text.get_width(), self.countdown_label.text.get_height())
+            (
+                self.countdown_label.position[0],
+                self.countdown_label.position[1],
+                self.countdown_label.text.get_width(),
+                self.countdown_label.text.get_height()
+            )
         ]
 
         random_color = (

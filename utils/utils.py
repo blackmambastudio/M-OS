@@ -266,7 +266,6 @@ def align_text(text, left, spaces, space_char=' '):
     new_text = text
     new_text = new_text[0:spaces]
     start_index = len(new_text)
-    print(start_index, spaces)
     for index in range(start_index, spaces):
         if left:
             new_text += space_char

@@ -39,12 +39,17 @@ PALETTE_GREEN = (77, 232, 140)
 MINIGAME_LEFT = 0
 MINIGAME_RIGHT = 1
 
-EMPTY_LCD_LABEL = '- - - - - - - - '
+EMPTY_LCD_LABEL = ''
 
 STORY_HOOK = 0
 STORY_CONFLICT_1 = 1
 STORY_CONFLICT_2 = 2
 STORY_CONCLUSION = 3
+STORY_SUBJECT_1 = 'S1'
+STORY_SUBJECT_2 = 'S2'
+
+# in minutes
+SESSION_TIME = 10.1
 
 # TODO: put the constants related to the keyboard keys that will emulate the buttons
 #   in la MiMo.
