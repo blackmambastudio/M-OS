@@ -174,28 +174,85 @@ class EditEventScene(SceneBase):
 
     def SetupPopupLayout(self):
         self.popup_background = utils.Sprite(
-            constants.SPRITES_EDITION + 'optimization_background.png',
+            constants.SPRITES_EDITION + 'minigames-popup.png',
             constants.VIEWPORT_CENTER_X,
             351
         )
 
         self.popup_title = utils.Text(
             self.current_event['hdl'],
-            self.title_font,
-            color = constants.PALETTE_PINK
+            self.subtitle_font,
+            color = constants.PALLETE_BACKGROUND_BLUE
         )
-        self.popup_title.setAnchor(0, 0)
-        self.popup_title.SetPosition(constants.POPUP_X + 16, 96)
+        self.popup_title.setAnchor(0.5, 0)
+        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 96)
 
         self.popup_framing = utils.Text(
             'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
-            self.subtitle_font
+            self.normal_font,
+            color= constants.PALETTE_TITLES_DARK_BLUE
         )
         self.popup_framing.setAnchor(0, 0)
         self.popup_framing.SetPosition(
-            constants.POPUP_X + 16,
-            205
+            constants.POPUP_X + 50,
+            185
         )
+
+        # minigame 1
+        self.icon_back_a= utils.Sprite(
+            'assets/sprites/scenes/edition/icon_frame.png',
+            336,
+            360
+        )
+        self.icon_minigame_a = utils.Sprite(
+            'assets/minigame_icons/focus.png',
+            336,
+            360
+        )
+        self.title_minigame_a = utils.Text(
+            'clean',
+            self.subtitle_font,
+            336,
+            480,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
+        self.description_minigame_a = utils.Text(
+            'fix imperfections to augment news reach in high society',
+            self.normal_font,
+            111,
+            500,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
+        self.description_minigame_a.setAnchor(0,0)
+
+        # minigame 2
+        self.icon_back_b= utils.Sprite(
+            'assets/sprites/scenes/edition/icon_frame.png',
+            937,
+            360
+        )
+        self.icon_minigame_b = utils.Sprite(
+            'assets/minigame_icons/tune.png',
+            937,
+            360
+        )
+        self.title_minigame_b = utils.Text(
+            'tune',
+            self.subtitle_font,
+            937,
+            480,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
+
+        self.description_minigame_b = utils.Text(
+            'modulate voices tones to reinforce the produced opinions',
+            self.normal_font,
+            712,
+            500,
+            color= constants.PALETTE_TITLES_DARK_BLUE
+        )
+        self.description_minigame_b.setAnchor(0,0)
+
 
     def ProcessInput(self, events, pressed_keys):
         for event in events:
@@ -417,17 +474,24 @@ class EditEventScene(SceneBase):
             int(random() * 255),
             int(random() * 255)
         )
-        self.right_progress_label.SetColor(random_color)
-        self.right_progress_label.SetText('press    to play')
-        self.right_progress_icon.SetPosition(1094, 660)
+        self.right_progress_label.SetText('press    to clean')
+        self.right_progress_label.setAnchor(0.5, 0.5)
+        self.right_progress_label.SetPosition(937, 675)
+        self.right_progress_icon.setAnchor(0.5, 0.5)
+        self.right_progress_icon.SetPosition(907, 675)
 
         random_color = (
             int(random() * 255),
             int(random() * 255),
             int(random() * 255)
         )
-        self.left_progress_label.SetColor(random_color)
-        self.left_progress_label.SetText('press    to play')
+        self.left_progress_label.SetText('press    to tune')
+        self.left_progress_label.setAnchor(0.5, 0.5)
+        self.left_progress_label.SetPosition(336, 675)
+        self.left_progress_icon.setAnchor(0.5, 0.5)
+        self.left_progress_icon.SetPosition(316, 675)
+        self.left_progress_icon.fill((0x8b, 0x27, 0xff, 100))
+        self.render_right_progress = True
 
     def ClosePopup(self):
         self.popupActive = False
@@ -453,6 +517,14 @@ class EditEventScene(SceneBase):
 
         if not self.showing_minigame_tutorial:
             self.popup_framing.render_multiline_truncated(screen, 1088, 86)
+            self.icon_back_a.RenderWithAlpha(screen)
+            self.icon_minigame_a.RenderWithAlpha(screen)
+            self.title_minigame_a.render(screen)
+            self.description_minigame_a.render_multiline_truncated(screen, 450, 300)
+            self.icon_back_b.RenderWithAlpha(screen)
+            self.icon_minigame_b.RenderWithAlpha(screen)
+            self.title_minigame_b.render(screen)
+            self.description_minigame_b.render_multiline_truncated(screen, 450, 300)
         else:
             self.minigame_title.RenderWithAlpha(screen)
 
