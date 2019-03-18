@@ -30,7 +30,7 @@ class BootScene(SceneBase):
         )
         self.logo.SetOpacity(0)
 
-        self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/MimoLogo.ogg')
+        self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/M_OS/UI_Booth.ogg')
         
         self.AddTrigger(0.1, self.sfx_mimo_logo, 'play')
         self.AddTrigger(9.2, self, 'SwitchToScene', "Begin")
