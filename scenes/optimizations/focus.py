@@ -52,7 +52,7 @@ class FocusScene(OptimizationScene):
         # sfx and audio
         audio_path = 'assets/audio/SFX/Focus/'
         self.MG2_Turn = utils.get_sound(audio_path + 'MG2_Turn.ogg')
-        self.MG2_Turn.set_volume(0.5)
+        self.MG2_Turn.set_volume(0.6)
 
         self.MG2_Pos = []
         self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_01.ogg'))
@@ -151,6 +151,7 @@ class FocusScene(OptimizationScene):
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:
             self.MG2_Pos[self.correct_pieces].play()
+             self.MG2_Pos[self.correct_pieces].set_volume(0.7)
             #self.sfx_pieces[self.correct_pieces].play(-1)
             self.sfx_pieces[self.correct_pieces].set_volume(1)
             self.correct_pieces += 1
