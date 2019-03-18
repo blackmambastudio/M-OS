@@ -70,6 +70,19 @@ class EditEventScene(SceneBase):
         for mtl in self.event_mtl:
             self.images.append(utils.Sprite(constants.MATERIAL + mtl['img']))
 
+        material_indexes = [0, 1, 2, 7, 6, 5]
+        index = 0
+        # set buttons to switch mode
+        for material in self.current_event['material']:
+            line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
+            line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
+            mimo.lcd_display_at(index, line1_text, 1)
+            mimo.lcd_display_at(index, line2_text, 2)
+
+            mimo.set_material_buttons_light([index] + material['color'])
+            mimo.set_material_leds_color([material_indexes[index]] + material['color'])
+            index += 1
+
         # reset material buttons
         # lock optimization buttons and knobs
         # set material buttons mode to switch
@@ -77,79 +90,87 @@ class EditEventScene(SceneBase):
 
     def SetupLayout(self):
         self.info_frame = utils.Sprite(
-            constants.SPRITES_EDITION + 'info-frame.png',
-            364,
-            240
+            constants.SPRITES_EDITION + 'current_news-frame.png',
+            constants.VIEWPORT_CENTER_X,
+            165
         )
+        # por favor agrandar
+
+        self.icon = utils.Sprite(
+            constants.EVENTS + self.current_event['ico']
+        )
+        self.icon.Scale([0.75, 0.75])
+        self.icon.SetPosition(280, 165)
+
         self.fact_title = utils.Text(
             self.current_event['hdl'],
-            self.subtitle_font,
-            color = constants.PALETTE_PINK
+            self.normal_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.fact_title.setAnchor(0, 0)
-        self.fact_title.SetPosition(78, 94)
+        self.fact_title.SetPosition(380, 94)
+
 
         self.goal_desc = utils.Text(
             'goal: ' + self.current_event['gol'],
-            self.normal_font
+            self.normal_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.goal_desc.setAnchor(0, 0)
-        self.goal_desc.SetPosition(56, 207)
+        self.goal_desc.SetPosition(380, 124)
 
         self.news_framing = utils.Text(
             'no opinion bias set yet. select material to start framing the news.',
             self.normal_font,
-            color = constants.PALETTE_CYAN
+            color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.news_framing.setAnchor(0, 0)
-        self.news_framing.SetPosition(56, 271)
+        self.news_framing.SetPosition(380, 180)
+        self.timeline_back = utils.Sprite(
 
-        self.anchor_frame = utils.Sprite(
-            constants.SPRITES_EDITION + 'anchor-frame.png',
-            983,
-            233
+            constants.SPRITES_EDITION + 'storyline-background.png',
+            constants.VIEWPORT_CENTER_X,
+            606
         )
 
         self.mtl_slots_frames = [
-            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 170, 513),
-            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 483, 513),
-            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 797, 513),
-            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 1110, 513)
+            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 170, 440),
+            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 483, 440),
+            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 797, 440),
+            utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 1110, 440)
         ]
-
-        self.storyline_bg = utils.Sprite(
-            constants.SPRITES_EDITION + 'storyline-background.png',
-            constants.VIEWPORT_CENTER_X,
-            612
-        )
 
         self.news_hook = utils.Text(
             'hook',
-            self.normal_font,
-            color = constants.PALETTE_BLUE
-        )
-        self.news_hook.SetPosition(170, 612)
+            self.subtitle_font,
+            color = constants.PALLETE_BACKGROUND_BLUE
+        )   
+        self.news_hook.SetPosition(170, 604)
+
         self.news_conflict = utils.Text(
             'plot',
-            self.normal_font,
-            color = constants.PALETTE_BLUE
+            self.subtitle_font,
+            color = constants.PALLETE_BACKGROUND_BLUE
         )
-        self.news_conflict.SetPosition(constants.VIEWPORT_CENTER_X, 612)
+        self.news_conflict.SetPosition(constants.VIEWPORT_CENTER_X, 605)
         self.news_conclusion = utils.Text(
             'conclusion',
-            self.normal_font,
-            color = constants.PALETTE_BLUE
+            self.subtitle_font,
+            color = constants.PALLETE_BACKGROUND_BLUE
         )
-        self.news_conclusion.SetPosition(1110, 612)
+        self.news_conclusion.SetPosition(1110, 605)
 
+        #--- aca voy
         self.popupLabel = utils.Text('popup', self.subtitle_font)
         self.popupLabel.setAnchor(0.5, 0)
         self.popupLabel.SetPosition(640, 120)
 
         # add da ui
         self.SetupUI()
+        self.render_right_progress = False
         self.right_progress_label.SetText('press    to finish edition')
-        self.right_progress_icon.SetPosition(900, 675)
+        self.right_progress_icon.SetPosition(830, 645)
+
 
     def SetupPopupLayout(self):
         self.popup_background = utils.Sprite(
@@ -208,31 +229,26 @@ class EditEventScene(SceneBase):
         if not self.popupActive:
             SceneBase.Update(self, dt)
 
-    def Render(self, screen):
+    def RenderBody(self, screen):
         if self.popupActive:
             self.RenderPopup(screen)
             return
 
-        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
-
         self.info_frame.RenderWithAlpha(screen)
+        self.icon.RenderWithAlpha(screen)
 
         # render texts
-        self.fact_title.render_multiline_truncated(screen, 616, 94)
-        self.goal_desc.render_multiline_truncated(screen, 617, 52)
+        self.fact_title.render(screen)
+        self.goal_desc.render(screen)
 
-        self.anchor_frame.RenderWithAlpha(screen)
-
-        self.storyline_bg.RenderWithAlpha(screen)
         for slot in self.mtl_slots_frames:
             # TODO: change the frame of the mtl slot if it is being used
             slot.RenderWithAlpha(screen)
 
+        self.timeline_back.RenderWithAlpha(screen)
         self.news_hook.RenderWithAlpha(screen)
         self.news_conflict.RenderWithAlpha(screen)
         self.news_conclusion.RenderWithAlpha(screen)
-
-        self.ui_background.RenderWithAlpha(screen)
 
         index = 0
         for slot in self.sequence:
@@ -248,13 +264,14 @@ class EditEventScene(SceneBase):
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
 
-        self.news_framing.render_multiline_truncated(screen, 617, 52)
+        self.news_framing.render_multiline_truncated(screen, 680, 52)
 
         # render countdown
         self.countdown_label.RenderWithAlpha(screen)
 
         self.RenderCortain(screen)
         self.RenderTimeoutAlert(screen)
+
 
     def assign_material_to_sequence(self, index):
         if self.busy_slots == 4 and not self.material[index]: return
@@ -402,7 +419,7 @@ class EditEventScene(SceneBase):
         )
         self.right_progress_label.SetColor(random_color)
         self.right_progress_label.SetText('press    to play')
-        self.right_progress_icon.SetPosition(1094, 675)
+        self.right_progress_icon.SetPosition(1094, 660)
 
         random_color = (
             int(random() * 255),
@@ -457,7 +474,7 @@ class EditEventScene(SceneBase):
 
         self.right_progress_label.SetColor(minigame_color)
         self.right_progress_label.SetText('press    to start')
-        self.right_progress_icon.SetPosition(1056, 675)
+        self.right_progress_icon.SetPosition(1056, 660)
 
         self.render_left_progress = False
 

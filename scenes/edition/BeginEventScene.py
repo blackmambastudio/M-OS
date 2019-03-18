@@ -125,19 +125,6 @@ class BeginEventScene(SceneBase):
         mimo.set_independent_lights(True, True)
         mimo.set_buttons_enable_status(True, False)
         mimo.set_material_leds_color([7, 0xf7, 0x5a, 0xff])
-        #material_indexes = [0, 1, 2, 7, 6, 5]
-        #index = 0
-        # set buttons to switch mode
-        #for material in self.current_event['material']:
-            # if material['story_position'] == constants.STORY_HOOK:
-        #    line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
-        #    line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
-        #    mimo.lcd_display_at(index, line1_text, 1)
-        #    mimo.lcd_display_at(index, line2_text, 2)
-
-        #    mimo.set_material_buttons_light([index] + material['color'])
-        #    mimo.set_material_leds_color([material_indexes[index]] + material['color'])
-        #    index += 1
 
         #mimo.termal_print(self.current_event['hdl'].upper())
         #### imprimir la noticia en pantalla?

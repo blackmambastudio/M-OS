@@ -174,6 +174,7 @@ class SceneBase:
     def RenderUI(self, screen):
 
         if self.render_right_progress:
+            print('renui')
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
 

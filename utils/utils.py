@@ -109,6 +109,12 @@ class Sprite():
         self.SetPosition(self.x, self.y)
         self.must_update = True
 
+    def Scale(self, size):
+        rect = self.image.get_rect()
+        self.image = pygame.transform.scale(self.image, (int(rect.width*size[0]), int(rect.height*size[1])))
+        self.SetPosition(self.x, self.y)
+        self.must_update = True
+
     def RenderWithAlpha(self, screen, position=None,area=None):
         if self.must_update or self.prev_opacity != self.opacity :
             self.cached_image = blit_alpha(screen, self.image, self.position, int(self.opacity))
