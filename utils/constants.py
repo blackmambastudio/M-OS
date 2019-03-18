@@ -25,6 +25,7 @@ SPRITES_INTRO = SPRITES + 'scenes/intro/'
 SPRITES_EDITION = SPRITES + 'scenes/edition/'
 SPRITES_OPTIMIZATION = SPRITES + 'scenes/optimization/'
 SPRITES_UI_BG = SPRITES_COMMON + 'ui-background.png'
+SPRITES_FOCUS = SPRITES + 'minigames/focus/'
 MATERIAL = 'assets/material/'
 EVENTS = 'assets/events/'
 

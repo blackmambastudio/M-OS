@@ -4,6 +4,7 @@ import pygame
 from .OptimizationScene import OptimizationScene
 from utils import utils
 from random import random
+from utils import constants
 import mimo
 
 class FocusScene(OptimizationScene):
@@ -13,12 +14,26 @@ class FocusScene(OptimizationScene):
         self.pieces = []
         self.rendering_order = [0,1,2,3,4]
         self.render_background = True
-        self.background = utils.Sprite('assets/sprites/tv_control_room.png', 1280/2, 720/2)
-        self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceA-1.png', 224, 246))
-        self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceB-1.png', 640, 246))
-        self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceC-1.png', 1056, 246))
-        self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceD-1.png', 432, 496))
-        self.pieces.append(utils.Sprite('assets/sprites/tv_control_room-pieceE-1.png', 848, 496))
+        self.background = utils.Sprite(
+            constants.SPRITES_FOCUS + 'focus-background.png', 
+            622,
+            414
+        )
+        self.pieces.append(
+            utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceA.png', 418, 336)
+        )
+        self.pieces.append(
+            utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceB.png', 640, 331)
+        )
+        self.pieces.append(
+            utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceC.png', 859, 336)
+        )
+        self.pieces.append(
+            utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceD.png', 533, 447)
+        )
+        self.pieces.append(
+            utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceE.png', 747, 447)
+        )
 
         self.customRotation = 0
         self.correct_pieces = 0
