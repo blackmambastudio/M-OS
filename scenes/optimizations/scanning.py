@@ -10,7 +10,9 @@ import pygame
 
 class ScanningScene(OptimizationScene):
     def __init__(self):
+        self.minigametitle = 'scanner.opt'
         OptimizationScene.__init__(self)
+        
         self.coldown = 0
         mimo.set_led_brightness(150)
         mimo.set_tunners_enable_status(True)

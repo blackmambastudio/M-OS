@@ -9,6 +9,7 @@ import mimo
 
 class FocusScene(OptimizationScene):
     def __init__(self):
+        self.minigametitle = 'focus.opt'
         OptimizationScene.__init__(self)
         mimo.set_led_brightness(150)
         self.pieces = []
@@ -126,6 +127,7 @@ class FocusScene(OptimizationScene):
     def RenderBackground(self, screen):
         for rect in self.dirty_rects:
             self.frame.RenderWithAlpha(screen)
+            self.title.RenderWithAlpha(screen)
             self.background.RenderWithAlpha(screen, rect, rect)
 
     def RenderBody(self, screen):

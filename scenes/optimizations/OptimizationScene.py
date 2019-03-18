@@ -50,8 +50,8 @@ class OptimizationScene(SceneBase):
             constants.VIEWPORT_CENTER_Y
         )
 
-        self.title = utils.Text('news optimizaion - ', self.title_font)
-        self.title.SetPosition(constants.VIEWPORT_CENTER_X, 546)
+        self.title = utils.Text('news optimization - '+self.minigametitle, self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
+        self.title.SetPosition(constants.VIEWPORT_CENTER_X, 40)
 
         self.timerprogress = 1.0
         self.timerBackground = utils.Sprite(
