@@ -185,7 +185,7 @@ class EditEventScene(SceneBase):
             color = constants.PALLETE_BACKGROUND_BLUE
         )
         self.popup_title.setAnchor(0.5, 0)
-        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 96)
+        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 100)
 
         self.popup_framing = utils.Text(
             'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
@@ -512,7 +512,7 @@ class EditEventScene(SceneBase):
         self.popup_title.render_multiline_truncated(
             screen,
             1089,
-            constants.FONT_TITLE * 2
+            constants.FONT_TITLE * 2 +5
         )
 
         if not self.showing_minigame_tutorial:
@@ -530,10 +530,11 @@ class EditEventScene(SceneBase):
             self.minigame_optimization_sub.render(screen)
             self.minigame_icon_back.RenderWithAlpha(screen)
             self.minigame_icon.RenderWithAlpha(screen)
-            self.minigame_desc.render_multiline_truncated(screen, 450, 500)
+            self.minigame_desc.render_multiline_truncated(screen, 350, 500)
             self.minigame_goal_label.render(screen)
-            self.minigame_goal.render_multiline_truncated(screen, 450, 500)
+            self.minigame_goal.render_multiline_truncated(screen, 350, 500)
 
+    # load images for minigames
     def ShowMinigame(self, side):
         # TODO: load the specific mini-game info. based on the chosen side
         self.showing_minigame_tutorial = True
@@ -548,52 +549,58 @@ class EditEventScene(SceneBase):
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.minigame_title.setAnchor(0, 0)
-        self.minigame_title.SetPosition(306, 206)
+        self.minigame_title.SetPosition(310, 240)
 
         self.minigame_optimization_sub = utils.Text(
             'optimization',
-            self.normal_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
+            self.subtitle_font,
+            color = constants.PALLETE_BACKGROUND_TITLE_BLUE
         )
-        self.minigame_optimization_sub.SetPosition(constants.VIEWPORT_CENTER_X, 206)
+        self.minigame_optimization_sub.SetPosition(constants.VIEWPORT_CENTER_X, 175)
 
         self.minigame_icon_back = utils.Sprite(
             'assets/sprites/scenes/edition/icon_frame.png',
-            336,
-            360
+            110,
+            240+87
         )
+        self.minigame_icon_back.setAnchor(0,0.5)
         self.minigame_icon = utils.Sprite(
             'assets/minigame_icons/focus.png',
-            336,
-            360
+            110,
+            240+87
         )
+        self.minigame_icon.setAnchor(0,0.5)
+        
         self.minigame_desc = utils.Text(
             'fix imperfections to augment news reach in high society',
             self.normal_font,
-            111,
-            500,
+            310,
+            300,
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
+        self.minigame_desc.setAnchor(0,0)
 
 
         self.minigame_goal_label = utils.Text(
-            'goal',
-            self.normal_font,
-            111,
-            550,
+            'goal:',
+            self.subtitle_font,
+            300,
+            450,
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
+        self.minigame_goal_label.setAnchor(1,0)
         self.minigame_goal = utils.Text(
             'alter bla bla bla bla bla bla ',
             self.normal_font,
-            160,
-            550,
+            310,
+            450,
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
+        self.minigame_goal.setAnchor(0,0)
 
         self.right_progress_label.SetColor(minigame_color)
         self.right_progress_label.SetText('press    to start')
-        self.right_progress_icon.SetPosition(1056, 660)
+        self.right_progress_icon.SetPosition(907, 675)
 
         self.render_left_progress = False
 
