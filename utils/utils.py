@@ -49,7 +49,7 @@ def blit_alpha(target, source, location, opacity):
     return temp
 
 class Tween():
-    def __init__(self, func, timeout, obj, prop, start, end, delay):
+    def __init__(self, func, timeout, obj, prop, start, end, delay, resolution=-1):
         self.tween = func
         self.timeout = timeout
         self.obj = obj
@@ -60,6 +60,7 @@ class Tween():
         self.value = 0.0
         self.time = 0.0
         self.delay = delay
+        self.resolution = resolution
 
     def Update(self, dt):
         if self.Finished(): return
@@ -71,6 +72,8 @@ class Tween():
         ratio = self.time/self.timeout
         if ratio > 1:
             ratio = 1
+        if self.resolution != -1:
+            ratio = (int(ratio*self.resolution))/self.resolution
         self.value = self.tween(ratio)
         setattr(self.obj, self.prop, self.start + self.value*self.interval)
 

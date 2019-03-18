@@ -48,15 +48,15 @@ class BootScene(SceneBase):
         self.text_updater_values = ['|', '\\', '-', '/']
         self.text_updater_index = 0
 
-
+        resolution = 6
         self.AddTween("easeInOutSine", 1.5, self.title, "opacity", 0, 255, 0)
-        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 0)
-        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 1.5)
-        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 3)
-        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 4.5)
-        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 6)
-        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 7.5)
-        self.AddTween("easeInOutSine", 1.5, self.title, "opacity", 255, 0, 7.5)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 0, resolution)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 1.5, resolution)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 3, resolution)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 4.5, resolution)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 0, 255, 6, resolution)
+        self.AddTween("easeInOutSine", 1.5, self.logo, "opacity", 255, 0, 7.5, resolution)
+        self.AddTween("easeInOutSine", 1.5, self.title, "opacity", 255, 0, 7.5, resolution)
         
         self.brightness = 1
         self.cache_brightness = 1

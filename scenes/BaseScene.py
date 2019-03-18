@@ -132,8 +132,8 @@ class SceneBase:
                 getattr(trigger[1], trigger[2])(*trigger[3])
                 self.time_triggers.remove(trigger)
 
-    def AddTween(self, tween, timeout, obj, prop, start, end, delay=0):
-        new_tween = utils.Tween(getattr(pytweening, tween), timeout, obj, prop, start, end, delay)
+    def AddTween(self, tween, timeout, obj, prop, start, end, delay=0, resolution=-1):
+        new_tween = utils.Tween(getattr(pytweening, tween), timeout, obj, prop, start, end, delay, resolution)
         self.tweens.append(new_tween)
 
     def CheckTweens(self, dt):

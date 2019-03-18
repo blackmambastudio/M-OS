@@ -16,8 +16,8 @@ class FocusScene(OptimizationScene):
         self.render_background = True
         self.background = utils.Sprite(
             constants.SPRITES_FOCUS + 'focus-background.png', 
-            622,
-            414
+            1280/2,
+            720/2
         )
         self.pieces.append(
             utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceA.png', 418, 336)
@@ -113,9 +113,8 @@ class FocusScene(OptimizationScene):
 
     def RenderBackground(self, screen):
         for rect in self.dirty_rects:
-            screen.fill((0x1B, 0x0C, 0x43), rect)
-            self.background.RenderWithAlpha(screen, rect, rect)
             self.frame.RenderWithAlpha(screen)
+            self.background.RenderWithAlpha(screen, rect, rect)
 
     def RenderBody(self, screen):
         for index in self.rendering_order:
@@ -124,7 +123,7 @@ class FocusScene(OptimizationScene):
     def SpinPiece(self, index):
         piece = self.pieces[index]
         self.MG2_Turn.play()
-        self.AddTween('easeOutCubic', 0.5, piece, 'rotation', piece.rotation, piece.rotation+90, 0)
+        self.AddTween('easeOutCubic', 0.5, piece, 'rotation', piece.rotation, piece.rotation+90, 0, 6)
         self.locked_pieces[index] = True
         self.AddTrigger(0.5, self, 'UnlockPiece', index)
         if piece.rotation%360 == 0: # dont fix this
