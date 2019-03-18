@@ -24,7 +24,7 @@ class BootScene(SceneBase):
         SceneBase.__init__(self)
 
         self.logo = utils.Sprite(
-            'assets/sprites/logo_MCorp.png',
+            constants.SPRITES_INTRO + 'logo_MCorp.png',
             constants.VIEWPORT_CENTER_X,
             constants.VIEWPORT_CENTER_Y
         )
