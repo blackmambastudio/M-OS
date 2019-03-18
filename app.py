@@ -95,6 +95,8 @@ def run_game(width, height, fps, starting_scene):
     game_session = get_game_session()
     playing = True
 
+    show_fps = False
+
 
     while playing:
         current_time = time.time()
@@ -127,6 +129,8 @@ def run_game(width, height, fps, starting_scene):
                     active_scene.SwipeVertical(-1)
                 elif event.key == pygame.K_DOWN:
                     active_scene.SwipeVertical(1)
+                elif event.key == pygame.K_y:
+                    show_fps = not show_fps
             elif event.type == pygame.MOUSEMOTION:
                 difx = event.pos[0]-mouse_last_positions[0]
                 dify = event.pos[1]-mouse_last_positions[1]
@@ -150,9 +154,10 @@ def run_game(width, height, fps, starting_scene):
             dirty_rects = active_scene.getDirtyRects()
 
             #fps display active
-            fps_text = font.render(str(int(clock.get_fps())), True, pygame.Color('red'))
-            screen.blit(fps_text, (50, 20))
-            dirty_rects.append((50, 20, 20,20))
+            if show_fps:
+                fps_text = font.render(str(int(clock.get_fps())), True, constants.PALETTE_PINK)
+                screen.blit(fps_text, (50, 20))
+                dirty_rects.append((50, 20, 20,20))
 
             pygame.display.update(dirty_rects)
         else:

@@ -97,7 +97,7 @@ class OptimizationScene(SceneBase):
             self.timer.SetText(OptimizationScene.format_time(self.current_time), False)
 
     def RenderBackground(self, screen):
-        screen.fill((0x1B, 0x0C, 0x43))
+        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
         self.title.RenderWithAlpha(screen)
 
     def Render(self, screen):

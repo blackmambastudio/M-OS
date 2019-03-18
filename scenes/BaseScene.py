@@ -41,8 +41,8 @@ class SceneBase:
         self.render_left_progress = False
 
         self.transition_cortain = False
-        self.height_cortain = 360
-        self.AddTrigger(0.1, self, 'OpenEvent')
+        self.height_cortain = 0
+        #self.AddTrigger(0.1, self, 'OpenEvent')
 
         self.countdown_label = utils.Text("00:00", self.title_font)
         self.countdown_label.SetPosition(constants.VIEWPORT_CENTER_X, 50)
@@ -50,17 +50,17 @@ class SceneBase:
 
         # timer popup elements
         self.timeout_popup_active = False
-        self.popup_timer_title = utils.Text("Alert", self.title_font, color=[0xff, 0xff, 0xff])
+        self.popup_timer_title = utils.Text("Alert", self.title_font)
         self.popup_timer_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
         
-        self.popup_timer_description = utils.Text("60 seconds to finish", self.normal_font, color=[0xff, 0xff, 0xff])
+        self.popup_timer_description = utils.Text("60 seconds to finish", self.normal_font)
         self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
         self.timeoutends_popup_active = False
 
-        self.popup_timerends_title = utils.Text("Time's over", self.title_font, color=[0xff, 0xff, 0xff])
+        self.popup_timerends_title = utils.Text("Time's over", self.title_font)
         self.popup_timerends_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
         
-        self.popup_timerends_description = utils.Text("leave the machine de inmediati!", self.normal_font, color=[0xff, 0xff, 0xff])
+        self.popup_timerends_description = utils.Text("leave the machine de inmediati!", self.normal_font)
         self.popup_timerends_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
         
         # -- end popup elements
@@ -90,9 +90,10 @@ class SceneBase:
         pass
 
     def RenderCortain(self, screen):
-        if self.transition_cortain or self.height_cortain>=360:
-            pygame.draw.rect(screen, [0x1B, 0x0C, 0x43], (0, 0, 1280,self.height_cortain))
-            pygame.draw.rect(screen, [0x1B, 0x0C, 0x43], (0, 720, 1280,-self.height_cortain))
+        if self.transition_cortain:
+            pygame.draw.rect(screen, [0x20, 0xF4, 0xFE], (400, 210, 480, 300))
+            pygame.draw.rect(screen, [0x00, 0x60, 0xFF], (400, 210, 480, 300), 2)
+            pygame.draw.rect(screen, [0x0, 0x60, 0xFF], (450, 360, self.height_cortain*380, 50))
 
     # in milliseconds
     def format_time(time):
@@ -181,13 +182,13 @@ class SceneBase:
 
     def OpenEvent(self):
         self.transition_cortain = True
-        self.AddTween("easeInOutSine", 0.15, self, "height_cortain", 360, 0, 0)
-        self.AddTrigger(0.16, self, 'StopTransition')
+        self.AddTween("easeOutSine", 0.5, self, "height_cortain", 1, 0, 0)
+        self.AddTrigger(0.51, self, 'StopTransition')
 
     def CloseEvent(self):
         self.transition_cortain = True
-        self.AddTween("easeInOutSine", 0.15, self, "height_cortain", 0, 360, 0)
-        self.AddTrigger(0.16, self, 'StopTransition')
+        self.AddTween("easeOutSine", 0.5, self, "height_cortain", 0, 1, 0)
+        self.AddTrigger(0.51, self, 'StopTransition')
 
     def StopTransition(self):
         self.transition_cortain = False

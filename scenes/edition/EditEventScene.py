@@ -213,7 +213,7 @@ class EditEventScene(SceneBase):
             self.RenderPopup(screen)
             return
 
-        screen.fill((0x1B, 0x0C, 0x43))
+        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
 
         self.info_frame.RenderWithAlpha(screen)
 

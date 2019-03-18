@@ -60,7 +60,7 @@ class OptimizationTutorialScene(SceneBase):
         SceneBase.Update(self, dt)
 
     def Render(self, screen):
-        screen.fill((0x1B, 0x0C, 0x43))
+        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
 
         self.subtitle_shadow.render_multiline(screen)
         self.subtitle.render_multiline(screen)

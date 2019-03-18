@@ -128,7 +128,7 @@ class Sprite():
         self.must_update = True 
 
 class Text():
-    def __init__(self, text, font, x = 0, y = 0, color = constants.PALETTE_WHITE):
+    def __init__(self, text, font, x = 0, y = 0, color = constants.PALLETE_DARK_BLUE):
         self.raw_text = text.upper()
         self.color = color
         self.font = font
@@ -184,7 +184,7 @@ class Text():
             self.SetPosition(self.x, self.y)
 
     def DecorateText(self, prefix, suffix):
-        self.text = self.font.render(prefix + self.raw_text + suffix, True, (255, 255, 255))
+        self.text = self.font.render(prefix + self.raw_text + suffix, True, self.color)
         self.SetPosition(self.x, self.y)
 
     def render_multiline(self, screen):

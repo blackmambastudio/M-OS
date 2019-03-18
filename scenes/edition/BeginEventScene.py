@@ -73,13 +73,13 @@ class BeginEventScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 self.CloseEvent()
-                self.AddTrigger(0.16, self, 'SwitchToScene', "Edit")
+                self.AddTrigger(0.51, self, 'SwitchToScene', "Edit")
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
 
     def RenderBody(self, screen):
-        screen.fill((0x1B, 0x0C, 0x43))
+        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
 
         # render the layout
         self.fact_title.render_multiline_truncated(
