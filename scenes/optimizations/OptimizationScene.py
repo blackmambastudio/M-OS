@@ -166,22 +166,22 @@ class OptimizationScene(SceneBase):
         performance_text = ""
         bonus_text = ""
         if self.score < 0.2:
-            performance_text = "bad job"
+            performance_text = "Optimization Shut Down"
             bonus_text = "-10 seconds"
         elif self.score < 0.4:
-            performance_text = "Bad perfomance"
-            bonus_text = "b---"
+            performance_text = "Sluggish Performance"
+            bonus_text = "Continue The Test"
         elif self.score < 0.6:
-            performance_text = "Regular job"
-            bonus_text = "no bonus time for you"
+            performance_text = "Poor Execution"
+            bonus_text = "Idleness Is Fatal Only To The Mediocre"
         elif self.score < 0.8:
-            performance_text = "Good job!"
+            performance_text = "Broadcast Reach Enhanced"
             bonus_text = "10 seconds bonus"
         else:
-            performance_text = "Your performance was perfect!"
+            performance_text = "Edition Optimized!"
             bonus_text = "20 seconds bonus"
         self.popup_description.SetText(performance_text)
-        self.bonus_text.SetText(performance_text)
+        self.bonus_text.SetText(bonus_text)
 
     def RenderPopup(self, screen):
         self.results_background.RenderWithAlpha(screen)

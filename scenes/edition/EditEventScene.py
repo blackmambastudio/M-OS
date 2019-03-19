@@ -514,7 +514,6 @@ class EditEventScene(SceneBase):
         self.left_progress_label.SetPosition(170, 675)
         self.left_progress_icon.setAnchor(0.5, 0.5)
         self.left_progress_icon.SetPosition(316, 675)
-        self.left_progress_icon.fill((0x8b, 0x27, 0xff, 100))
         self.render_right_progress = True
 
     def ClosePopup(self):

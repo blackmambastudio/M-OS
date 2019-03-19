@@ -119,6 +119,11 @@ class Sprite():
         self.SetPosition(self.x, self.y)
         self.must_update = True
 
+    def Render(self, screen, position=None, area=None):
+        if not position:
+            position = self.position
+        screen.blit(self.image, position, area)
+
     def RenderWithAlpha(self, screen, position=None,area=None):
         if self.must_update or self.prev_opacity != self.opacity :
             self.cached_image = blit_alpha(screen, self.image, self.position, int(self.opacity))
@@ -137,9 +142,6 @@ class Sprite():
         self.opacity = opacity
         self.must_update = True 
 
-    def fill(self, color):
-        self.image.fill(color, special_flags=pygame.BLEND_MULT)
-        self.must_update = True
 
 class Text():
     def __init__(self, text, font, x = 0, y = 0, color = constants.PALLETE_DARK_BLUE):

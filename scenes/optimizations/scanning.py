@@ -2,7 +2,7 @@
 import pygame
 
 from .OptimizationScene import OptimizationScene, STATUS
-from utils import utils
+from utils import utils, constants
 from utils import neopixelmatrix as graphics
 from random import random, shuffle
 import mimo
@@ -26,10 +26,9 @@ class ScanningScene(OptimizationScene):
         self.displayed_figure_index = -1
         self.fails = 0
         self.detected_contact = False
-        self.countdown = 5000
-        self.current_time = 5000
+        self.countdown = 10000
+        self.current_time = 10000
         
-
         self.colors = [
             [0xff, 0x00, 0x00], 
             [0xff, 0xff, 0x00],
@@ -46,7 +45,6 @@ class ScanningScene(OptimizationScene):
             index += 1
         mimo.set_optimization_leds_color(led_lights)
 
-
         self.radar_matrix = [
             [0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0],
@@ -58,21 +56,23 @@ class ScanningScene(OptimizationScene):
             [0,0,0,0,0,0,0,0]
         ]
 
+        # load assets
+        self.piece_sprites = []
+        self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_blue.png', 0, 0))
+        self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_green.png', 0, 0))
+        self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_pink.png', 0, 0))
+        self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_purple.png', 0, 0))
+        self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_white.png', 0, 0))
+        index = 0
+            
+        # sfx and audio
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_ObjSort = utils.get_sound(audio_path + 'MG1_ObjSort.ogg')
         self.MG1_ObjSort.set_volume(0.08)
 
-
-        self.NextFigure()   
-
-        # sfx and audio
-       
-
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_Sweep = utils.get_sound(audio_path + 'MG1_Sweep.ogg')
         self.MG1_Sweep.set_volume(0.6)
-
-        
 
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_Success = utils.get_sound(audio_path + 'MG1_Success.ogg')
@@ -82,6 +82,7 @@ class ScanningScene(OptimizationScene):
         self.MG1_Failed = utils.get_sound(audio_path + 'MG1_Failed.ogg')
         self.MG1_Failed.set_volume(1)
 
+        self.NextFigure()
         
     def ProcessInputOpt(self, events, pressed_keys):
         for event in events:
@@ -176,7 +177,7 @@ class ScanningScene(OptimizationScene):
         for j in range(0, len(figure)):
             for i in range(0, len(figure[0])):
                 if figure[j][i] == 1:
-                    pygame.draw.rect(screen, self.colors[index], (188*index+50+i*30, 150+j*30, 30,30))
+                    self.piece_sprites[index].Render(screen, (80+250*(index)+i*40, 415+j*40))
 
 
     def NewScan(self, mode, direction):
@@ -262,6 +263,9 @@ FIGURES = [
     ],[
         [1,1,1],
         [0,1,0]
+    ],[
+        [1,0,0],
+        [1,1,1]
     ]],
     # second level
     [[

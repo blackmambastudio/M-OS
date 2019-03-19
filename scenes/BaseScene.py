@@ -191,9 +191,8 @@ class SceneBase:
         self.right_progress_label = utils.Text("press    to start editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
         self.right_progress_label.setAnchor(1, 0)
         self.right_progress_label.SetPosition(1200, 660)
-        self.right_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button.png", 855, 642)
+        self.right_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button-pink.png", 855, 642)
         self.right_progress_icon.setAnchor(1, 0)
-        self.right_progress_icon.fill((0xf7, 0x5a, 0xff, 100))
 
         self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
         self.left_progress_label.setAnchor(0.5, 0.5)
@@ -201,8 +200,7 @@ class SceneBase:
             constants.VIEWPORT_PADDING_X,
             constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
         )
-        self.left_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button.png", 148, 675)
-        self.left_progress_icon.fill((0xf7, 0x5a, 0xff, 100))
+        self.left_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button-purple.png", 148, 675)
 
     def RenderUI(self, screen):
 
