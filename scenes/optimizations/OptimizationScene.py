@@ -36,6 +36,7 @@ class OptimizationScene(SceneBase):
         self.countdown = 20000
         self.current_time = 20000
         self.popup_active = False
+        self.score = 0
 
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
@@ -64,11 +65,17 @@ class OptimizationScene(SceneBase):
         #self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
 
     def SetupPopup(self):
-        self.popup_title = utils.Text("Results", self.title_font, color=[0xff, 0xff, 0xff])
-        self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
+        self.results_background = utils.Sprite(
+            constants.SPRITES_OPTIMIZATION+'optimization_results-popup.png',
+            640,
+            360
+        )
         
-        self.popup_description = utils.Text("you are awesome!", self.normal_font, color=[0xff, 0xff, 0xff])
-        self.popup_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
+        self.popup_description = utils.Text("you are awesome!", self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
+        self.popup_description.SetPosition(constants.VIEWPORT_CENTER_X, 380)
+
+        self.bonus_text = utils.Text("++!", self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
+        self.bonus_text.SetPosition(constants.VIEWPORT_CENTER_X, 420)
 
 
     def ProcessInput(self, events, pressed_keys):
@@ -156,9 +163,27 @@ class OptimizationScene(SceneBase):
 
     def DisplayResults(self):
         self.popup_active = True
-        pass
+        performance_text = ""
+        bonus_text = ""
+        if self.score < 0.2:
+            performance_text = "bad job"
+            bonus_text = "-10 seconds"
+        elif self.score < 0.4:
+            performance_text = "Bad perfomance"
+            bonus_text = "b---"
+        elif self.score < 0.6:
+            performance_text = "Regular job"
+            bonus_text = "no bonus time for you"
+        elif self.score < 0.8:
+            performance_text = "Good job!"
+            bonus_text = "10 seconds bonus"
+        else:
+            performance_text = "Your performance was perfect!"
+            bonus_text = "20 seconds bonus"
+        self.popup_description.SetText(performance_text)
+        self.bonus_text.SetText(performance_text)
 
     def RenderPopup(self, screen):
-        pygame.draw.rect(screen, [0x0, 0x0, 0x0], (100, 120, 1080,480))
-        self.popup_title.render(screen)
+        self.results_background.RenderWithAlpha(screen)
         self.popup_description.render(screen)
+        self.bonus_text.render(screen)

@@ -26,6 +26,8 @@ class ScanningScene(OptimizationScene):
         self.displayed_figure_index = -1
         self.fails = 0
         self.detected_contact = False
+        self.countdown = 5000
+        self.current_time = 5000
         
 
         self.colors = [
@@ -235,9 +237,11 @@ class ScanningScene(OptimizationScene):
             self.fails += 1
             self.MG1_Failed.play()
             if self.fails >= 3:
+                self.score = self.level/5
                 self.FinishOptimization()
         if self.level >= len(FIGURES):
             self.level -= 1
+            self.score = self.level/5
             self.FinishOptimization()
         else:
             self.NextFigure()

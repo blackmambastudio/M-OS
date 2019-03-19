@@ -11,7 +11,7 @@ from utils import constants
 from random import random
 
 from scenes.BaseScene import SceneBase
-from scenes.optimizations import get_next_optimization_scene
+from scenes.optimizations import get_next_pair
 
 # Edit Scene
 # PLAY STATUS #2
@@ -43,7 +43,7 @@ class EditEventScene(SceneBase):
         self.popupActive = False
         self.can_optimize = False
         self.showing_minigame_tutorial = False
-        self.selected_minigame = -1
+        self.selected_minigame = ""
 
         # variables related with the support and damage of the involved subjects
         self.affections = {
@@ -58,10 +58,11 @@ class EditEventScene(SceneBase):
         }
 
         # setup the layout for the scene
+        self.available_minigames = []
+        self.SetupPopupLayout()
         self.SetupLayout()
 
         # setup the layout for the optimization popup
-        self.SetupPopupLayout()
 
         # load the material for the HOOK
         self.event_mtl = self.current_event['material']
@@ -189,6 +190,8 @@ class EditEventScene(SceneBase):
 
 
     def SetupPopupLayout(self):
+        self.available_minigames = get_next_pair()
+        print("primero esto", self.available_minigames)
         self.popup_background = utils.Sprite(
             constants.SPRITES_EDITION + 'minigames-popup.png',
             constants.VIEWPORT_CENTER_X,
@@ -214,6 +217,9 @@ class EditEventScene(SceneBase):
             185
         )
 
+        minigame_data_a = self.available_minigames[0]
+        minigame_data_b = self.available_minigames[1]
+
         # minigame 1
         self.icon_back_a= utils.Sprite(
             'assets/sprites/scenes/edition/icon_frame.png',
@@ -221,19 +227,19 @@ class EditEventScene(SceneBase):
             360
         )
         self.icon_minigame_a = utils.Sprite(
-            'assets/minigame_icons/focus.png',
+            'assets/minigame_icons/'+minigame_data_a["icon"],
             336,
             360
         )
         self.title_minigame_a = utils.Text(
-            'clean',
+            minigame_data_a["title"],
             self.subtitle_font,
             336,
             480,
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
         self.description_minigame_a = utils.Text(
-            'fix imperfections to augment news reach in high society',
+            minigame_data_a["description"],
             self.normal_font,
             111,
             500,
@@ -248,12 +254,12 @@ class EditEventScene(SceneBase):
             360
         )
         self.icon_minigame_b = utils.Sprite(
-            'assets/minigame_icons/tune.png',
+            'assets/minigame_icons/'+minigame_data_b["icon"],
             937,
             360
         )
         self.title_minigame_b = utils.Text(
-            'tune',
+            minigame_data_b["title"],
             self.subtitle_font,
             937,
             480,
@@ -261,7 +267,7 @@ class EditEventScene(SceneBase):
         )
 
         self.description_minigame_b = utils.Text(
-            'modulate voices tones to reinforce the produced opinions',
+            minigame_data_b["description"],
             self.normal_font,
             712,
             500,
@@ -492,9 +498,9 @@ class EditEventScene(SceneBase):
             int(random() * 255),
             int(random() * 255)
         )
-        self.right_progress_label.SetText('press    to clean')
-        self.right_progress_label.setAnchor(0.5, 0.5)
-        self.right_progress_label.SetPosition(937, 675)
+        self.right_progress_label.SetText('press    to '+self.available_minigames[1]["title"])
+        self.right_progress_label.setAnchor(0, 0.5)
+        self.right_progress_label.SetPosition(760, 675)
         self.right_progress_icon.setAnchor(0.5, 0.5)
         self.right_progress_icon.SetPosition(907, 675)
 
@@ -503,9 +509,9 @@ class EditEventScene(SceneBase):
             int(random() * 255),
             int(random() * 255)
         )
-        self.left_progress_label.SetText('press    to tune')
-        self.left_progress_label.setAnchor(0.5, 0.5)
-        self.left_progress_label.SetPosition(336, 675)
+        self.left_progress_label.SetText('press    to '+self.available_minigames[0]["title"])
+        self.left_progress_label.setAnchor(0, 0.5)
+        self.left_progress_label.SetPosition(170, 675)
         self.left_progress_icon.setAnchor(0.5, 0.5)
         self.left_progress_icon.SetPosition(316, 675)
         self.left_progress_icon.fill((0x8b, 0x27, 0xff, 100))
@@ -556,13 +562,14 @@ class EditEventScene(SceneBase):
     def ShowMinigame(self, side):
         # TODO: load the specific mini-game info. based on the chosen side
         self.showing_minigame_tutorial = True
-        self.selected_minigame = side
+        selected_minigame = self.available_minigames[side]
+        self.selected_minigame = selected_minigame["scene"]
 
         minigame_color = self.left_progress_label.color \
             if side == constants.MINIGAME_LEFT else self.right_progress_label.color
 
         self.minigame_title = utils.Text(
-            'mini-game-name',
+            selected_minigame["title"],
             self.subtitle_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
@@ -583,14 +590,14 @@ class EditEventScene(SceneBase):
         )
         self.minigame_icon_back.setAnchor(0,0.5)
         self.minigame_icon = utils.Sprite(
-            'assets/minigame_icons/focus.png',
+            'assets/minigame_icons/'+selected_minigame["icon"],
             110,
             240+87
         )
         self.minigame_icon.setAnchor(0,0.5)
         
         self.minigame_desc = utils.Text(
-            'fix imperfections to augment news reach in high society',
+            selected_minigame["description"],
             self.normal_font,
             310,
             300,
@@ -608,7 +615,7 @@ class EditEventScene(SceneBase):
         )
         self.minigame_goal_label.setAnchor(1,0)
         self.minigame_goal = utils.Text(
-            'alter bla bla bla bla bla bla ',
+            selected_minigame["goal"],
             self.normal_font,
             310,
             450,
@@ -622,7 +629,5 @@ class EditEventScene(SceneBase):
 
         self.render_left_progress = False
 
-    def PlayMinigame(self, side):
-        # TODO: load the specific mini-game based on the chosen side
-        next_scene = get_next_optimization_scene('some_value')
-        self.SwitchToScene("Focus")
+    def PlayMinigame(self, name):
+        self.SwitchToScene(name)

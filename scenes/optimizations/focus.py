@@ -172,10 +172,13 @@ class FocusScene(OptimizationScene):
             self.UI_OptWin.play()
         else:
              self.UI_OptFail.play()
+        self.score = self.correct_pieces/5
+
         OptimizationScene.FinishOptimization(self)
 
         for index in range(0, 5):
             self.sfx_pieces[index].fadeout(1500)
+
 
 
     def DisplayResults(self):

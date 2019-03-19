@@ -233,7 +233,7 @@ class SceneBase:
         self.transition_cortain = False
     
     def display_timeout_alert(self):
-        self.countdown_label.SetColor([0xff, 0x00, 0x00])
+        self.countdown_label.SetColor([0xff, 0xff, 0xff])
         self.countdown_in_red = True
         self.timeout_popup_active = True
         self.timeoutends_move_x = 0
@@ -247,7 +247,7 @@ class SceneBase:
     def set_countdown(self, time):
         countdown_time = time
         if countdown_time<60 and not self.countdown_in_red:
-            self.countdown_label.SetColor([0xff, 0x00, 0x00])
+            self.countdown_label.SetColor([0xff, 0xff, 0xff])
             self.countdown_in_red = True
         self.countdown_label.SetText(SceneBase.format_time(countdown_time), False)
         
