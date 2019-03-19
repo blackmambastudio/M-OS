@@ -57,7 +57,7 @@ STORY_SUBJECT_2 = 'S2'
 
 # in minutes
 #SESSION_TIME = 6.2
-SESSION_TIME = 5.2
+SESSION_TIME = 2.1
 
 # TODO: put the constants related to the keyboard keys that will emulate the buttons
 #   in la MiMo.
