@@ -79,12 +79,57 @@ class SceneBase:
         self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 427)
         self.timeoutends_popup_active = False
 
-        self.popup_timerends_title = utils.Text("Time's over", self.title_font)
-        self.popup_timerends_title.SetPosition(constants.VIEWPORT_CENTER_X, 180)
+        self.popup_timerends_background = utils.Sprite(
+            constants.SPRITES_COMMON + 'popup_timerends-background.png'
+        )
+        self.popup_timerends_background.SetPosition(
+            constants.VIEWPORT_CENTER_X,
+            constants.VIEWPORT_CENTER_Y
+        )
+        self.popup_timerends_title = utils.Text(
+            "evaluation complete",
+            self.subtitle_font
+        )
+        self.popup_timerends_title.SetPosition(constants.VIEWPORT_CENTER_X, 392)
         
-        self.popup_timerends_description = utils.Text("leave the machine de inmediati!", self.normal_font)
-        self.popup_timerends_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
-        
+        self.popup_timerends_description = utils.Text(
+            "testing environment deactivated",
+            self.subtitle_font
+        )
+        self.popup_timerends_description.SetPosition(
+            constants.VIEWPORT_CENTER_X,
+            436
+        )
+
+        # TODO: animate this texto
+        self.popup_timerends_printing = utils.Text(
+            "/...printing results...\\",
+            self.subtitle_font
+        )
+        self.popup_timerends_printing.SetPosition(
+            constants.VIEWPORT_CENTER_X,
+            481
+        )
+
+        # TODO: get the subject ID from somewhere
+        self.popup_timerends_subject = utils.Text(
+            "application completed for subject",
+            self.subtitle_font
+        )
+        self.popup_timerends_subject.SetPosition(
+            constants.VIEWPORT_CENTER_X,
+            567
+        )
+
+        self.popup_timerends_shudown = utils.Text(
+            "shutdown m.i.m.o. and leave the booth",
+            self.subtitle_font
+        )
+        self.popup_timerends_shudown.SetPosition(
+            constants.VIEWPORT_CENTER_X,
+            613
+        )
+
         self.loading_label = utils.Text("loading",self.subtitle_font,color=constants.PALLETE_BACKGROUND_TITLE_BLUE)
         self.loading_label.SetPosition(constants.VIEWPORT_CENTER_X, 330)
         # -- end popup elements
@@ -245,6 +290,7 @@ class SceneBase:
 
     def time_up(self):
         self.timeoutends_popup_active = True
+        utils.stop_music()
         mimo.reset()
 
     def set_countdown(self, time):
@@ -272,5 +318,10 @@ class SceneBase:
     def RenderTimeoutEnds(self, screen):
         if not self.timeoutends_popup_active: return
         pygame.draw.rect(screen, [0x0f, 0x0, 0x0], (100, 120, 1080,480))
+
+        self.popup_timerends_background.RenderWithAlpha(screen)
         self.popup_timerends_title.render(screen)
         self.popup_timerends_description.render(screen)
+        self.popup_timerends_printing.render(screen)
+        self.popup_timerends_subject.render(screen)
+        self.popup_timerends_shudown.render(screen)
