@@ -291,7 +291,7 @@ class SceneBase:
     def time_up(self):
         self.timeoutends_popup_active = True
         utils.stop_music()
-        mimo.printer_interface()
+        mimo.printer_interface('agar3s.json')
         mimo.reset()
 
     def set_countdown(self, time):
