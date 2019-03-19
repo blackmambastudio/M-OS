@@ -70,11 +70,11 @@ class BeginEventScene(SceneBase):
         self.fact_argument.SetPosition(constants.VIEWPORT_CENTER_X, 496)
 
         # add da goal
-        self.goal_title = utils.Text('goal:', self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.goal_title = utils.Text('goal:', self.subtitle_font, color = constants.PALLETE_BACKGROUND_BLUE)
         self.goal_title.setAnchor(0, 0)
         self.goal_title.SetPosition(78, 554)
 
-        self.goal_desc = utils.Text('', self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.goal_desc = utils.Text('', self.subtitle_font, color = constants.PALLETE_BACKGROUND_BLUE)
         self.goal_desc.setAnchor(0, 0)
         self.goal_desc.SetPosition(78+115, 554)
 
@@ -112,6 +112,8 @@ class BeginEventScene(SceneBase):
         self.icon.RenderWithAlpha(screen)
         self.fact_summary.render(screen)
         self.fact_argument.render(screen)
+
+        pygame.draw.rect(screen, constants.PALLETE_BACKGROUND_TITLE_BLUE, (0, 540, 1280, 70))
         self.goal_title.render(screen)
         self.goal_desc.render(screen)
 
