@@ -47,7 +47,7 @@ class OptimizationScene(SceneBase):
         #ring.current_color = [0,0,0]
 
     def SetupMimo(self):
-        mimo.set_led_brightness(150)
+        mimo.set_led_brightness(200)
 
     def SetupLayout(self):
         self.frame = utils.Sprite(
