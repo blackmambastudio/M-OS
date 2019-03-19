@@ -142,6 +142,7 @@ class Sprite():
     def Render(self, screen, position=None, area=None):
         if not position:
             position = self.position
+        screen.blit(self.image, position, area)
 
     def RenderWithAlpha(self, screen, position=None,area=None):
         if self.must_update or self.prev_opacity != self.opacity :
