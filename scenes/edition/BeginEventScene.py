@@ -46,6 +46,9 @@ class BeginEventScene(SceneBase):
     def SetupMimo(self):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
+        mimo.set_material_ligths_on([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0, 8,0, 9,0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 23, 0, 24, 0, 25, 0, 26,0, 27,0])
+        mimo.set_optimization_ligths_on([0,0, 1,0, 2,0, 3,0, 4,0])
+    
         mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1, 5,1, 6,0, 7,0])
         mimo.set_independent_lights(True, True)
         mimo.set_material_leds_color([7, 0xf7, 0x5a, 0xff])
