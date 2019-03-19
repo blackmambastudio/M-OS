@@ -177,7 +177,7 @@ class ScanningScene(OptimizationScene):
         for j in range(0, len(figure)):
             for i in range(0, len(figure[0])):
                 if figure[j][i] == 1:
-                    self.piece_sprites[index].Render(screen, (80+250*(index)+i*40, 415+j*40))
+                    self.piece_sprites[index].Render(screen, (150+220*(index)+i*40, 350+j*40))
 
 
     def NewScan(self, mode, direction):
