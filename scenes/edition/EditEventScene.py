@@ -111,8 +111,8 @@ class EditEventScene(SceneBase):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
         mimo.set_independent_lights(False, True)
-        mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1, 5,1, 6,0, 7,0])
-        mimo.set_material_leds_color([7, 0, 0, 0])
+        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,1, 7,1])
+        mimo.set_material_leds_color([6, 0, 0, 0])
     
 
 
@@ -388,8 +388,8 @@ class EditEventScene(SceneBase):
 
         self.can_optimize = self.busy_slots == 4
 
-        mimo.set_material_buttons_light([7, 0xf7, 0x5a, 0xff])
-        mimo.set_material_buttons_active_status([7, int(self.can_optimize)])
+        mimo.set_material_buttons_light([6, 0xf7, 0x5a, 0xff])
+        mimo.set_material_buttons_active_status([6, int(self.can_optimize)])
         # if busy_slots>4 should lock the unselected buttons
 
     def update_affections(self, index, sum = True):
@@ -484,7 +484,7 @@ class EditEventScene(SceneBase):
         self.left_progress_icon.SetPosition(316, 675)
         self.render_right_progress = True
         
-        mimo.set_material_buttons_light([6, 0x8b, 0x27, 0xff, 7, 0xf7, 0x5a, 0xff])
+        mimo.set_material_buttons_light([7, 0x8b, 0x27, 0xff, 6, 0xf7, 0x5a, 0xff])
         mimo.set_material_buttons_active_status([6,1, 7,1])
 
 
@@ -614,7 +614,7 @@ class EditEventScene(SceneBase):
 
         self.render_left_progress = False
 
-        mimo.set_material_buttons_active_status([6,0, 7,1])
+        mimo.set_material_buttons_active_status([6,1, 7,0])
 
     def PlayMinigame(self, name):
         print(name)
