@@ -388,7 +388,7 @@ class EditEventScene(SceneBase):
 
         self.can_optimize = self.busy_slots == 4
 
-        mimo.set_material_buttons_buttons_light([7, 0xf7, 0x5a, 0xff])
+        mimo.set_material_buttons_light([7, 0xf7, 0x5a, 0xff])
         mimo.set_material_buttons_active_status([7, int(self.can_optimize)])
         # if busy_slots>4 should lock the unselected buttons
 
@@ -484,7 +484,7 @@ class EditEventScene(SceneBase):
         self.left_progress_icon.SetPosition(316, 675)
         self.render_right_progress = True
         
-        mimo.set_material_buttons_buttons_light([6, 0x8b, 0x27, 0xff, 7, 0xf7, 0x5a, 0xff])
+        mimo.set_material_buttons_light([6, 0x8b, 0x27, 0xff, 7, 0xf7, 0x5a, 0xff])
         mimo.set_material_buttons_active_status([6,1, 7,1])
 
 
