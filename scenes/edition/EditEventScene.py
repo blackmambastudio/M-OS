@@ -308,6 +308,8 @@ class EditEventScene(SceneBase):
     def Update(self, dt):
         if not self.popupActive:
             SceneBase.Update(self, dt)
+        elif self.showing_minigame_tutorial:
+            self.minigame_preview.updateFrame(dt)
 
     def RenderBody(self, screen):
         if self.popupActive:
@@ -556,6 +558,7 @@ class EditEventScene(SceneBase):
             self.minigame_desc.render_multiline_truncated(screen, 350, 500)
             self.minigame_goal_label.render(screen)
             self.minigame_goal.render_multiline_truncated(screen, 350, 500)
+            self.minigame_preview.RenderFrame(screen)
 
     # load images for minigames
     def ShowMinigame(self, side):
@@ -621,6 +624,17 @@ class EditEventScene(SceneBase):
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
         self.minigame_goal.setAnchor(0,0)
+
+        self.minigame_preview = utils.Sprite(
+            'assets/minigame_icons/'+selected_minigame["preview"],
+            800,
+            200
+        )
+        self.minigame_preview.frameDelay = 0.75
+        self.minigame_preview.frameWidth = 317
+        self.minigame_preview.frameHeight = 374
+        self.minigame_preview.animationFrames = [0,1,2,3,4,5,6]
+        self.minigame_preview.setAnchor(0,0)
 
         self.right_progress_label.SetColor(minigame_color)
         self.right_progress_label.SetText('press    to start')

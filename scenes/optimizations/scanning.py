@@ -26,15 +26,15 @@ class ScanningScene(OptimizationScene):
         self.displayed_figure_index = -1
         self.fails = 0
         self.detected_contact = False
-        self.countdown = 10000
-        self.current_time = 10000
+        self.countdown = 45000
+        self.current_time = 45000
         
         self.colors = [
-            [0xff, 0x00, 0x00], 
-            [0xff, 0xff, 0x00],
-            [0x00, 0xff, 0x00],
-            [0x00, 0xff, 0xff],
-            [0x00, 0x00, 0xff]
+            [0x00, 0x5f, 0xff], #blue 
+            [0x27, 0xff, 0x93], #green
+            [0xf7, 0x5a, 0xff], #pink
+            [0x8b, 0x27, 0xff], #purple
+            [0xea, 0xe1, 0xf3]  #white
         ]
         mimo.set_independent_lights(False, True)
         mimo.set_buttons_enable_status(False, True)

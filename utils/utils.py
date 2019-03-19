@@ -93,9 +93,29 @@ class Sprite():
         self.must_update = True
         self.cached_image = self.image
         self.prev_opacity = -1
+        self.frame_index = 0
+        self.frameDelay = 1
+        self.framedt = 0
+        self.frameWidth = 0
+        self.frameHeight = 0
+        self.animationFrames=[]
+        #317X374
 
     def GetRotation(self):
         return self.rotation
+
+    def updateFrame(self, dt):
+        self.framedt += dt
+        if self.framedt > self.frameDelay:
+            self.framedt = 0
+            self.frame_index += 1
+            if self.frame_index >= len(self.animationFrames):
+                self.frame_index = 0
+
+    def RenderFrame(self, screen):
+        frame = self.animationFrames[self.frame_index]
+        screen.blit(self.image, self.position, (frame*self.frameWidth, 0, self.frameWidth, self.frameHeight))
+        
 
     def SetPosition(self, x, y):
         self.x = x
@@ -122,7 +142,6 @@ class Sprite():
     def Render(self, screen, position=None, area=None):
         if not position:
             position = self.position
-        screen.blit(self.image, position, area)
 
     def RenderWithAlpha(self, screen, position=None,area=None):
         if self.must_update or self.prev_opacity != self.opacity :
