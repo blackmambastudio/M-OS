@@ -87,8 +87,8 @@ class FocusScene(OptimizationScene):
         OptimizationScene.SetupMimo(self)
         mimo.set_buttons_enable_status(False, True)
         mimo.set_independent_lights(True, False)
-        mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1])
-        mimo.set_material_buttons_active_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0])
+        mimo.set_optimization_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1])
+        mimo.set_optimization_buttons_active_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0])
 
 
     def ProcessInputOpt(self, events, pressed_keys):

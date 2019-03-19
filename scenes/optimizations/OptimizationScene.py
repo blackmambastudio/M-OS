@@ -198,7 +198,7 @@ class OptimizationScene(SceneBase):
 
         mimo.set_buttons_enable_status(True, False)
         mimo.set_material_buttons_light([6, 0x27, 0xff, 0x93])
-        mimo.set_material_buttons_active_status([6, int(self.can_optimize)])
+        mimo.set_material_buttons_active_status([6, 1])
 
 
 
