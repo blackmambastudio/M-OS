@@ -111,8 +111,8 @@ class EditEventScene(SceneBase):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
         mimo.set_independent_lights(False, True)
-        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])    
-
+        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])
+        mimo.set_material_buttons_active_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])
 
     def SetupLayout(self):
         self.info_frame = utils.Sprite(
