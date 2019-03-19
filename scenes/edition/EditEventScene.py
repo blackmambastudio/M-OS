@@ -81,7 +81,7 @@ class EditEventScene(SceneBase):
             line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
             
             mimo.set_material_buttons_light([index] + material['color'])
-            mimo.set_material_leds_color([material_indexes[index]] + material['color'])
+            #mimo.set_material_leds_color([material_indexes[index]] + material['color'])
             
             mimo.lcd_display_at(index, line1_text, 1)
             mimo.lcd_display_at(index, line2_text, 2)
@@ -111,9 +111,7 @@ class EditEventScene(SceneBase):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
         mimo.set_independent_lights(False, True)
-        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,1, 7,1])
-        mimo.set_material_leds_color([6, 0, 0, 0])
-    
+        mimo.set_material_buttons_mode([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])    
 
 
     def SetupLayout(self):
