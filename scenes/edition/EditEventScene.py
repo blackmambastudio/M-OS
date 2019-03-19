@@ -28,6 +28,7 @@ from scenes.optimizations import get_next_pair
 class EditEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
+        self.SetupMimo()
         # load event, title and description
         self.current_event = news[0]
 
@@ -72,17 +73,19 @@ class EditEventScene(SceneBase):
         for mtl in self.event_mtl:
             self.images.append(utils.Sprite(constants.MATERIAL + mtl['img']))
 
-        material_indexes = [0, 1, 2, 7, 6, 5]
+        material_indexes = [0, 1, 2, 4, 5, 6]
         index = 0
         # set buttons to switch mode
         for material in self.current_event['material']:
             line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
             line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
+            
+            mimo.set_material_buttons_light([index] + material['color'])
+            mimo.set_material_leds_color([material_indexes[index]] + material['color'])
+            
             mimo.lcd_display_at(index, line1_text, 1)
             mimo.lcd_display_at(index, line2_text, 2)
 
-            mimo.set_material_buttons_light([index] + material['color'])
-            mimo.set_material_leds_color([material_indexes[index]] + material['color'])
             index += 1
 
         # reset material buttons
@@ -104,6 +107,13 @@ class EditEventScene(SceneBase):
         self.UI_EndGame.set_volume(1)
 
 
+    def SetupMimo():
+        mimo.set_led_brightness(150)
+        mimo.set_buttons_enable_status(True, False)
+        mimo.set_independent_lights(False, True)
+        mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1, 5,1, 6,0, 7,0])
+        mimo.set_material_leds_color([7, 0, 0, 0])
+    
 
 
     def SetupLayout(self):
@@ -192,7 +202,6 @@ class EditEventScene(SceneBase):
 
     def SetupPopupLayout(self):
         self.available_minigames = get_next_pair()
-        print("primero esto", self.available_minigames)
         self.popup_background = utils.Sprite(
             constants.SPRITES_EDITION + 'minigames-popup.png',
             constants.VIEWPORT_CENTER_X,
@@ -378,6 +387,9 @@ class EditEventScene(SceneBase):
             slot_index += 1
 
         self.can_optimize = self.busy_slots == 4
+
+        mimo.set_material_buttons_buttons_light([7, 0xf7, 0x5a, 0xff])
+        mimo.set_material_buttons_active_status([7, int(self.can_optimize)])
         # if busy_slots>4 should lock the unselected buttons
 
     def update_affections(self, index, sum = True):
@@ -471,6 +483,10 @@ class EditEventScene(SceneBase):
         self.left_progress_icon.setAnchor(0.5, 0.5)
         self.left_progress_icon.SetPosition(316, 675)
         self.render_right_progress = True
+        
+        mimo.set_material_buttons_buttons_light([6, 0x8b, 0x27, 0xff, 7, 0xf7, 0x5a, 0xff])
+        mimo.set_material_buttons_active_status([6,1, 7,1])
+
 
     def ClosePopup(self):
         self.popupActive = False
@@ -597,6 +613,8 @@ class EditEventScene(SceneBase):
         self.right_progress_icon.SetPosition(907, 675)
 
         self.render_left_progress = False
+
+        mimo.set_material_buttons_active_status([6,0, 7,1])
 
     def PlayMinigame(self, name):
         print(name)

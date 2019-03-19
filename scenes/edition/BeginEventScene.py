@@ -34,13 +34,22 @@ class BeginEventScene(SceneBase):
         self.MX.append('assets/audio/MX/WeirdJungle.ogg')
         self.MX.append('assets/audio/MX/WhereAreYou.ogg')
 
+        self.SetupMimo()
+
         # initialize state
         # setup the layout for the scene
         self.SetupLayout()
         
         # load event, title, description, objective and material
         self.LoadEvent(news[0])        
-        
+
+    def SetupMimo(self):
+        mimo.set_led_brightness(150)
+        mimo.set_buttons_enable_status(True, False)
+        mimo.set_independent_lights(True, True)
+        mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1, 5,1, 6,0, 7,0])
+        mimo.set_material_leds_color([7, 0xf7, 0x5a, 0xff])
+                
 
     def SetupLayout(self):
         utils.play_music(self.MX[1], -1, 0.1, 0.2)
@@ -136,9 +145,6 @@ class BeginEventScene(SceneBase):
         # change the default order of the material
         random.shuffle(self.current_event['material'])
 
-        mimo.set_independent_lights(True, True)
-        mimo.set_buttons_enable_status(True, False)
-        mimo.set_material_leds_color([7, 0xf7, 0x5a, 0xff])
 
         #mimo.termal_print(self.current_event['hdl'].upper())
         #### imprimir la noticia en pantalla?

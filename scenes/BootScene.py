@@ -36,7 +36,6 @@ class BootScene(SceneBase):
         self.AddTrigger(9.2, self, 'SwitchToScene', "Begin")
 
         mimo.set_led_brightness(150)
-        mimo.set_optimization_buttons_lock_status([0, 0, 1, 0, 2, 0])
 
         font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 24)
         self.title = utils.Text("M-OS STARTING", font)

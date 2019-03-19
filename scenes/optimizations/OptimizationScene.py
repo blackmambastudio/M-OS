@@ -38,6 +38,8 @@ class OptimizationScene(SceneBase):
         self.popup_active = False
         self.score = 0
 
+        mimo.set_led_brightness(150)
+        
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
         self.SetupPopup()
