@@ -581,13 +581,13 @@ class EditEventScene(SceneBase):
 
         self.minigame_preview = utils.Sprite(
             'assets/minigame_icons/'+selected_minigame["preview"],
-            800,
-            200
+            selected_minigame["preview_x"],
+            selected_minigame["preview_y"]
         )
-        self.minigame_preview.frameDelay = 0.75
-        self.minigame_preview.frameWidth = 317
-        self.minigame_preview.frameHeight = 374
-        self.minigame_preview.animationFrames = [0,1,2,3,4,5,6]
+        self.minigame_preview.frameDelay = selected_minigame["preview_rate"]
+        self.minigame_preview.frameWidth = selected_minigame["preview_width"]
+        self.minigame_preview.frameHeight = selected_minigame["preview_height"]
+        self.minigame_preview.animationFrames = selected_minigame["preview_frames"]
         self.minigame_preview.setAnchor(0,0)
 
         self.percentage = 0

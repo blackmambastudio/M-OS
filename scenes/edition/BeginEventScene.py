@@ -95,7 +95,7 @@ class BeginEventScene(SceneBase):
         if self.closing: return
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
-                self.CloseEvent()
+                self.CloseEvent(0.5)
                 self.AddTrigger(0.51, self, 'SwitchToScene', "Edit")
 
     def Update(self, dt):

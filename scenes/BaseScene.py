@@ -84,6 +84,9 @@ class SceneBase:
         
         self.popup_timerends_description = utils.Text("leave the machine de inmediati!", self.normal_font)
         self.popup_timerends_description.SetPosition(constants.VIEWPORT_CENTER_X, 506)
+        
+        self.loading_label = utils.Text("loading",self.subtitle_font,color=constants.PALLETE_BACKGROUND_TITLE_BLUE)
+        self.loading_label.SetPosition(constants.VIEWPORT_CENTER_X, 330)
         # -- end popup elements
 
         # sfx and audio
@@ -128,9 +131,11 @@ class SceneBase:
 
     def RenderCortain(self, screen):
         if self.transition_cortain:
-            pygame.draw.rect(screen, [0x20, 0xF4, 0xFE], (400, 210, 480, 300))
-            pygame.draw.rect(screen, [0x00, 0x60, 0xFF], (400, 210, 480, 300), 2)
-            pygame.draw.rect(screen, [0x0, 0x60, 0xFF], (450, 360, self.height_cortain*380, 50))
+            interval = (int(self.height_cortain*15))/15
+            pygame.draw.rect(screen, [0x20, 0xF4, 0xFE], (400, 270, 480, 180))
+            pygame.draw.rect(screen, [0x00, 0x60, 0xFF], (400, 270, 480, 180), 2)
+            pygame.draw.rect(screen, [0x0, 0x60, 0xFF], (450, 360, interval*380, 50))
+            self.loading_label.render(screen)
 
     # in milliseconds
     def format_time(time):
