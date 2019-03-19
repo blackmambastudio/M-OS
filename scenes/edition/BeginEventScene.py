@@ -46,8 +46,8 @@ class BeginEventScene(SceneBase):
     def SetupMimo(self):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
-        mimo.set_independent_lights(True, True)
         mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1, 5,1, 6,0, 7,0])
+        mimo.set_independent_lights(True, True)
         mimo.set_material_leds_color([7, 0xf7, 0x5a, 0xff])
                 
 

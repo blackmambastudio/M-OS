@@ -11,7 +11,6 @@ class FocusScene(OptimizationScene):
     def __init__(self):
         self.minigametitle = 'focus.opt'
         OptimizationScene.__init__(self)
-        mimo.set_led_brightness(150)
         self.pieces = []
         self.rendering_order = [0,1,2,3,4]
         self.render_background = True
@@ -83,6 +82,13 @@ class FocusScene(OptimizationScene):
 
         # base loop
         utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
+
+    def SetupMimo(self):
+        OptimizationScene.SetupMimo(self)
+        mimo.set_buttons_enable_status(False, True)
+        mimo.set_independent_lights(True, False)
+        mimo.set_material_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1])
+        mimo.set_material_buttons_active_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0])
 
 
     def ProcessInputOpt(self, events, pressed_keys):

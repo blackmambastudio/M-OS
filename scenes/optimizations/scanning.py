@@ -14,8 +14,7 @@ class ScanningScene(OptimizationScene):
         OptimizationScene.__init__(self)
         
         self.coldown = 0
-        mimo.set_led_brightness(150)
-        mimo.set_tunners_enable_status(True)
+        
         self.index = 8
         self.line_color = 0xf0f
         self.playing = False
@@ -36,8 +35,6 @@ class ScanningScene(OptimizationScene):
             [0x8b, 0x27, 0xff], #purple
             [0xea, 0xe1, 0xf3]  #white
         ]
-        mimo.set_independent_lights(False, True)
-        mimo.set_buttons_enable_status(False, True)
         led_lights = []
         index = 0
         for color in self.colors:
@@ -83,6 +80,16 @@ class ScanningScene(OptimizationScene):
         self.MG1_Failed.set_volume(1)
 
         self.NextFigure()
+
+    def SetupMimo(self):
+        mimo.set_led_brightness(150)
+        mimo.set_tunners_enable_status(True)
+        mimo.set_independent_lights(False, True)
+        mimo.set_buttons_enable_status(False, True)
+        mimo.set_optimization_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1])
+        mimo.set_optimization_buttons_active_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0])
+
+
         
     def ProcessInputOpt(self, events, pressed_keys):
         for event in events:

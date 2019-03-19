@@ -38,13 +38,16 @@ class OptimizationScene(SceneBase):
         self.popup_active = False
         self.score = 0
 
-        mimo.set_led_brightness(150)
+        self.SetupMimo()
         
         # -- setup layout ------------------------------------------------------
         self.SetupLayout()
         self.SetupPopup()
         #ring.fill()
         #ring.current_color = [0,0,0]
+
+    def SetupMimo(self):
+        mimo.set_led_brightness(150)
 
     def SetupLayout(self):
         self.frame = utils.Sprite(
@@ -192,6 +195,10 @@ class OptimizationScene(SceneBase):
             bonus_text = "20 seconds bonus"
         self.popup_description.SetText(performance_text)
         self.bonus_text.SetText(bonus_text)
+
+        mimo.set_buttons_enable_status(True, False)
+        mimo.set_material_buttons_light([6, 0x27, 0xff, 0x93])
+        mimo.set_material_buttons_active_status([6, int(self.can_optimize)])
 
 
 
