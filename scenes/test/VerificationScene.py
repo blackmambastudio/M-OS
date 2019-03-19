@@ -16,7 +16,7 @@ class VerificationScene(SceneBase):
         self.logo = utils.Sprite('assets/sprites/logo_MCorp.png', 1280/2, 720/2)
         self.logo.opacity = 0
 
-        self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/MimoLogo.ogg')
+        self.sfx_mimo_logo = utils.get_sound('assets/audio/SFX/M_OS/UI_Booth.ogg')
         
         self.AddTween("easeInOutSine", 2, self.logo, "opacity", 0, 255, 1)
         self.AddTrigger(1, self.sfx_mimo_logo, 'play')

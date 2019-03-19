@@ -95,6 +95,7 @@ class SerialComm:
 
     def close_connection(self):
         if self.active:
+            self.active = False
             self.comm.close()
 
 

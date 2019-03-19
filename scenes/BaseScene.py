@@ -245,7 +245,7 @@ class SceneBase:
 
     def time_up(self):
         self.timeoutends_popup_active = True
-        mimo.shutdown()
+        mimo.reset()
 
     def set_countdown(self, time):
         countdown_time = time
