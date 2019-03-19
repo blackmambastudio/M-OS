@@ -107,7 +107,7 @@ class EditEventScene(SceneBase):
         self.UI_EndGame.set_volume(1)
 
 
-    def SetupMimo():
+    def SetupMimo(self):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
         mimo.set_independent_lights(False, True)
