@@ -5,6 +5,7 @@ import mimo
 
 from utils import utils
 from utils import neopixelmatrix as graphics
+from utils import ringpixel as ring
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
 from utils.NewsProvider import news
 from utils import constants
@@ -306,10 +307,11 @@ class EditEventScene(SceneBase):
                     self.ShowMinigame(constants.MINIGAME_LEFT)
 
     def Update(self, dt):
-        if not self.popupActive:
-            SceneBase.Update(self, dt)
-        elif self.showing_minigame_tutorial:
+        SceneBase.Update(self, dt)
+        if self.showing_minigame_tutorial:
             self.minigame_preview.updateFrame(dt)
+
+            ring.fill_percentage(self.percentage)
 
     def RenderBody(self, screen):
         if self.popupActive:
@@ -375,54 +377,6 @@ class EditEventScene(SceneBase):
                 break
             slot_index += 1
 
-        # ──────────────────────────────────────────────────────────────────────┐
-        # we won't have material label updates for the momento
-        # next_story_part = 0
-        # for used_slot in self.sequence:
-        #     if used_slot == -1:
-        #         # update the LCDs and the images so they show the material
-        #         # available for the free slot
-        #         if next_story_part == constants.STORY_CONFLICT_1:
-        #             break
-        #         elif next_story_part == constants.STORY_CONFLICT_2:
-        #             break
-        #         else:
-        #             break
-        #     next_story_part += 1
-
-        # new_mtl = []
-        # for mtl in self.event_mtl:
-        #     # check which is the next free story slot and update the material
-        #     if mtl['story_position'] == next_story_part:
-        #         new_mtl.append(mtl)
-
-        # # change the default order of the material
-        # # random.shuffle(new_mtl)
-
-        # # replace the images and the texts on the LCD displays with the new material
-        # index = 0
-        # for mtl_img in self.images:
-        #     xxx = index in self.sequence
-        #     if not xxx:
-        #         self.images[index] = utils.Sprite(
-        #             constants.MATERIAL + new_mtl[index]['img']
-        #         )
-        #         line1_text = utils.align_text(
-        #             new_mtl[index]['label'][0],
-        #             index < 3, 14, '-'
-        #         )
-        #         line2_text = utils.align_text(
-        #             new_mtl[index]['label'][1],
-        #             index < 3, 14, '-'
-        #         )
-        #         mimo.lcd_display_at(index, line1_text, 1)
-        #         mimo.lcd_display_at(index, line2_text, 2)
-        #         print("index to change", index, line1_text)
-
-        #         # TODO: update the color for the LEDs
-        #     index += 1
-        # ──────────────────────────────────────────────────────────────────────┘
-
         self.can_optimize = self.busy_slots == 4
         # if busy_slots>4 should lock the unselected buttons
 
@@ -462,7 +416,7 @@ class EditEventScene(SceneBase):
     def set_material_active(self, index, slot_index):
         self.UI_MatSel[int(random()*3)].play()
         material = self.current_event['material'][index]
-        mimo.set_material_leds_color([8+slot_index]+material['color'])
+        mimo.set_material_leds_color([24+slot_index]+material['color'])
         line1_text = utils.align_text(material['label'][0], index < 3, 16, '*')
         line2_text = utils.align_text(material['label'][1], index < 3, 16, '*')
         mimo.lcd_display_at(index, line1_text, 1)
@@ -471,7 +425,7 @@ class EditEventScene(SceneBase):
 
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
-        mimo.set_material_leds_color([8+slot_index, 0,0,0])
+        mimo.set_material_leds_color([24+slot_index, 0,0,0])
         line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
         line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
         mimo.lcd_display_at(index, line1_text, 1)
@@ -636,6 +590,8 @@ class EditEventScene(SceneBase):
         self.minigame_preview.animationFrames = [0,1,2,3,4,5,6]
         self.minigame_preview.setAnchor(0,0)
 
+        self.percentage = 0
+
         self.right_progress_label.SetColor(minigame_color)
         self.right_progress_label.SetText('press    to start')
         self.right_progress_icon.SetPosition(907, 675)
@@ -643,4 +599,8 @@ class EditEventScene(SceneBase):
         self.render_left_progress = False
 
     def PlayMinigame(self, name):
-        self.SwitchToScene(name)
+        print(name)
+        self.CloseEvent(1.1)
+        self.AddTween("easeInSine", 1.1, self, "percentage", 0, 1.1, 0)
+        self.AddTrigger(1.2, self, 'SwitchToScene', name)
+        

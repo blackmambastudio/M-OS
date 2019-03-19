@@ -220,11 +220,11 @@ class SceneBase:
         self.AddTween("easeOutSine", 0.5, self, "height_cortain", 1, 0, 0)
         self.AddTrigger(0.51, self, 'StopTransition')
 
-    def CloseEvent(self):
+    def CloseEvent(self, time=0.5):
         self.UI_BarLoad.play()
         self.transition_cortain = True
-        self.AddTween("easeOutSine", 0.5, self, "height_cortain", 0, 1, 0)
-        self.AddTrigger(0.51, self, 'StopTransition')
+        self.AddTween("easeOutSine", time, self, "height_cortain", 0, 1, 0)
+        self.AddTrigger(time+0.1, self, 'StopTransition')
         self.closing = True 
 
     def StopTransition(self):

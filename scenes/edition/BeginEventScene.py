@@ -39,14 +39,10 @@ class BeginEventScene(SceneBase):
         self.SetupLayout()
         
         # load event, title, description, objective and material
-        self.LoadEvent(news[0])
-
-
-        
+        self.LoadEvent(news[0])        
         
 
     def SetupLayout(self):
-        
         utils.play_music(self.MX[1], -1, 0.1, 0.2)
         # add da fact
         self.fact_title = utils.Text(
