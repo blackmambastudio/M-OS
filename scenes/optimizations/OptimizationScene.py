@@ -78,6 +78,14 @@ class OptimizationScene(SceneBase):
         self.bonus_text.SetPosition(constants.VIEWPORT_CENTER_X, 420)
 
 
+        self.right_progress_label = utils.Text("press    to edit the next news", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.right_progress_label.setAnchor(1, 0)
+        self.right_progress_label.SetPosition(1200, 660)
+        self.right_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button-green.png", 745, 642)
+        self.right_progress_icon.setAnchor(1, 0)
+
+
+
     def ProcessInput(self, events, pressed_keys):
         if not self.IsPlaying():
             for event in events:
@@ -183,7 +191,12 @@ class OptimizationScene(SceneBase):
         self.popup_description.SetText(performance_text)
         self.bonus_text.SetText(bonus_text)
 
+
+
     def RenderPopup(self, screen):
         self.results_background.RenderWithAlpha(screen)
         self.popup_description.render(screen)
         self.bonus_text.render(screen)
+
+        self.right_progress_label.RenderWithAlpha(screen)
+        self.right_progress_icon.RenderWithAlpha(screen)
