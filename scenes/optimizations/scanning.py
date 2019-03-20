@@ -65,11 +65,11 @@ class ScanningScene(OptimizationScene):
         # sfx and audio
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_ObjSort = utils.get_sound(audio_path + 'MG1_ObjSort.ogg')
-        self.MG1_ObjSort.set_volume(0.08)
+        self.MG1_ObjSort.set_volume(0.6)
 
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_Sweep = utils.get_sound(audio_path + 'MG1_Sweep.ogg')
-        self.MG1_Sweep.set_volume(0.6)
+        self.MG1_Sweep.set_volume(1.0)
 
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_Success = utils.get_sound(audio_path + 'MG1_Success.ogg')

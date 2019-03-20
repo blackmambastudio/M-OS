@@ -55,7 +55,7 @@ class BeginEventScene(SceneBase):
                 
 
     def SetupLayout(self):
-        utils.play_music(self.MX[1], -1, 0.1, 0.2)
+        utils.play_music(self.MX[(int(random.random()*10))], -1, 0.1, 0.6)
         # add da fact
         self.fact_title = utils.Text(
             '',

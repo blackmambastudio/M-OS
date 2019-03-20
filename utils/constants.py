@@ -56,7 +56,7 @@ STORY_SUBJECT_1 = 'S1'
 STORY_SUBJECT_2 = 'S2'
 
 # in minutes
-SESSION_TIME = 6.2
+SESSION_TIME = 4.8
 #SESSION_TIME = 1.5
 
 # TODO: put the constants related to the keyboard keys that will emulate the buttons

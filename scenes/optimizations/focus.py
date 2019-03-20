@@ -159,9 +159,9 @@ class FocusScene(OptimizationScene):
         self.pieces[index].Rotate(round(self.pieces[index].rotation))
         if self.pieces[index].rotation == 0:
             self.MG2_Pos[self.correct_pieces].play()
-            self.MG2_Pos[self.correct_pieces].set_volume(0.5)
+            self.MG2_Pos[self.correct_pieces].set_volume(0.8)
             #self.sfx_pieces[self.correct_pieces].play(-1)
-            self.sfx_pieces[self.correct_pieces].set_volume(0.5)
+            self.sfx_pieces[self.correct_pieces].set_volume(0.8)
             self.correct_pieces += 1
             
         
