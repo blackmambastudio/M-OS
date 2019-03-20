@@ -281,6 +281,7 @@ class SceneBase:
         self.transition_cortain = False
     
     def display_timeout_alert(self):
+        self.UI_TimeAlert.play()
         self.countdown_label.SetColor([0xff, 0xff, 0xff])
         self.countdown_in_red = True
         self.timeout_popup_active = True
@@ -290,6 +291,7 @@ class SceneBase:
 
     def time_up(self):
         self.timeoutends_popup_active = True
+        self.UI_EndGame.play()
         utils.stop_music()
         mimo.printer_interface('agar3s.json')
         mimo.reset()
