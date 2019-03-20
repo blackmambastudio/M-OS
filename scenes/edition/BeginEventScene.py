@@ -41,7 +41,7 @@ class BeginEventScene(SceneBase):
         self.SetupLayout()
         
         # load event, title, description, objective and material
-        self.LoadEvent(news[0])        
+        self.LoadEvent(news[int(random() * 4)])
 
     def SetupMimo(self):
         mimo.set_led_brightness(150)
