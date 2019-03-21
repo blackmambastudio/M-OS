@@ -1,5 +1,6 @@
 from . import constants
 
+
 news = [
     {
         'id': 0,
@@ -86,11 +87,11 @@ news = [
     },
     {
         'id': 1,
-        'hdl': 'Wigsthon\'s governor Charles Machet facing several sexual harassment allegations',
+        'hdl': 'Governor facing sexual harassment allegations',
         'ovw': 'Governor\'s Reputation...Sexual Harassment Allegations...Abuse of Power',
-        'arg': 'Machet politics have brought positive impact to Wigsthon’s community',
+        'arg': 'Governor\'s politics have brought positive impact to Wigsthon’s community',
         'gol': 'Divert attention from the accusations',
-        'ico': 'biohazard.png',
+        'ico': 'judge.png',
         'framing': [
             {
                 # :) || :(
@@ -98,7 +99,7 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_1,
                 'right_operate': constants.STORY_SUBJECT_2,
                 'property': 'support',
-                'text': 'audience will trust monteasalvo and lose credibility in environmentalists'
+                'text': 'audience will support the governor and believe the victim is lying'
             },
             {
                 # :( || :)
@@ -106,20 +107,20 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_2,
                 'right_operate': constants.STORY_SUBJECT_1,
                 'property': 'support',
-                'text': 'audience will support the environmentalists and protest against monteasalvo'
+                'text': 'people will feel sorry for the victim and governor\'s popularity will fall considerably'
             },
             {
                 # :) || :)
-                'operator': '=',
+                'operator': '>',
                 'left_operate': constants.STORY_SUBJECT_1,
                 'right_operate': constants.STORY_SUBJECT_2,
-                'property': 'support',
-                'text': "audience will worry about the disaster but won't do anything"
+                'property': 'damage',
+                'text': "People will think the accusation is a political move from the oppositors"
             },
             {
                 # :| || :|
                 'operator': 'none',
-                'text': 'audience won\'t pay attention to the news'
+                'text': 'audience will feel apathetic about the subject'
             }
         ],
         'material': [
@@ -334,4 +335,3 @@ news = [
         ]
     }
 ]
-

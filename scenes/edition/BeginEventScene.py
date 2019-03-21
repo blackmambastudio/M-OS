@@ -41,7 +41,12 @@ class BeginEventScene(SceneBase):
         self.SetupLayout()
         
         # load event, title, description, objective and material
-        self.LoadEvent(news[int(random() * 4)])
+        # currento_evento = int(random.random() * 4)
+
+        if constants.currento_evento == 1:
+            constants.currento_evento = -1
+        constants.currento_evento += 1
+        self.LoadEvent(news[constants.currento_evento])
 
     def SetupMimo(self):
         mimo.set_led_brightness(150)
@@ -115,8 +120,8 @@ class BeginEventScene(SceneBase):
 
     def RenderBody(self, screen):
 
-        for back_image in self.back_news:
-            back_image.RenderWithAlpha(screen)
+        # for back_image in self.back_news:
+        #     back_image.RenderWithAlpha(screen)
 
         # render the layout
         self.fact_title.render(screen)

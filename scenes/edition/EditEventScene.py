@@ -30,7 +30,7 @@ class EditEventScene(SceneBase):
         SceneBase.__init__(self)
         self.SetupMimo()
         # load event, title and description
-        self.current_event = news[0]
+        self.current_event = news[constants.currento_evento]
 
         # initialize state
         self.image_positions = [
@@ -148,7 +148,7 @@ class EditEventScene(SceneBase):
         self.news_framing = utils.Text(
             'no opinion bias set yet. select material to start framing the news.',
             self.normal_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
+            color = constants.PALETTE_TITLES_PINK
         )
         self.news_framing.setAnchor(0, 0)
         self.news_framing.SetPosition(380, 180)

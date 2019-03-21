@@ -21,6 +21,7 @@ class ResultsScene(SceneBase):
         self.title = utils.Text("Results last scene", titlefont)
         self.title.SetPosition(1280/2, 546)
         self.UI_EndGame = utils.get_sound('assets/audio/SFX/M_OS/UI_EndGame.ogg')
+        self.end_game_played = False
 
     def ProcessInput(self, events, pressed_keys):
         pass
@@ -29,7 +30,9 @@ class ResultsScene(SceneBase):
         SceneBase.Update(self, dt)
     
     def Render(self, screen):
-        self.UI_EndGame.play()
+        if not self.end_game_played:
+            self.UI_EndGame.play()
+            self.end_game_played = True
         screen.fill(constants.PALLETE_BACKGROUND_BLUE)
         self.title.RenderWithAlpha(screen)
     
