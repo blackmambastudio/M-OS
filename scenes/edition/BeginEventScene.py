@@ -43,7 +43,7 @@ class BeginEventScene(SceneBase):
         # load event, title, description, objective and material
         # currento_evento = int(random.random() * 4)
 
-        if constants.currento_evento == 1:
+        if constants.currento_evento == 3:
             constants.currento_evento = -1
         constants.currento_evento += 1
         self.LoadEvent(news[constants.currento_evento])

@@ -170,11 +170,11 @@ news = [
     },
     {
         'id': 2,
-        'hdl': 'MCorp announce release date for Magic Entertainment System™',
-        'ovw': 'MCorp Technologies...Magic Entertainment System™ Release...Game Changer for Entertainment Business',
+        'hdl': 'MCorp announce MES™',
+        'ovw': 'MCorp Technologies...MES™ Release...Game Changer for Entertainment Business',
         'arg': 'Unlawful gathering of personal information',
         'gol': 'Encourage Device Purchase',
-        'ico': 'biohazard.png',
+        'ico': 'surveillance.png',
         'framing': [
             {
                 # :) || :(
@@ -182,7 +182,7 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_1,
                 'right_operate': constants.STORY_SUBJECT_2,
                 'property': 'support',
-                'text': 'audience will trust monteasalvo and lose credibility in environmentalists'
+                'text': 'People will buy the Magic Entertainment System™'
             },
             {
                 # :( || :)
@@ -190,20 +190,20 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_2,
                 'right_operate': constants.STORY_SUBJECT_1,
                 'property': 'support',
-                'text': 'audience will support the environmentalists and protest against monteasalvo'
+                'text': 'People will feel unsure buying the Magic Entertainment System™'
             },
             {
                 # :) || :)
-                'operator': '=',
-                'left_operate': constants.STORY_SUBJECT_1,
-                'right_operate': constants.STORY_SUBJECT_2,
-                'property': 'support',
-                'text': "audience will worry about the disaster but won't do anything"
+                'operator': '>',
+                'left_operate': constants.STORY_SUBJECT_2,
+                'right_operate': constants.STORY_SUBJECT_1,
+                'property': 'damage',
+                'text': "People will distrust the resistance"
             },
             {
                 # :| || :|
                 'operator': 'none',
-                'text': 'audience won\'t pay attention to the news'
+                'text': 'People will ignore the subject'
             }
         ],
         'material': [
@@ -253,11 +253,11 @@ news = [
     },
     {
         'id': 3,
-        'hdl': 'Migrant Crisis brings instability to Hunuragha',
+        'hdl': 'Migrant Crisis in Hunuragha',
         'ovw': 'Platanalians...Instability in Hunuragha...Sickness and criminal acts uprising',
         'arg': 'Migration consecuences of actions taken by the highest spheres of society',
-        'gol': 'Generate rejection towards Platanalian Migrants',
-        'ico': 'biohazard.png',
+        'gol': 'Generate rejection towards Migrants',
+        'ico': 'migrants.png',
         'framing': [
             {
                 # :) || :(
@@ -265,23 +265,23 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_1,
                 'right_operate': constants.STORY_SUBJECT_2,
                 'property': 'support',
-                'text': 'audience will trust monteasalvo and lose credibility in environmentalists'
+                'text': 'People will fear immigrants arrival'
             },
             {
                 # :( || :)
                 'operator': '>',
-                'left_operate': constants.STORY_SUBJECT_2,
-                'right_operate': constants.STORY_SUBJECT_1,
-                'property': 'support',
-                'text': 'audience will support the environmentalists and protest against monteasalvo'
+                'left_operate': constants.STORY_SUBJECT_1,
+                'right_operate': constants.STORY_SUBJECT_2,
+                'property': 'damage',
+                'text': 'People will blame immigrants for crisis'
             },
             {
                 # :) || :)
-                'operator': '=',
-                'left_operate': constants.STORY_SUBJECT_1,
-                'right_operate': constants.STORY_SUBJECT_2,
+                'operator': '>',
+                'left_operate': constants.STORY_SUBJECT_2,
+                'right_operate': constants.STORY_SUBJECT_1,
                 'property': 'support',
-                'text': "audience will worry about the disaster but won't do anything"
+                'text': "People will question the company’s intention"
             },
             {
                 # :| || :|
@@ -321,7 +321,7 @@ news = [
             {
                 'label': ['Platanalian', 'Testimony'],
                 'color': [0x11, 0xf4, 0xb3],
-                'img': 'migrant_speak.png',
+                'img': 'platanalian_testimony.png',
                 'supports': constants.STORY_SUBJECT_2,
                 'damages': constants.STORY_SUBJECT_1
             },

@@ -63,4 +63,4 @@ SESSION_TIME = 4.8
 # TODO: put the constants related to the keyboard keys that will emulate the buttons
 #   in la MiMo.
 
-currento_evento = 0
+currento_evento = 1
