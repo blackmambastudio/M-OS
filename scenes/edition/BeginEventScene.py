@@ -113,6 +113,8 @@ class BeginEventScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 self.CloseEvent(0.5)
+                self.UI_SwitchScene = utils.get_sound('assets/audio/SFX/Scanning/MG1_ObjSort.ogg')
+                self.UI_SwitchScene.play()
                 self.AddTrigger(0.51, self, 'SwitchToScene', "Edit")
 
     def Update(self, dt):

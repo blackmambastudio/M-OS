@@ -106,6 +106,8 @@ class EditEventScene(SceneBase):
         self.UI_EndGame = utils.get_sound(audio_path + 'UI_EndGame.ogg')
         self.UI_EndGame.set_volume(1)
 
+        self.UI_SwitchScene = utils.get_sound('assets/audio/SFX/Scanning/MG1_ObjSort.ogg')
+
 
     def SetupMimo(self):
         mimo.set_led_brightness(150)
@@ -303,14 +305,18 @@ class EditEventScene(SceneBase):
                     # open the optimization popup
 
                     self.render_left_progress = True
+                    self.UI_SwitchScene.play()
                     self.OpenPopup()
                 elif self.popupActive:
                     if self.showing_minigame_tutorial:
+                        self.UI_SwitchScene.play()
                         self.PlayMinigame(self.selected_minigame)
                     else:
+                        self.UI_SwitchScene.play()
                         self.ShowMinigame(constants.MINIGAME_RIGHT)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_w:
                 if self.popupActive:
+                    self.UI_SwitchScene.play()
                     self.ShowMinigame(constants.MINIGAME_LEFT)
 
     def Update(self, dt):
@@ -619,4 +625,3 @@ class EditEventScene(SceneBase):
         self.CloseEvent(1.1)
         self.AddTween("easeInSine", 1.1, self, "percentage", 0, 1.1, 0)
         self.AddTrigger(1.2, self, 'SwitchToScene', name)
-        

@@ -74,7 +74,7 @@ class FocusScene(OptimizationScene):
 
 
         self.UI_OptWin = utils.get_sound('assets/audio/SFX/M_OS/UI_OptWin.ogg')
-        self.UI_OptWin.set_volume(1)
+        self.UI_OptWin.set_volume(0.7)
 
         self.UI_OptFail = utils.get_sound('assets/audio/SFX/M_OS/UI_OptFail.ogg')
         self.UI_OptFail.set_volume(1)
