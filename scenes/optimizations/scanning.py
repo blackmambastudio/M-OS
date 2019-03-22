@@ -83,7 +83,7 @@ class ScanningScene(OptimizationScene):
 
     def SetupMimo(self):
         mimo.set_led_brightness(150)
-        mimo.set_tunners_enable_status(True)
+        mimo.set_tunners_enable_status(False)
         mimo.set_independent_lights(False, True)
         mimo.set_buttons_enable_status(False, True)
         mimo.set_optimization_buttons_mode([0,1, 1,1, 2,1, 3,1, 4,1])
@@ -93,6 +93,21 @@ class ScanningScene(OptimizationScene):
         
     def ProcessInputOpt(self, events, pressed_keys):
         for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+                self.SwipeHorizontal(-1)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_a:
+                value = -1 if random() < 0.5 else 1
+                self.SwipeHorizontal(value)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+                self.SwipeHorizontal(1)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_o:
+                self.SwipeVertical(-1)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_k:
+                value = -1 if random() < 0.5 else 1
+                self.SwipeVertical(value)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                self.SwipeVertical(1)
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
                 self.GuessFigure(0)
             
@@ -189,7 +204,7 @@ class ScanningScene(OptimizationScene):
 
     def NewScan(self, mode, direction):
         self.MG1_Sweep.play()
-        self.line_color = 0xf82
+        self.line_color = 0xfff
         self.mode = mode
         self.direction = int(direction)
         if self.direction == 1:
