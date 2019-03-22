@@ -189,7 +189,7 @@ class ScanningScene(OptimizationScene):
 
     def NewScan(self, mode, direction):
         self.MG1_Sweep.play()
-        self.line_color = [0xf00, 0xff0, 0x0f0, 0x0ff, 0x00f, 0xf0f, 0xfff][int(random()*7)]
+        self.line_color = 0xf82
         self.mode = mode
         self.direction = int(direction)
         if self.direction == 1:
@@ -244,9 +244,10 @@ class ScanningScene(OptimizationScene):
         else:
             self.fails += 1
             self.MG1_Failed.play()
-            if self.fails >= 3:
+            if self.fails >= 10:
                 self.score = self.level/5
                 self.FinishOptimization()
+            return
         if self.level >= len(FIGURES):
             self.level -= 1
             self.score = self.level/5

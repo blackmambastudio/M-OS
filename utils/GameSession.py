@@ -15,14 +15,16 @@ class GameSession():
 
         self.alert_displayed = False
         self.current_scene = None
+        self.ended = False
 
     def update(self, dt):
         self.time -= dt
         if self.current_scene and self.time < 61 and not self.alert_displayed:
             self.alert_displayed = True
             self.current_scene.display_timeout_alert()
-        if self.time < 0:
+        if not self.ended and self.time < 0:
             self.current_scene.time_up()
+            self.ended = True
 
 
 def get_game_session():

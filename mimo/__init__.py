@@ -58,9 +58,10 @@ except ImportError:
 # use printer 
 def printer_interface(logfile):
     
-    command = '/home/pi/M-OS/mimo/printer_server/printer_server.py /home/pi/M-OS/mimo/printer_server/data/{0}.json'.format(logfile)
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
+    if not EMULATOR:
+        command = '/home/pi/M-OS/mimo/printer_server/printer_server.py /home/pi/M-OS/mimo/printer_server/data/{0}.json'.format(logfile)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
 
 def termal_print(formatted_message, logfile='agar3s'):
     print("should send:<", formatted_message, "> to thermal printer")
