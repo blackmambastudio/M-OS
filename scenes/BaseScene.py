@@ -103,7 +103,7 @@ class SceneBase:
 
         # TODO: animate this texto
         self.popup_timerends_printing = utils.Text(
-            "/...printing results...\\",
+            "/... Don't call us, we'll call you...\\",
             self.subtitle_font
         )
         self.popup_timerends_printing.SetPosition(
