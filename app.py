@@ -25,6 +25,7 @@ from scenes.ResultsScene import ResultsScene
 from scenes.optimizations.focus import FocusScene
 from scenes.optimizations.scanning import ScanningScene
 from scenes.optimizations.push import PushScene
+from scenes.optimizations.aiming import AimingScene
 
 from scenes.test.DevTestScene import DevTestScene
 from scenes.test.VerificationScene import VerificationScene
@@ -54,6 +55,7 @@ SCENES = {
     "Focus": FocusScene,
     "Scanning": ScanningScene,
     "Push": PushScene,
+    "Aiming": AimingScene,
 
     # end game, results
     "Results": ResultsScene,

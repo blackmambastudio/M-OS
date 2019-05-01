@@ -16,7 +16,7 @@ class ScanningScene(OptimizationScene):
         self.coldown = 0
         
         self.index = 8
-        self.line_color = 0xf0f
+        self.line_color = 0xfff
         self.playing = False
         self.direction = 1
         self.mode = 1
