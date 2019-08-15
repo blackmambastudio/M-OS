@@ -4,10 +4,22 @@ from . import constants
 news = [
     {
         'id': 0,
-        'hdl': 'industrial disaster at monteasalvo\'s labs',
-        'ovw': 'monteasalvo\'s reputation...enviromental alert...salunio river at risk',
-        'arg': 'environmentalist warning',
-        'gol': 'whitewash monteasalvo\'s reputation',
+        'hdl': {
+            'en': 'industrial disaster at monteasalvo\'s labs',
+            'es': 'falla técnica en laboratorios monteasalvo'
+        },
+        'ovw': {
+            'en': 'monteasalvo\'s reputation...enviromental alert...salunio river at risk',
+            'es': 'reputación de monteasalvo...alerta ambiental...río salunio en riesgo'
+        },
+        'arg': {
+            'en': 'environmentalist warning',
+            'es': 'ambientalistas protestan contra monteasalvo'
+        },
+        'gol': {
+            'en': 'whitewash monteasalvo\'s reputation',
+            'es': 'encubrir a monteasalvo'
+        },
         'ico': 'biohazard.png',
         'framing': [
             {
@@ -16,7 +28,10 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_1,
                 'right_operate': constants.STORY_SUBJECT_2,
                 'property': 'support',
-                'text': 'audience will trust monteasalvo and lose credibility in environmentalists'
+                'text': {
+                    'en': 'audience will trust monteasalvo and lose credibility in environmentalists',
+                    'es': 'la audiencia apoyará a monteasalvo y los ambientalistas perderán credibilidad'
+                }
             },
             {
                 # :( || :)
@@ -24,7 +39,10 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_2,
                 'right_operate': constants.STORY_SUBJECT_1,
                 'property': 'support',
-                'text': 'audience will support the environmentalists and protest against monteasalvo'
+                'text': {
+                    'en': 'audience will support the environmentalists and protest against monteasalvo',
+                    'es': 'la audiencia apoyará a los ambientalistas y protestará contra monteasalvo'
+                }
             },
             {
                 # :) || :)
@@ -32,52 +50,76 @@ news = [
                 'left_operate': constants.STORY_SUBJECT_1,
                 'right_operate': constants.STORY_SUBJECT_2,
                 'property': 'support',
-                'text': "audience will worry about the disaster but won't do anything"
+                'text': {
+                    'en': "audience will worry about the disaster but won't do anything",
+                    'es': 'la audiencia se preocupará por el desastre pero no hará nada'
+                }
             },
             {
                 # :| || :|
                 'operator': 'none',
-                'text': 'audience won\'t pay attention to the news'
+                'text': {
+                    'en': 'audience won\'t pay attention to the news',
+                    'es': 'la audiencia no prestará atención a la noticia'
+                }
             }
         ],
         'material': [
             {
-                'label': ['community in', 'danger'],
+                'label': {
+                    'en': ['community in', 'danger'],
+                    'es': ['población en', 'peligro']
+                },
                 'color': [0xf7, 0x5a, 0xff],
                 'img': 'biohazard.png',
                 'supports': constants.STORY_SUBJECT_2,
                 'damages': None
             },
             {
-                'label': ['deny risky alert', constants.EMPTY_LCD_LABEL],
+                'label': {
+                    'en': ['deny risky alert', constants.EMPTY_LCD_LABEL],
+                    'es': ['niega alerta', 'riesgo']
+                },
                 'color': [0x27, 0xff, 0x93],
                 'img': 'expert_deny.png',
                 'supports': constants.STORY_SUBJECT_1,
                 'damages': None
             },
             {
-                'label': ['activist', 'overreact'],
+                'label': {
+                    'en': ['activist', 'overreact'],
+                    'es': ['ambientalistas', 'exageran']
+                },
                 'color': [0x8b, 0x27, 0xff],
                 'img': 'environmentalists_protests.png',
                 'supports': constants.STORY_SUBJECT_1,
                 'damages': constants.STORY_SUBJECT_2
             },
             {
-                'label': ['leakage', 'contained'],
+                'label': {
+                    'en': ['leakage', 'contained'],
+                    'es': ['accidente bajo', 'control']
+                },
                 'color': [0x00, 0x5f, 0xff],
                 'img': 'laboratories.png',
                 'supports': constants.STORY_SUBJECT_1,
                 'damages': None
             },
             {
-                'label': ['severe ecosystem', 'damage'],
+                'label': {
+                    'en': ['severe ecosystem', 'damage'],
+                    'es': ['graves daños', 'ecosistema']
+                },
                 'color': [0x11, 0xf4, 0xb3],
                 'img': 'forest.png',
                 'supports': constants.STORY_SUBJECT_2,
                 'damages': constants.STORY_SUBJECT_1
             },
             {
-                'label': ['20 dead', '65 injured'],
+                'label': {
+                    'en': ['20 dead', '65 injured'],
+                    'es': ['20 muertos', '65 heridos']
+                },
                 'color': [0xc6, 0x99, 0xff],
                 'img': 'hospital.png',
                 'supports': constants.STORY_SUBJECT_2,
@@ -87,7 +129,10 @@ news = [
     },
     {
         'id': 1,
-        'hdl': 'Governor facing sexual harassment allegations',
+        'hdl': {
+            'en': 'Governor facing sexual harassment allegations',
+            'es': 'Gobernador involucrado en escándalo sexual'
+        },
         'ovw': 'Governor\'s Reputation...Sexual Harassment Allegations...Abuse of Power',
         'arg': 'Governor\'s politics have brought positive impact to Wigsthon’s community',
         'gol': 'Divert attention from the accusations',
@@ -170,7 +215,10 @@ news = [
     },
     {
         'id': 2,
-        'hdl': 'MCorp announce MES™',
+        'hdl': {
+            'en': 'MCorp announce MES™',
+            'es': 'MCorp anuncia el lanzamiento de MES™'
+        },
         'ovw': 'MCorp Technologies...MES™ Release...Game Changer for Entertainment Business',
         'arg': 'Unlawful gathering of personal information',
         'gol': 'Encourage Device Purchase',
@@ -253,7 +301,10 @@ news = [
     },
     {
         'id': 3,
-        'hdl': 'Migrant Crisis in Hunuragha',
+        'hdl': {
+            'en': 'Migrant Crisis in Hunuragha',
+            'es': 'Crisis migratoria en hunuragha'
+        },
         'ovw': 'Platanalians...Instability in Hunuragha...Sickness and criminal acts uprising',
         'arg': 'Migration consecuences of actions taken by the highest spheres of society',
         'gol': 'Generate rejection towards Migrants',

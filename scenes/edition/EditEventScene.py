@@ -77,8 +77,8 @@ class EditEventScene(SceneBase):
         index = 0
         # set buttons to switch mode
         for material in self.current_event['material']:
-            line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
-            line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
+            line1_text = utils.align_text(material['label']['es'][0], index < 3, 16, '-')
+            line2_text = utils.align_text(material['label']['es'][1], index < 3, 16, '-')
             
             mimo.set_material_buttons_light([index] + material['color'])
             #mimo.set_material_leds_color([material_indexes[index]] + material['color'])
@@ -131,7 +131,7 @@ class EditEventScene(SceneBase):
         self.icon.SetPosition(280, 165)
 
         self.fact_title = utils.Text(
-            self.current_event['hdl'],
+            self.current_event['hdl']['es'],
             self.normal_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
@@ -140,7 +140,7 @@ class EditEventScene(SceneBase):
 
 
         self.goal_desc = utils.Text(
-            'goal: ' + self.current_event['gol'],
+            'goal: ' + self.current_event['gol']['es'],
             self.normal_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
@@ -209,7 +209,7 @@ class EditEventScene(SceneBase):
         )
 
         self.popup_title = utils.Text(
-            self.current_event['hdl'],
+            self.current_event['hdl']['es'],
             self.subtitle_font,
             color = constants.PALLETE_BACKGROUND_BLUE
         )
@@ -418,23 +418,23 @@ class EditEventScene(SceneBase):
             if rule['operator'] == '>':
                 if self.affections[rule['left_operate']][rule['property']] \
                         > self.affections[rule['right_operate']][rule['property']]:
-                    self.news_framing.SetText(rule['text'])
+                    self.news_framing.SetText(rule['text']['es'])
                     break
             elif rule['operator'] == '=':
                 if self.affections[rule['left_operate']][rule['property']] \
                         == self.affections[rule['right_operate']][rule['property']]:
-                    self.news_framing.SetText(rule['text'])
+                    self.news_framing.SetText(rule['text']['es'])
                     break
             elif rule['operator'] == 'none':
-                self.news_framing.SetText(rule['text'])
+                self.news_framing.SetText(rule['text']['es'])
                 break
 
     def set_material_active(self, index, slot_index):
         self.UI_MatSel[int(random()*3)].play()
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index]+material['color'])
-        line1_text = utils.align_text(material['label'][0], index < 3, 16, '*')
-        line2_text = utils.align_text(material['label'][1], index < 3, 16, '*')
+        line1_text = utils.align_text(material['label']['es'][0], index < 3, 16, '*')
+        line2_text = utils.align_text(material['label']['es'][1], index < 3, 16, '*')
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
        
@@ -442,8 +442,8 @@ class EditEventScene(SceneBase):
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index, 0,0,0])
-        line1_text = utils.align_text(material['label'][0], index < 3, 16, '-')
-        line2_text = utils.align_text(material['label'][1], index < 3, 16, '-')
+        line1_text = utils.align_text(material['label']['es'][0], index < 3, 16, '-')
+        line2_text = utils.align_text(material['label']['es'][1], index < 3, 16, '-')
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
 

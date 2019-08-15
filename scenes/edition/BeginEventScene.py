@@ -147,10 +147,10 @@ class BeginEventScene(SceneBase):
         self.icon.setAnchor(0.5, 0.5)
         self.icon.SetPosition(constants.VIEWPORT_CENTER_X, 303)
 
-        self.fact_title.SetText(self.current_event['hdl'])
-        self.fact_summary.SetText(self.current_event['ovw'])
-        self.fact_argument.SetText(self.current_event['arg'])
-        self.goal_desc.SetText(self.current_event['gol'])
+        self.fact_title.SetText(self.current_event['hdl']['es'])
+        self.fact_summary.SetText(self.current_event['ovw']['es'])
+        self.fact_argument.SetText(self.current_event['arg']['es'])
+        self.goal_desc.SetText(self.current_event['gol']['es'])
 
         # change the default order of the material
         random.shuffle(self.current_event['material'])
