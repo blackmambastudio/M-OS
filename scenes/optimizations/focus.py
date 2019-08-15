@@ -81,7 +81,7 @@ class FocusScene(OptimizationScene):
 
 
         # base loop
-        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.08)
+        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.06)
 
     def SetupMimo(self):
         OptimizationScene.SetupMimo(self)
