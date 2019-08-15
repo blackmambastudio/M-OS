@@ -291,7 +291,7 @@ news = [
                 'property': 'support',
                 'text': {
                     'en': 'People will feel unsure buying the Magic Entertainment System™',
-                    'es': 'la audiencia dudará acerca de comprar el Magic Entertainment System™'
+                    'es': 'la audiencia dudará en comprar el Magic Entertainment System™'
                 }
             },
             {

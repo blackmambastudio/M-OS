@@ -174,7 +174,7 @@ class EditEventScene(SceneBase):
         story_layout = {
             '1': {
                 'en': ['hook', 170],
-                'es': ['gancho', 130]
+                'es': ['gancho', 170]
             },
             '2': {
                 'en': ['plot', constants.VIEWPORT_CENTER_X],
@@ -212,10 +212,23 @@ class EditEventScene(SceneBase):
         self.popupLabel.SetPosition(640, 120)
 
         # add da ui
+        finish_edition_layout = {
+            'text': {
+                'en': 'press    to finish edition',
+                'es': 'presiona    para terminar de editar'
+            },
+            'icon': {
+                'en': 853,
+                'es': 704
+            }
+        }
         self.SetupUI()
         self.render_right_progress = False
-        self.right_progress_label.SetText('press    to finish edition')
-        self.right_progress_icon.SetPosition(830, 645)
+        self.right_progress_label.SetText(finish_edition_layout['text'][constants.language])
+        self.right_progress_icon.SetPosition(
+            finish_edition_layout['icon'][constants.language],
+            645
+        )
 
 
     def SetupPopupLayout(self):
@@ -234,7 +247,6 @@ class EditEventScene(SceneBase):
         self.popup_title.setAnchor(0.5, 0)
         self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 100)
 
-        print('>>>>>>> ', self.current_frame)
         self.popup_framing = utils.Text(
             self.current_frame,
             self.normal_font,
@@ -268,7 +280,7 @@ class EditEventScene(SceneBase):
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
         self.description_minigame_a = utils.Text(
-            minigame_data_a["description"],
+            minigame_data_a["description"][constants.language],
             self.normal_font,
             111,
             500,
@@ -296,7 +308,7 @@ class EditEventScene(SceneBase):
         )
 
         self.description_minigame_b = utils.Text(
-            minigame_data_b["description"],
+            minigame_data_b["description"][constants.language],
             self.normal_font,
             712,
             500,
@@ -456,13 +468,22 @@ class EditEventScene(SceneBase):
         line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '*')
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
-       
 
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index, 0,0,0])
-        line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '-')
-        line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '-')
+        line1_text = utils.align_text(
+            material['label'][constants.language][0],
+            index < 3,
+            16,
+            '-'
+        )
+        line2_text = utils.align_text(
+            material['label'][constants.language][1],
+            index < 3,
+            16,
+            '-'
+        )
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
 
@@ -490,7 +511,7 @@ class EditEventScene(SceneBase):
             int(random() * 255),
             int(random() * 255)
         )
-        self.right_progress_label.SetText('press    to '+self.available_minigames[1]["title"])
+        self.right_progress_label.SetText('press    to ' + self.available_minigames[1]["title"])
         self.right_progress_label.setAnchor(0, 0.5)
         self.right_progress_label.SetPosition(760, 675)
         self.right_progress_icon.setAnchor(0.5, 0.5)
@@ -501,7 +522,7 @@ class EditEventScene(SceneBase):
             int(random() * 255),
             int(random() * 255)
         )
-        self.left_progress_label.SetText('press    to '+self.available_minigames[0]["title"])
+        self.left_progress_label.SetText('press    to ' + self.available_minigames[0]["title"])
         self.left_progress_label.setAnchor(0, 0.5)
         self.left_progress_label.SetPosition(170, 675)
         self.left_progress_icon.setAnchor(0.5, 0.5)
@@ -573,7 +594,7 @@ class EditEventScene(SceneBase):
         self.minigame_title.SetPosition(310, 240)
 
         self.minigame_optimization_sub = utils.Text(
-            'optimization',
+            'optimization' if constants.language == 'en' else 'optimización',
             self.subtitle_font,
             color = constants.PALLETE_BACKGROUND_TITLE_BLUE
         )
@@ -593,7 +614,7 @@ class EditEventScene(SceneBase):
         self.minigame_icon.setAnchor(0,0.5)
         
         self.minigame_desc = utils.Text(
-            selected_minigame["description"],
+            selected_minigame["description"][constants.language],
             self.normal_font,
             310,
             300,
@@ -603,7 +624,7 @@ class EditEventScene(SceneBase):
 
 
         self.minigame_goal_label = utils.Text(
-            'goal:',
+            'goal:' if constants.language == 'en' else 'objetivo:',
             self.subtitle_font,
             300,
             450,
@@ -611,7 +632,7 @@ class EditEventScene(SceneBase):
         )
         self.minigame_goal_label.setAnchor(1,0)
         self.minigame_goal = utils.Text(
-            selected_minigame["goal"],
+            selected_minigame["goal"][constants.language],
             self.normal_font,
             310,
             450,

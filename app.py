@@ -70,7 +70,7 @@ SCENES = {
 }
 
 init_scene = "Begin"
-using_emulator = True
+using_emulator = False
 mouse_last_positions = [0, 0]
 
 

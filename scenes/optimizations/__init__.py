@@ -8,8 +8,14 @@ minigames = [{
     "scene": "Focus",
     "icon": "focus.png",
     "title": "focus",
-    "description": "Rotate the images using the triangular inputs",
-    "goal": "Connect all circuits before the time runs out",
+    "description": {
+        'en': "Rotate the images using the triangular inputs",
+        'es': 'Rota las figuras usando los botones triangulares'
+    },
+    "goal": {
+        'en': "Connect all circuits before the time runs out",
+        'es': 'conecta el circuito antes de que termine el tiempo'
+    },
     "preview": "focus_preview.png",
     "preview_width": 317,
     "preview_height": 374,
@@ -21,8 +27,14 @@ minigames = [{
     "scene": "Scanning",
     "icon": "scanning.png",
     "title": "scanning",
-    "description": "Use the knobs to scan the panel and triangular inputs to select the correct shape",
-    "goal": "Guess as many shapes as possible in the given time",
+    "description": {
+        'en': "Use the knobs to scan the panel and triangular inputs to select the correct shape",
+        'es': 'usa las perillas para escanear y los botones triangulares para escoger la coincidencia'
+    },
+    "goal": {
+        'en': "Guess as many shapes as possible in the given time",
+        'es': 'encuentra tantas figuras como sea posible en el tiempo dado'
+    },
     "preview": "scanning_preview.png",
     "preview_width": 359,
     "preview_height": 286,

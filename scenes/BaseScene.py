@@ -75,7 +75,14 @@ class SceneBase:
             328
         )
 
-        self.popup_timer_description = utils.Text("the test will finish in one minute", self.subtitle_font, color=(0,0x55, 0xff))
+        finish_text = 'the test will finish in one minute'
+        if constants.language == 'es':
+            finish_text = 'la prueba terminará en un minuto'
+        self.popup_timer_description = utils.Text(
+            finish_text,
+            self.subtitle_font,
+            color=(0,0x55, 0xff)
+        )
         self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 427)
         self.timeoutends_popup_active = False
 
@@ -87,13 +94,13 @@ class SceneBase:
             constants.VIEWPORT_CENTER_Y
         )
         self.popup_timerends_title = utils.Text(
-            "evaluation complete",
+            'evaluation complete' if constants.language == 'en' else 'evaluación completada',
             self.subtitle_font
         )
         self.popup_timerends_title.SetPosition(constants.VIEWPORT_CENTER_X, 392)
         
         self.popup_timerends_description = utils.Text(
-            "testing environment deactivated",
+            'testing environment deactivated' if constants.language == 'en' else 'entorno de pruebas desactivado',
             self.subtitle_font
         )
         self.popup_timerends_description.SetPosition(
@@ -238,10 +245,29 @@ class SceneBase:
         self.ui_background = utils.Sprite(constants.SPRITES_UI_BG, 0, 0)
         self.ui_background.setAnchor(0, 0)
 
-        self.right_progress_label = utils.Text("press    to start editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        start_edit_layout = {
+            'text': {
+                'en': 'press    to start editing',
+                'es': 'presiona    para empezar a editar'
+            },
+            'icon': {
+                'en': 855,
+                'es': 747
+            }
+        }
+
+        self.right_progress_label = utils.Text(
+            start_edit_layout['text'][constants.language],
+            self.subtitle_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE
+        )
         self.right_progress_label.setAnchor(1, 0)
         self.right_progress_label.SetPosition(1200, 660)
-        self.right_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button-pink.png", 855, 642)
+        self.right_progress_icon = utils.Sprite(
+            "assets/sprites/scenes/common/progress-button-pink.png",
+            start_edit_layout['icon'][constants.language],
+            645
+        )
         self.right_progress_icon.setAnchor(1, 0)
 
         self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
@@ -250,7 +276,11 @@ class SceneBase:
             constants.VIEWPORT_PADDING_X,
             constants.VIEWPORT_HEIGHT - constants.VIEWPORT_PADDING_Y
         )
-        self.left_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button-purple.png", 148, 675)
+        self.left_progress_icon = utils.Sprite(
+            "assets/sprites/scenes/common/progress-button-purple.png",
+            148,
+            675
+        )
 
     def RenderUI(self, screen):
 
