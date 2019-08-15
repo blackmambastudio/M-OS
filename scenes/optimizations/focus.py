@@ -52,7 +52,7 @@ class FocusScene(OptimizationScene):
         # sfx and audio
         audio_path = 'assets/audio/SFX/Focus/'
         self.MG2_Turn = utils.get_sound(audio_path + 'MG2_Turn.ogg')
-        self.MG2_Turn.set_volume(0.6)
+        self.MG2_Turn.set_volume(0.4)
 
         self.MG2_Pos = []
         self.MG2_Pos.append(utils.get_sound(audio_path + 'MG2_Pos_01.ogg'))
@@ -74,14 +74,14 @@ class FocusScene(OptimizationScene):
 
 
         self.UI_OptWin = utils.get_sound('assets/audio/SFX/M_OS/UI_OptWin.ogg')
-        self.UI_OptWin.set_volume(0.7)
+        self.UI_OptWin.set_volume(0.5)
 
         self.UI_OptFail = utils.get_sound('assets/audio/SFX/M_OS/UI_OptFail.ogg')
         self.UI_OptFail.set_volume(1)
 
 
         # base loop
-        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
+        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.08)
 
     def SetupMimo(self):
         OptimizationScene.SetupMimo(self)
