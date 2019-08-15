@@ -69,7 +69,7 @@ class FocusScene(OptimizationScene):
         self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_E.ogg'))
 
         for sfx in self.sfx_pieces:
-            sfx.set_volume(0)
+            sfx.set_volume(0.4)
             sfx.play(-1)
 
 

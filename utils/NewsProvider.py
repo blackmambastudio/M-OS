@@ -68,7 +68,7 @@ news = [
             {
                 'label': {
                     'en': ['community in', 'danger'],
-                    'es': ['población en', 'peligro']
+                    'es': ['poblacion en', 'peligro']
                 },
                 'color': [0xf7, 0x5a, 0xff],
                 'img': 'biohazard.png',
@@ -108,7 +108,7 @@ news = [
             {
                 'label': {
                     'en': ['severe ecosystem', 'damage'],
-                    'es': ['graves daños', 'ecosistema']
+                    'es': ['destruccion', 'ecosistema']
                 },
                 'color': [0x11, 0xf4, 0xb3],
                 'img': 'forest.png',
@@ -233,7 +233,7 @@ news = [
             {
                 'label': {
                     'en': ['Wigsthon\'s', 'Welfare Politics'],
-                    'es': ['buenas políticas', 'gobernador']
+                    'es': ['buenas politicas', 'gobernador']
                 },
                 'color': [0x11, 0xf4, 0xb3],
                 'img': 'city.png',
@@ -243,7 +243,7 @@ news = [
             {
                 'label': {
                     'en': ['Economic Support', 'Plan'],
-                    'es': ['plan apoyo', 'económico']
+                    'es': ['plan apoyo', 'economico']
                 },
                 'color': [0xc6, 0x99, 0xff],
                 'img': 'people_poor.png',
@@ -318,7 +318,7 @@ news = [
             {
                 'label': {
                     'en': ['Entertainment', 'Game Changer'],
-                    'es': ['revolución', 'entretenimiento']
+                    'es': ['revolucion', 'entretenimiento']
                 },
                 'color': [0xf7, 0x5a, 0xff],
                 'img': 'people_happy.png',
@@ -328,7 +328,7 @@ news = [
             {
                 'label': {
                     'en': ['Privacy', 'Violation'],
-                    'es': ['violación', 'privacidad']
+                    'es': ['violacion', 'privacidad']
                 },
                 'color': [0x27, 0xff, 0x93],
                 'img': 'friends_talking.png',
@@ -338,7 +338,7 @@ news = [
             {
                 'label': {
                     'en': ['Undercover', 'transmission'],
-                    'es': ['envío', 'clandestino']
+                    'es': ['envio', 'clandestino']
                 },
                 'color': [0x8b, 0x27, 0xff],
                 'img': 'satellite.png',
@@ -368,7 +368,7 @@ news = [
             {
                 'label': {
                     'en': ['Mcorp Defamation', 'Plan'],
-                    'es': ['plan difamación', 'resistencia']
+                    'es': ['plan difamacion', 'resistencia']
                 },
                 'color': [0xc6, 0x99, 0xff],
                 'img': 'logo_resistance.png',
@@ -443,7 +443,7 @@ news = [
             {
                 'label': {
                     'en': ['Petty Crime', ''],
-                    'es': ['delincuencia', 'común']
+                    'es': ['delincuencia', 'comun']
                 },
                 'color': [0xf7, 0x5a, 0xff],
                 'img': 'criminal.png',
@@ -453,7 +453,7 @@ news = [
             {
                 'label': {
                     'en': ['Busy ER', ''],
-                    'es': ['???', '']
+                    'es': ['urgencias', 'saturadas']
                 },
                 'color': [0x27, 0xff, 0x93],
                 'img': 'ER_busy.png',
@@ -463,7 +463,7 @@ news = [
             {
                 'label': {
                     'en': ['Human Rights', 'Organization'],
-                    'es': ['organización de', 'derechos humanos']
+                    'es': ['organizacion de', 'derechos humanos']
                 },
                 'color': [0x8b, 0x27, 0xff],
                 'img': 'humanrights_logo.png',
@@ -473,7 +473,7 @@ news = [
             {
                 'label': {
                     'en': ['Platanalian\'s', 'exodus'],
-                    'es': ['éxodo platanero', 'exodus']
+                    'es': ['exodo platanero', '']
                 },
                 'color': [0x00, 0x5f, 0xff],
                 'img': 'border_crossing.png',
