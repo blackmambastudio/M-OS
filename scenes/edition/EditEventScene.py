@@ -178,7 +178,7 @@ class EditEventScene(SceneBase):
             },
             '2': {
                 'en': ['plot', constants.VIEWPORT_CENTER_X],
-                'es': ['trama', constants.VIEWPORT_CENTER_X]
+                'es': ['argumento', constants.VIEWPORT_CENTER_X]
             },
             '3': {
                 'en': ['conclusion', 1110],
@@ -273,14 +273,14 @@ class EditEventScene(SceneBase):
             360
         )
         self.title_minigame_a = utils.Text(
-            minigame_data_a["title"],
+            minigame_data_a["title"][constants.language],
             self.subtitle_font,
             336,
             480,
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
         self.description_minigame_a = utils.Text(
-            minigame_data_a["description"][constants.language],
+            minigame_data_a["pitch"][constants.language],
             self.normal_font,
             111,
             500,
@@ -300,7 +300,7 @@ class EditEventScene(SceneBase):
             360
         )
         self.title_minigame_b = utils.Text(
-            minigame_data_b["title"],
+            minigame_data_b["title"][constants.language],
             self.subtitle_font,
             937,
             480,
@@ -308,7 +308,7 @@ class EditEventScene(SceneBase):
         )
 
         self.description_minigame_b = utils.Text(
-            minigame_data_b["description"][constants.language],
+            minigame_data_b["pitch"][constants.language],
             self.normal_font,
             712,
             500,
@@ -511,22 +511,55 @@ class EditEventScene(SceneBase):
             int(random() * 255),
             int(random() * 255)
         )
-        self.right_progress_label.SetText('press    to ' + self.available_minigames[1]["title"])
+        right_label_layout = {
+            'text': {
+                'en': 'press    to ',
+                'es': 'presiona    para '
+            },
+            'pos': {
+                'en': 907,
+                'es': 969
+            }
+        }
+        self.right_progress_label.SetText(
+            right_label_layout['text'][constants.language] + self.available_minigames[1]["title"][constants.language]
+        )
         self.right_progress_label.setAnchor(0, 0.5)
         self.right_progress_label.SetPosition(760, 675)
         self.right_progress_icon.setAnchor(0.5, 0.5)
-        self.right_progress_icon.SetPosition(907, 675)
+        self.right_progress_icon.SetPosition(
+            right_label_layout['pos'][constants.language],
+            675
+        )
 
         random_color = (
             int(random() * 255),
             int(random() * 255),
             int(random() * 255)
         )
-        self.left_progress_label.SetText('press    to ' + self.available_minigames[0]["title"])
+        left_label_layout = {
+            'text': {
+                'en': 'press    to ',
+                'es': 'presiona    para '
+            },
+            'pos': {
+                'en': [170, 316],
+                'es': [80, 290]
+            }
+        }
+        self.left_progress_label.SetText(
+            left_label_layout['text'][constants.language] + self.available_minigames[0]["title"][constants.language]
+        )
         self.left_progress_label.setAnchor(0, 0.5)
-        self.left_progress_label.SetPosition(170, 675)
+        self.left_progress_label.SetPosition(
+            left_label_layout['pos'][constants.language][0],
+            675
+        )
         self.left_progress_icon.setAnchor(0.5, 0.5)
-        self.left_progress_icon.SetPosition(316, 675)
+        self.left_progress_icon.SetPosition(
+            left_label_layout['pos'][constants.language][1],
+            675
+        )
         self.render_right_progress = True
         
         mimo.set_material_buttons_light([7, 0x8b, 0x27, 0xff, 6, 0xf7, 0x5a, 0xff])
@@ -586,7 +619,7 @@ class EditEventScene(SceneBase):
             if side == constants.MINIGAME_LEFT else self.right_progress_label.color
 
         self.minigame_title = utils.Text(
-            selected_minigame["title"],
+            selected_minigame["title"][constants.language],
             self.subtitle_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
@@ -653,9 +686,22 @@ class EditEventScene(SceneBase):
 
         self.percentage = 0
 
+        start_label = {
+            'title': {
+                'en': 'press    to start',
+                'es': 'presiona    para empezar'
+            },
+            'pos': {
+                'en': 907,
+                'es': 968
+            }
+        }
         self.right_progress_label.SetColor(minigame_color)
-        self.right_progress_label.SetText('press    to start')
-        self.right_progress_icon.SetPosition(907, 675)
+        self.right_progress_label.SetText(start_label['title'][constants.language])
+        self.right_progress_icon.SetPosition(
+            start_label['pos'][constants.language],
+            675
+        )
 
         self.render_left_progress = False
 

@@ -7,7 +7,14 @@ from random import random, shuffle
 minigames = [{
     "scene": "Focus",
     "icon": "focus.png",
-    "title": "focus",
+    "title": {
+        'en': "focus",
+        'es': "enfoque"
+    },
+    'pitch': {
+        'en': '???',
+        'es': 'conecta los puntos de forma correcta'
+    },
     "description": {
         'en': "Rotate the images using the triangular inputs",
         'es': 'Rota las figuras usando los botones triangulares'
@@ -26,10 +33,17 @@ minigames = [{
 },{
     "scene": "Scanning",
     "icon": "scanning.png",
-    "title": "scanning",
+    "title": {
+        'en': "scanning",
+        'es': 'radar'
+    },
+    'pitch': {
+        'en': '???',
+        'es': 'escanea y encuentra la figura correcta'
+    },
     "description": {
         'en': "Use the knobs to scan the panel and triangular inputs to select the correct shape",
-        'es': 'usa las perillas para escanear y los botones triangulares para escoger la coincidencia'
+        'es': 'usa las perillas para escanear y los botones triangulares para escoger la figura correcta'
     },
     "goal": {
         'en': "Guess as many shapes as possible in the given time",
