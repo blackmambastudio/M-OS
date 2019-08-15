@@ -31,6 +31,7 @@ class EditEventScene(SceneBase):
         self.SetupMimo()
         # load event, title and description
         self.current_event = news[constants.currento_evento]
+        self.current_frame = ''
 
         # initialize state
         self.image_positions = [
@@ -61,7 +62,6 @@ class EditEventScene(SceneBase):
 
         # setup the layout for the scene
         self.available_minigames = []
-        self.SetupPopupLayout()
         self.SetupLayout()
 
         # setup the layout for the optimization popup
@@ -77,8 +77,8 @@ class EditEventScene(SceneBase):
         index = 0
         # set buttons to switch mode
         for material in self.current_event['material']:
-            line1_text = utils.align_text(material['label']['es'][0], index < 3, 16, '-')
-            line2_text = utils.align_text(material['label']['es'][1], index < 3, 16, '-')
+            line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '-')
+            line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '-')
             
             mimo.set_material_buttons_light([index] + material['color'])
             #mimo.set_material_leds_color([material_indexes[index]] + material['color'])
@@ -131,24 +131,27 @@ class EditEventScene(SceneBase):
         self.icon.SetPosition(280, 165)
 
         self.fact_title = utils.Text(
-            self.current_event['hdl']['es'],
+            self.current_event['hdl'][constants.language],
             self.normal_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.fact_title.setAnchor(0, 0)
         self.fact_title.SetPosition(380, 94)
 
-
         self.goal_desc = utils.Text(
-            'goal: ' + self.current_event['gol']['es'],
+            ('goal' if constants.language == 'en' else 'objetivo') +
+                ': ' + self.current_event['gol'][constants.language],
             self.normal_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
         self.goal_desc.setAnchor(0, 0)
         self.goal_desc.SetPosition(380, 124)
 
+        default_text = 'no opinion bias set yet. select material to start framing the news.'
+        if constants.language == 'es':
+            default_text = 'sesgo de opinión no establecido. seleccione material para crear noticia.'
         self.news_framing = utils.Text(
-            'no opinion bias set yet. select material to start framing the news.',
+            default_text,
             self.normal_font,
             color = constants.PALETTE_TITLES_PINK
         )
@@ -168,25 +171,40 @@ class EditEventScene(SceneBase):
             utils.Sprite(constants.SPRITES_EDITION + 'mtl_slot.png', 1110, 440)
         ]
 
+        story_layout = {
+            '1': {
+                'en': ['hook', 170],
+                'es': ['gancho', 130]
+            },
+            '2': {
+                'en': ['plot', constants.VIEWPORT_CENTER_X],
+                'es': ['trama', constants.VIEWPORT_CENTER_X]
+            },
+            '3': {
+                'en': ['conclusion', 1110],
+                'es': ['conclusión', 1110]
+            }
+        }
         self.news_hook = utils.Text(
-            'hook',
+            story_layout['1'][constants.language][0],
             self.subtitle_font,
             color = constants.PALLETE_BACKGROUND_BLUE
         )   
-        self.news_hook.SetPosition(170, 604)
+        self.news_hook.SetPosition(story_layout['1'][constants.language][1], 605)
 
         self.news_conflict = utils.Text(
-            'plot',
+            story_layout['2'][constants.language][0],
             self.subtitle_font,
             color = constants.PALLETE_BACKGROUND_BLUE
         )
-        self.news_conflict.SetPosition(constants.VIEWPORT_CENTER_X, 605)
+        self.news_conflict.SetPosition(story_layout['2'][constants.language][1], 605)
+
         self.news_conclusion = utils.Text(
-            'conclusion',
+            story_layout['3'][constants.language][0],
             self.subtitle_font,
             color = constants.PALLETE_BACKGROUND_BLUE
         )
-        self.news_conclusion.SetPosition(1110, 605)
+        self.news_conclusion.SetPosition(story_layout['3'][constants.language][1], 605)
 
         #--- aca voy
         self.popupLabel = utils.Text('popup', self.subtitle_font)
@@ -209,15 +227,16 @@ class EditEventScene(SceneBase):
         )
 
         self.popup_title = utils.Text(
-            self.current_event['hdl']['es'],
+            self.current_event['hdl'][constants.language],
             self.subtitle_font,
             color = constants.PALLETE_BACKGROUND_BLUE
         )
         self.popup_title.setAnchor(0.5, 0)
         self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 100)
 
+        print('>>>>>>> ', self.current_frame)
         self.popup_framing = utils.Text(
-            'audience will TRUST MONTEASALVO\nand LOSE CREDIBILITY in ENVIRONMENTALISTS',
+            self.current_frame,
             self.normal_font,
             color= constants.PALETTE_TITLES_DARK_BLUE
         )
@@ -303,7 +322,6 @@ class EditEventScene(SceneBase):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                 if self.can_optimize and not self.popupActive:
                     # open the optimization popup
-
                     self.render_left_progress = True
                     self.UI_SwitchScene.play()
                     self.OpenPopup()
@@ -418,23 +436,24 @@ class EditEventScene(SceneBase):
             if rule['operator'] == '>':
                 if self.affections[rule['left_operate']][rule['property']] \
                         > self.affections[rule['right_operate']][rule['property']]:
-                    self.news_framing.SetText(rule['text']['es'])
+                    self.current_frame = rule['text'][constants.language]
                     break
             elif rule['operator'] == '=':
                 if self.affections[rule['left_operate']][rule['property']] \
                         == self.affections[rule['right_operate']][rule['property']]:
-                    self.news_framing.SetText(rule['text']['es'])
+                    self.current_frame = rule['text'][constants.language]
                     break
             elif rule['operator'] == 'none':
-                self.news_framing.SetText(rule['text']['es'])
+                self.current_frame = rule['text'][constants.language]
                 break
+        self.news_framing.SetText(self.current_frame)
 
     def set_material_active(self, index, slot_index):
         self.UI_MatSel[int(random()*3)].play()
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index]+material['color'])
-        line1_text = utils.align_text(material['label']['es'][0], index < 3, 16, '*')
-        line2_text = utils.align_text(material['label']['es'][1], index < 3, 16, '*')
+        line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '*')
+        line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '*')
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
        
@@ -442,12 +461,13 @@ class EditEventScene(SceneBase):
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index, 0,0,0])
-        line1_text = utils.align_text(material['label']['es'][0], index < 3, 16, '-')
-        line2_text = utils.align_text(material['label']['es'][1], index < 3, 16, '-')
+        line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '-')
+        line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '-')
         mimo.lcd_display_at(index, line1_text, 1)
         mimo.lcd_display_at(index, line2_text, 2)
 
     def OpenPopup(self):
+        self.SetupPopupLayout()
         self.popupActive = True
         self.dirty_rects = [
             (

@@ -87,13 +87,21 @@ class BeginEventScene(SceneBase):
         self.fact_argument.SetPosition(constants.VIEWPORT_CENTER_X, 496)
 
         # add da goal
-        self.goal_title = utils.Text('goal:', self.subtitle_font, color = constants.PALLETE_BACKGROUND_BLUE)
+        goal_layout = {
+            'title': { 'en': 'goal', 'es': 'objetivo' },
+            'width': { 'en': 115, 'es': 198 }
+        }
+        self.goal_title = utils.Text(
+            goal_layout['title'][constants.language] + ':',
+            self.subtitle_font,
+            color = constants.PALLETE_BACKGROUND_BLUE
+        )
         self.goal_title.setAnchor(0, 0)
         self.goal_title.SetPosition(78, 554)
 
         self.goal_desc = utils.Text('', self.subtitle_font, color = constants.PALLETE_BACKGROUND_BLUE)
         self.goal_desc.setAnchor(0, 0)
-        self.goal_desc.SetPosition(78+115, 554)
+        self.goal_desc.SetPosition(78 + goal_layout['width'][constants.language], 554)
 
         # background for other news:
         self.back_news = []
@@ -147,10 +155,10 @@ class BeginEventScene(SceneBase):
         self.icon.setAnchor(0.5, 0.5)
         self.icon.SetPosition(constants.VIEWPORT_CENTER_X, 303)
 
-        self.fact_title.SetText(self.current_event['hdl']['es'])
-        self.fact_summary.SetText(self.current_event['ovw']['es'])
-        self.fact_argument.SetText(self.current_event['arg']['es'])
-        self.goal_desc.SetText(self.current_event['gol']['es'])
+        self.fact_title.SetText(self.current_event['hdl'][constants.language])
+        self.fact_summary.SetText(self.current_event['ovw'][constants.language])
+        self.fact_argument.SetText(self.current_event['arg'][constants.language])
+        self.goal_desc.SetText(self.current_event['gol'][constants.language])
 
         # change the default order of the material
         random.shuffle(self.current_event['material'])
