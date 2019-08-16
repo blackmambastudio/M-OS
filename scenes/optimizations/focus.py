@@ -69,7 +69,7 @@ class FocusScene(OptimizationScene):
         self.sfx_pieces.append(utils.get_sound(audio_path + 'MG2_SFX_E.ogg'))
 
         for sfx in self.sfx_pieces:
-            sfx.set_volume(0.4)
+            sfx.set_volume(0.1)
             sfx.play(-1)
 
 
@@ -81,7 +81,7 @@ class FocusScene(OptimizationScene):
 
 
         # base loop
-        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.06)
+        utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
 
     def SetupMimo(self):
         OptimizationScene.SetupMimo(self)
