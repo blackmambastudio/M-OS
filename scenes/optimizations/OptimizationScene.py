@@ -56,7 +56,14 @@ class OptimizationScene(SceneBase):
             constants.VIEWPORT_CENTER_Y
         )
 
-        self.title = utils.Text('news optimization - '+self.minigametitle, self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
+        opt_text = 'news optimization'
+        if constants.language == 'es':
+            opt_text = 'optimización de noticia'
+        self.title = utils.Text(
+            opt_text + ' - ' + self.minigametitle,
+            self.subtitle_font,
+            color=constants.PALLETE_BACKGROUND_BLUE
+        )
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 40)
 
         self.timerprogress = 1.0
@@ -70,23 +77,41 @@ class OptimizationScene(SceneBase):
         #self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
 
     def SetupPopup(self):
+        bg_image_name = 'optimization_results-popup.png'
+        if constants.language == 'es':
+            bg_image_name = 'optimization_finished-popup-es.png'
         self.results_background = utils.Sprite(
-            constants.SPRITES_OPTIMIZATION+'optimization_results-popup.png',
+            constants.SPRITES_OPTIMIZATION + bg_image_name,
             640,
             360
         )
         
-        self.popup_description = utils.Text("you are awesome!", self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
+        self.popup_description = utils.Text(
+            "you are awesome!",
+            self.subtitle_font,
+            color=constants.PALLETE_BACKGROUND_BLUE
+        )
         self.popup_description.SetPosition(constants.VIEWPORT_CENTER_X, 380)
 
         self.bonus_text = utils.Text("++!", self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
         self.bonus_text.SetPosition(constants.VIEWPORT_CENTER_X, 420)
 
 
-        self.right_progress_label = utils.Text("press    to edit the next news", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        next_news_text = "press    to edit the next news"
+        if constants.language == 'es':
+            next_news_text = 'presiona    para editar otra noticia'
+        self.right_progress_label = utils.Text(
+            next_news_text,
+            self.subtitle_font,
+            color = constants.PALETTE_TITLES_DARK_BLUE
+        )
         self.right_progress_label.setAnchor(1, 0)
         self.right_progress_label.SetPosition(1200, 660)
-        self.right_progress_icon = utils.Sprite("assets/sprites/scenes/common/progress-button-green.png", 745, 642)
+        self.right_progress_icon = utils.Sprite(
+            "assets/sprites/scenes/common/progress-button-green.png",
+            745 if constants.language == 'en' else 684,
+            642
+        )
         self.right_progress_icon.setAnchor(1, 0)
 
 
@@ -180,21 +205,38 @@ class OptimizationScene(SceneBase):
         self.popup_active = True
         performance_text = ""
         bonus_text = ""
-        if self.score < 0.2:
-            performance_text = "Optimization Shut Down"
-            bonus_text = "-10 seconds"
-        elif self.score < 0.4:
-            performance_text = "Sluggish Performance"
-            bonus_text = "Continue The Test"
-        elif self.score < 0.6:
-            performance_text = "Poor Execution"
-            bonus_text = "Idleness Is Fatal Only To The Mediocre"
-        elif self.score < 0.8:
-            performance_text = "Broadcast Reach Enhanced"
-            bonus_text = "10 seconds bonus"
-        else:
-            performance_text = "Edition Optimized!"
-            bonus_text = "20 seconds bonus"
+        if constants.language == 'en':
+            if self.score < 0.2:
+                performance_text = "Optimization Shut Down"
+                bonus_text = "-10 seconds"
+            elif self.score < 0.4:
+                performance_text = "Sluggish Performance"
+                bonus_text = "Continue The Test"
+            elif self.score < 0.6:
+                performance_text = "Poor Execution"
+                bonus_text = "Idleness Is Fatal Only To The Mediocre"
+            elif self.score < 0.8:
+                performance_text = "Broadcast Reach Enhanced"
+                bonus_text = "10 seconds bonus"
+            else:
+                performance_text = "Edition Optimized!"
+                bonus_text = "20 seconds bonus"
+        elif constants.language == 'es':
+            if self.score < 0.2:
+                performance_text = "optimización detenida"
+                bonus_text = "-10 segundos"
+            elif self.score < 0.4:
+                performance_text = "rendimiento lento"
+                bonus_text = "continuar con la prueba"
+            elif self.score < 0.6:
+                performance_text = "mala ejecución"
+                bonus_text = "la inactividad es fatal sólo para el mediocre"
+            elif self.score < 0.8:
+                performance_text = "alcance de transmisión aumentado"
+                bonus_text = "10 segundos de bonificación"
+            else:
+                performance_text = "¡noticia optimizada!"
+                bonus_text = "20 segundos de bonificación"
         self.popup_description.SetText(performance_text)
         self.bonus_text.SetText(bonus_text)
 

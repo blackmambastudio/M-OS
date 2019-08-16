@@ -137,7 +137,11 @@ class SceneBase:
             613
         )
 
-        self.loading_label = utils.Text("loading",self.subtitle_font,color=constants.PALLETE_BACKGROUND_TITLE_BLUE)
+        self.loading_label = utils.Text(
+            "loading" if constants.language == 'en' else 'cargando',
+            self.subtitle_font,
+            color=constants.PALLETE_BACKGROUND_TITLE_BLUE
+        )
         self.loading_label.SetPosition(constants.VIEWPORT_CENTER_X, 330)
         # -- end popup elements
 
