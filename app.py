@@ -69,10 +69,10 @@ SCENES = {
     "Test": DevTestScene
 }
 
-init_scene = "Boot" # valor para máquina
+# init_scene = "Boot" # valor para máquina
 init_scene = "Edit"
 using_emulator = False # valor para máquina
-using_emulator = True
+# using_emulator = True
 mouse_last_positions = [0, 0]
 
 

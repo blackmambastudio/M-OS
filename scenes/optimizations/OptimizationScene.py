@@ -114,8 +114,6 @@ class OptimizationScene(SceneBase):
         )
         self.right_progress_icon.setAnchor(1, 0)
 
-
-
     def ProcessInput(self, events, pressed_keys):
         if not self.IsPlaying():
             for event in events:

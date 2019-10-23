@@ -48,6 +48,20 @@ class EditEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
 
+        # initialize state
+        self.image_positions = [
+            { 'x': 400, 'y': 500 },
+            { 'x': 400 + 340, 'y': 500 },
+            { 'x': 400 + (340 * 2), 'y': 500 },
+            { 'x': 400 + (340 * 3), 'y': 500 }
+        ]
+        self.sequence = [-1, -1, -1, -1]
+        self.material = [False, False, False, False, False, False]
+        self.busy_slots = 0
+        self.popupActive = False
+        self.can_optimize = False
+        self.showing_minigame_tutorial = False
+        self.selected_minigame = ""
         self.impact = 0
         self.mtl_switcher = {
             0: self.hook,
@@ -55,6 +69,8 @@ class EditEventScene(SceneBase):
             2: self.plot,
             3: self.conclusion
         }
+        self.available_minigames = []
+        self.no_facts = False
 
         # Cargar el arreglo de direcciones pa' la musique
         self.MX = []
@@ -86,47 +102,24 @@ class EditEventScene(SceneBase):
         # Preparar la máquina para la destrucción
         self.SetupMimo()
 
-        # load event, title and description
+        # ─────────────────────────────────────────────────────────────────────┐
+        # obtener el hecho o ir a la pantalla de resultados
+        if constants.currento_evento == len(news):
+            self.no_facts = True
+            self.AddTrigger(0.16, self, 'SwitchToScene', "Results")
+            constants.currento_evento = 0
+
         self.current_event = news[constants.currento_evento]
         self.current_frame = ''
 
         constants.currento_evento += 1
-        if constants.currento_evento == 3:
-            constants.currento_evento = 0
-
-        # initialize state
-        self.image_positions = [
-            { 'x': 400, 'y': 500 },
-            { 'x': 400 + 340, 'y': 500 },
-            { 'x': 400 + (340 * 2), 'y': 500 },
-            { 'x': 400 + (340 * 3), 'y': 500 }
-        ]
-        self.sequence = [-1, -1, -1, -1]
-        self.material = [False, False, False, False, False, False]
-        self.busy_slots = 0
-        self.popupActive = False
-        self.can_optimize = False
-        self.showing_minigame_tutorial = False
-        self.selected_minigame = ""
-
-        # variables related with the support and damage of the involved subjects
-        self.affections = {
-            constants.STORY_SUBJECT_1: {
-                'support': 0,
-                'damage': 0
-            },
-            constants.STORY_SUBJECT_2: {
-                'support': 0,
-                'damage': 0
-            }
-        }
-
-        # setup the layout for the scene
-        self.available_minigames = []
-        self.SetupLayout()
 
         # obtener el material del hecho
         self.event_mtl = self.current_event['material']
+        # ─────────────────────────────────────────────────────────────────────┘
+
+        # setup the layout for the scene
+        self.SetupLayout()
 
         self.images = []
         for mtl in self.event_mtl:
@@ -395,6 +388,9 @@ class EditEventScene(SceneBase):
 
     def Update(self, dt):
         SceneBase.Update(self, dt)
+
+        if self.no_facts: return
+
         if self.showing_minigame_tutorial:
             self.minigame_preview.updateFrame(dt)
 
@@ -452,13 +448,13 @@ class EditEventScene(SceneBase):
                 self.sequence[slot_index] = -1
                 self.set_material_inactive(index, slot_index)
                 self.busy_slots -= 1
-                self.update_affections(slot_index, index, False)
+                self.update_impact(slot_index, index, False)
                 break
             elif slot == -1 and self.material[index]:
                 self.sequence[slot_index] = index
                 self.set_material_active(index, slot_index)
                 self.busy_slots += 1
-                self.update_affections(slot_index, index)
+                self.update_impact(slot_index, index)
                 break
             slot_index += 1
 
@@ -468,7 +464,7 @@ class EditEventScene(SceneBase):
         mimo.set_material_buttons_active_status([6, int(self.can_optimize)])
         # if busy_slots>4 should lock the unselected buttons
 
-    def update_affections(self, slot_index, index, sum = True):
+    def update_impact(self, slot_index, index, sum = True):
         right_mtl = False
 
         if 'target' in self.event_mtl[index]:

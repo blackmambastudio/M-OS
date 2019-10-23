@@ -6,6 +6,7 @@ import mimo
 from utils import utils
 from utils import neopixelmatrix as graphics
 from utils.NeoSprite import NeoSprite, AnimatedNeoSprite, TextNeoSprite, SpriteFromFrames
+from utils import constants
 
 from .BaseScene import SceneBase
 
