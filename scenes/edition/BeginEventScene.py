@@ -21,7 +21,8 @@ from scenes.BaseScene import SceneBase
 class BeginEventScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
-         #musique
+
+        #musique
         self.MX = []
         self.MX.append('assets/audio/MX/DirtySoil.ogg')
         self.MX.append('assets/audio/MX/DystopianBallad.ogg')
@@ -81,10 +82,10 @@ class BeginEventScene(SceneBase):
         self.fact_summary.setAnchor(0.5, 0)
         self.fact_summary.SetPosition(constants.VIEWPORT_CENTER_X, 463)
 
-        self.fact_argument = utils.Text('', self.normal_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE)
-        self.fact_argument.setAnchor(0.5, 0)
-        self.fact_argument.SetPosition(constants.VIEWPORT_CENTER_X, 496)
+        # self.fact_argument = utils.Text('', self.normal_font,
+        #     color = constants.PALETTE_TITLES_DARK_BLUE)
+        # self.fact_argument.setAnchor(0.5, 0)
+        # self.fact_argument.SetPosition(constants.VIEWPORT_CENTER_X, 496)
 
         # add da goal
         goal_layout = {
@@ -138,7 +139,7 @@ class BeginEventScene(SceneBase):
         self.current_evt_frame.RenderWithAlpha(screen)
         self.icon.RenderWithAlpha(screen)
         self.fact_summary.render(screen)
-        self.fact_argument.render(screen)
+        # self.fact_argument.render(screen)
 
         pygame.draw.rect(screen, constants.PALLETE_BACKGROUND_TITLE_BLUE, (0, 540, 1280, 70))
         self.goal_title.render(screen)
@@ -157,7 +158,7 @@ class BeginEventScene(SceneBase):
 
         self.fact_title.SetText(self.current_event['hdl'][constants.language])
         self.fact_summary.SetText(self.current_event['ovw'][constants.language])
-        self.fact_argument.SetText(self.current_event['arg'][constants.language])
+        # self.fact_argument.SetText(self.current_event['arg'][constants.language])
         self.goal_desc.SetText(self.current_event['gol'][constants.language])
 
         # change the default order of the material

@@ -6,57 +6,39 @@ news = [
         'id': 0,
         'hdl': {
             'en': 'industrial disaster at monteasalvo\'s labs',
-            'es': 'falla técnica en laboratorios monteasalvo'
+            'es': 'manifestación de indígenas'
         },
         'ovw': {
             'en': 'monteasalvo\'s reputation...enviromental alert...salunio river at risk',
-            'es': 'reputación de monteasalvo...alerta ambiental...río salunio en riesgo'
+            'es': 'cientos de indígenas se manifiestan frente a la sede del gobierno'
         },
-        'arg': {
-            'en': 'environmentalist warning',
-            'es': 'ambientalistas protestan contra farmacéutica'
-        },
+        # 'arg': {
+        #     'en': 'environmentalist warning',
+        #     'es': 'ambientalistas protestan contra farmacéutica'
+        # },
         'gol': {
             'en': 'whitewash monteasalvo\'s reputation',
-            'es': 'encubrir a monteasalvo'
+            'es': 'generar rechazo hacia indígenas'
         },
         'ico': 'biohazard.png',
         'framing': [
             {
-                # :) || :(
-                'operator': '>',
-                'left_operate': constants.STORY_SUBJECT_1,
-                'right_operate': constants.STORY_SUBJECT_2,
-                'property': 'support',
+                'operator': '<',
+                'value': 16,
                 'text': {
                     'en': 'audience will trust monteasalvo and lose credibility in environmentalists',
-                    'es': 'la audiencia apoyará a monteasalvo y los ambientalistas perderán credibilidad'
+                    'es': 'la audiencia rechazará a los manifestantes'
                 }
             },
             {
-                # :( || :)
                 'operator': '>',
-                'left_operate': constants.STORY_SUBJECT_2,
-                'right_operate': constants.STORY_SUBJECT_1,
-                'property': 'support',
+                'value': 15,
                 'text': {
                     'en': 'audience will support the environmentalists and protest against monteasalvo',
-                    'es': 'la audiencia apoyará a los ambientalistas y protestará contra monteasalvo'
+                    'es': 'la audiencia apoyará a los manifestantes'
                 }
             },
             {
-                # :) || :)
-                'operator': '=',
-                'left_operate': constants.STORY_SUBJECT_1,
-                'right_operate': constants.STORY_SUBJECT_2,
-                'property': 'support',
-                'text': {
-                    'en': "audience will worry about the disaster but won't do anything",
-                    'es': 'la audiencia se preocupará por el desastre pero no hará nada'
-                }
-            },
-            {
-                # :| || :|
                 'operator': 'none',
                 'text': {
                     'en': 'audience won\'t pay attention to the news',
@@ -68,62 +50,54 @@ news = [
             {
                 'label': {
                     'en': ['community in', 'danger'],
-                    'es': ['poblacion en', 'peligro']
+                    'es': ['DESPLAZAMIENTO', 'FORZOSO']
                 },
                 'color': [0xf7, 0x5a, 0xff],
-                'img': 'biohazard.png',
-                'supports': constants.STORY_SUBJECT_2,
-                'damages': None
+                'img': 'biohazard.png'
             },
             {
                 'label': {
                     'en': ['deny risky alert', constants.EMPTY_LCD_LABEL],
-                    'es': ['negar alerta', 'riesgo']
+                    'es': ['EXTERMINIO', 'CULTURAL']
                 },
                 'color': [0x27, 0xff, 0x93],
-                'img': 'expert_deny.png',
-                'supports': constants.STORY_SUBJECT_1,
-                'damages': None
+                'img': 'expert_deny.png'
             },
             {
                 'label': {
                     'en': ['activist', 'overreact'],
-                    'es': ['ambientalistas', 'exageran']
+                    'es': ['SOCIEDAD', 'RETROGRADA']
                 },
                 'color': [0x8b, 0x27, 0xff],
                 'img': 'environmentalists_protests.png',
-                'supports': constants.STORY_SUBJECT_1,
-                'damages': constants.STORY_SUBJECT_2
+                'target': 1
             },
             {
                 'label': {
                     'en': ['leakage', 'contained'],
-                    'es': ['accidente bajo', 'control']
+                    'es': ['EXIGENCIAS', 'DESMEDIDAS']
                 },
                 'color': [0x00, 0x5f, 0xff],
                 'img': 'laboratories.png',
-                'supports': constants.STORY_SUBJECT_1,
-                'damages': None
+                'target': 2
             },
             {
                 'label': {
                     'en': ['severe ecosystem', 'damage'],
-                    'es': ['destruccion', 'ecosistema']
+                    'es': ['ACTOS', 'TERRORISTAS']
                 },
                 'color': [0x11, 0xf4, 0xb3],
                 'img': 'forest.png',
-                'supports': constants.STORY_SUBJECT_2,
-                'damages': constants.STORY_SUBJECT_1
+                'target': 2
             },
             {
                 'label': {
                     'en': ['20 dead', '65 injured'],
-                    'es': ['20 muertos', '65 heridos']
+                    'es': ['GOBIERNO', 'BONDADOSO']
                 },
                 'color': [0xc6, 0x99, 0xff],
                 'img': 'hospital.png',
-                'supports': constants.STORY_SUBJECT_2,
-                'damages': constants.STORY_SUBJECT_1
+                'target': 3
             }
         ]
     },

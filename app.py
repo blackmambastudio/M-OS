@@ -69,8 +69,10 @@ SCENES = {
     "Test": DevTestScene
 }
 
-init_scene = "Boot"
-using_emulator = False
+init_scene = "Boot" # valor para máquina
+init_scene = "Edit"
+using_emulator = False # valor para máquina
+using_emulator = True
 mouse_last_positions = [0, 0]
 
 
@@ -78,7 +80,9 @@ def run_game(width, height, fps, starting_scene):
     pygame.mixer.init(frequency=48000, size=-16, channels=2, buffer=4096)
     pygame.init()
     pygame.mouse.set_visible(False)
-    screen = pygame.display.set_mode((width, height), 0 | pygame.FULLSCREEN)
+    # La siguiente línea es el valor para la máquina >>>
+    # screen = pygame.display.set_mode((width, height), 0 | pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((width, height), 0)
 
     tunners = mimo.get_tunners_position()
     mouse_last_positions = [

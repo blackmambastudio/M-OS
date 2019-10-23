@@ -40,6 +40,7 @@ PALETTE_DARK_BLUE = (0x21, 0x1c, 0x7f)
 PALETTE_YELLOW = (237, 225, 74)
 PALETTE_GREEN = (77, 232, 140)
 
+PALLETE_KING_BLUE = (0x00, 0x5E, 0xFF)
 PALLETE_DARK_BLUE = (0x1D, 0x72, 0xA7)
 PALLETE_BACKGROUND_BLUE = (0x20, 0xF5, 0xFF)
 PALLETE_BACKGROUND_TITLE_BLUE = (0x00,0x5f,0xff)
@@ -63,5 +64,5 @@ SESSION_TIME = 4.8
 # TODO: put the constants related to the keyboard keys that will emulate the buttons
 #   in la MiMo.
 
-currento_evento = 1
+currento_evento = 0
 language = 'es'

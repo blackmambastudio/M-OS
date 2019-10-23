@@ -26,12 +26,73 @@ from scenes.optimizations import get_next_pair
 # when player will be ready the next screen should be optimization
 
 class EditEventScene(SceneBase):
+
+    def hook(self, right_mtl, mtl):
+        if right_mtl:
+            return 7 if mtl['target'] == 1 else 4
+        else:
+            return 2
+
+    def plot(self, right_mtl, mtl):
+        if right_mtl:
+            return 5 if mtl['target'] == 2 else 4
+        else:
+            return 1
+
+    def conclusion(self, right_mtl, mtl):
+        if right_mtl:
+            return 7 if mtl['target'] == 3 else 4
+        else:
+            return 2
+
     def __init__(self):
         SceneBase.__init__(self)
+
+        self.impact = 0
+        self.mtl_switcher = {
+            0: self.hook,
+            1: self.plot,
+            2: self.plot,
+            3: self.conclusion
+        }
+
+        # Cargar el arreglo de direcciones pa' la musique
+        self.MX = []
+        self.MX.append('assets/audio/MX/DirtySoil.ogg')
+        self.MX.append('assets/audio/MX/DystopianBallad.ogg')
+        self.MX.append('assets/audio/MX/LazyBartender.ogg')
+        self.MX.append('assets/audio/MX/LostInParadise.ogg')
+        self.MX.append('assets/audio/MX/PapayaJuice.ogg')
+        self.MX.append('assets/audio/MX/RetroDance.ogg')
+        self.MX.append('assets/audio/MX/SunnyBeach.ogg')
+        self.MX.append('assets/audio/MX/TimeTraveler.ogg')
+        self.MX.append('assets/audio/MX/WeirdJungle.ogg')
+        self.MX.append('assets/audio/MX/WhereAreYou.ogg')
+
+        # Cargar arreglos de SFX
+        audio_path = 'assets/audio/SFX/M_OS/'
+
+        self.UI_MatSel = []
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_01.ogg'))
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_02.ogg'))
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_03.ogg'))
+        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_04.ogg'))
+
+        self.UI_EndGame = utils.get_sound(audio_path + 'UI_EndGame.ogg')
+        self.UI_EndGame.set_volume(1)
+
+        self.UI_SwitchScene = utils.get_sound('assets/audio/SFX/Scanning/MG1_ObjSort.ogg')
+
+        # Preparar la máquina para la destrucción
         self.SetupMimo()
+
         # load event, title and description
         self.current_event = news[constants.currento_evento]
         self.current_frame = ''
+
+        constants.currento_evento += 1
+        if constants.currento_evento == 3:
+            constants.currento_evento = 0
 
         # initialize state
         self.image_positions = [
@@ -64,9 +125,7 @@ class EditEventScene(SceneBase):
         self.available_minigames = []
         self.SetupLayout()
 
-        # setup the layout for the optimization popup
-
-        # load the material for the HOOK
+        # obtener el material del hecho
         self.event_mtl = self.current_event['material']
 
         self.images = []
@@ -93,22 +152,6 @@ class EditEventScene(SceneBase):
         # set material buttons mode to switch
         # animate emosensemeter...
 
-        # sfx and audio
-       
-        audio_path = 'assets/audio/SFX/M_OS/'
-
-        self.UI_MatSel = []
-        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_01.ogg'))
-        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_02.ogg'))
-        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_03.ogg'))
-        self.UI_MatSel.append(utils.get_sound(audio_path + 'UI_MatSel_04.ogg'))
-
-        self.UI_EndGame = utils.get_sound(audio_path + 'UI_EndGame.ogg')
-        self.UI_EndGame.set_volume(1)
-
-        self.UI_SwitchScene = utils.get_sound('assets/audio/SFX/Scanning/MG1_ObjSort.ogg')
-
-
     def SetupMimo(self):
         mimo.set_led_brightness(150)
         mimo.set_buttons_enable_status(True, False)
@@ -117,48 +160,51 @@ class EditEventScene(SceneBase):
         mimo.set_material_buttons_active_status([0,0, 1,0, 2,0, 3,0, 4,0, 5,0, 6,0, 7,0])
 
     def SetupLayout(self):
+        # Poner a sonar una rola
+        utils.play_music(self.MX[(int(random() * 10))], -1, 0.1, 0.6)
+
+        # El marco para la información
         self.info_frame = utils.Sprite(
             constants.SPRITES_EDITION + 'current_news-frame.png',
             constants.VIEWPORT_CENTER_X,
-            165
+            182
         )
-        # por favor agrandar
 
+        # El icono del hecho
         self.icon = utils.Sprite(
             constants.EVENTS + self.current_event['ico']
         )
         self.icon.Scale([0.75, 0.75])
-        self.icon.SetPosition(280, 165)
+        self.icon.SetPosition(146, 183)
 
+        # El título del hecho y el objetivo a alcanzar con la noticia
         self.fact_title = utils.Text(
-            self.current_event['hdl'][constants.language],
-            self.normal_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
-        )
-        self.fact_title.setAnchor(0, 0)
-        self.fact_title.SetPosition(380, 94)
-
-        self.goal_desc = utils.Text(
-            ('goal' if constants.language == 'en' else 'objetivo') +
+            ('fact' if constants.language == 'en' else 'hecho') +
+                ': ' + self.current_event['ovw'][constants.language] +
+                '\n\n' +
+                ('goal' if constants.language == 'en' else 'objetivo') +
                 ': ' + self.current_event['gol'][constants.language],
             self.normal_font,
             color = constants.PALETTE_TITLES_DARK_BLUE
         )
-        self.goal_desc.setAnchor(0, 0)
-        self.goal_desc.SetPosition(380, 124)
+        self.fact_title.setAnchor(0, 0)
+        self.fact_title.SetPosition(274, 84)
 
+        # TODO: reemplazar esto por un número o una barra que muestre el impacto que está generando la edición
+        # El sesgo generado
         default_text = 'no opinion bias set yet. select material to start framing the news.'
         if constants.language == 'es':
-            default_text = 'sesgo de opinión no establecido. seleccione material para crear noticia.'
+            default_text = 'seleccione material para generar una opinión'
         self.news_framing = utils.Text(
             default_text,
             self.normal_font,
-            color = constants.PALETTE_TITLES_PINK
+            color = constants.PALLETE_KING_BLUE
         )
         self.news_framing.setAnchor(0, 0)
-        self.news_framing.SetPosition(380, 180)
-        self.timeline_back = utils.Sprite(
+        self.news_framing.SetPosition(274, 218)
 
+        # El fondo para la trama
+        self.timeline_back = utils.Sprite(
             constants.SPRITES_EDITION + 'storyline-background.png',
             constants.VIEWPORT_CENTER_X,
             606
@@ -229,7 +275,6 @@ class EditEventScene(SceneBase):
             finish_edition_layout['icon'][constants.language],
             645
         )
-
 
     def SetupPopupLayout(self):
         self.available_minigames = get_next_pair()
@@ -316,7 +361,6 @@ class EditEventScene(SceneBase):
         )
         self.description_minigame_b.setAnchor(0,0)
 
-
     def ProcessInput(self, events, pressed_keys):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
@@ -365,8 +409,7 @@ class EditEventScene(SceneBase):
         self.icon.RenderWithAlpha(screen)
 
         # render texts
-        self.fact_title.render(screen)
-        self.goal_desc.render(screen)
+        self.fact_title.render_multiline_truncated( screen, 954 )
 
         for slot in self.mtl_slots_frames:
             # TODO: change the frame of the mtl slot if it is being used
@@ -391,14 +434,13 @@ class EditEventScene(SceneBase):
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
 
-        self.news_framing.render_multiline_truncated(screen, 680, 52)
+        self.news_framing.render_multiline_truncated( screen, 954 )
 
         # render countdown
         self.countdown_label.RenderWithAlpha(screen)
 
         self.RenderCortain(screen)
         self.RenderTimeoutAlert(screen)
-
 
     def assign_material_to_sequence(self, index):
         if self.busy_slots == 4 and not self.material[index]: return
@@ -410,13 +452,13 @@ class EditEventScene(SceneBase):
                 self.sequence[slot_index] = -1
                 self.set_material_inactive(index, slot_index)
                 self.busy_slots -= 1
-                self.update_affections(index, False)
+                self.update_affections(slot_index, index, False)
                 break
             elif slot == -1 and self.material[index]:
                 self.sequence[slot_index] = index
                 self.set_material_active(index, slot_index)
                 self.busy_slots += 1
-                self.update_affections(index)
+                self.update_affections(slot_index, index)
                 break
             slot_index += 1
 
@@ -426,39 +468,16 @@ class EditEventScene(SceneBase):
         mimo.set_material_buttons_active_status([6, int(self.can_optimize)])
         # if busy_slots>4 should lock the unselected buttons
 
-    def update_affections(self, index, sum = True):
-        sbj_support = None
-        sbj_damage = None
+    def update_affections(self, slot_index, index, sum = True):
+        right_mtl = False
 
-        if not self.event_mtl[index]['supports'] == None:
-            sbj_support = self.event_mtl[index]['supports']
-        if not self.event_mtl[index]['damages'] == None:
-            sbj_damage = self.event_mtl[index]['damages']
+        if 'target' in self.event_mtl[index]:
+            right_mtl = True
 
-        if not sbj_support == None:
-            self.affections[sbj_support]['support'] += 1 if sum else -1
-        if not sbj_damage == None:
-            self.affections[sbj_damage]['damage'] += 1 if sum else -1
+        val = self.mtl_switcher.get(slot_index)(right_mtl, self.event_mtl[index])
+        self.impact += val if sum else -val
 
-        sbj1 = self.affections[constants.STORY_SUBJECT_1]
-        sbj2 = self.affections[constants.STORY_SUBJECT_2]
-
-        # check which framing rule matches the current state of affections
-        for rule in self.current_event['framing']:
-            if rule['operator'] == '>':
-                if self.affections[rule['left_operate']][rule['property']] \
-                        > self.affections[rule['right_operate']][rule['property']]:
-                    self.current_frame = rule['text'][constants.language]
-                    break
-            elif rule['operator'] == '=':
-                if self.affections[rule['left_operate']][rule['property']] \
-                        == self.affections[rule['right_operate']][rule['property']]:
-                    self.current_frame = rule['text'][constants.language]
-                    break
-            elif rule['operator'] == 'none':
-                self.current_frame = rule['text'][constants.language]
-                break
-        self.news_framing.SetText(self.current_frame)
+        self.news_framing.SetText('Impacto: %d' % self.impact)
 
     def set_material_active(self, index, slot_index):
         self.UI_MatSel[int(random()*3)].play()

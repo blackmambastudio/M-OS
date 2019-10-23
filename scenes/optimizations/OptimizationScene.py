@@ -122,7 +122,7 @@ class OptimizationScene(SceneBase):
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_i:
                     self.UI_SwitchScene = utils.get_sound('assets/audio/SFX/Scanning/MG1_ObjSort.ogg')
                     self.UI_SwitchScene.play()
-                    self.AddTrigger(0.16, self, 'SwitchToScene', "Begin")
+                    self.AddTrigger(0.16, self, 'SwitchToScene', "Edit")
                     utils.stop_music()
                     pass
             return
