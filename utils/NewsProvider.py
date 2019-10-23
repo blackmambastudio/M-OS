@@ -71,5 +71,75 @@ news = [
                 'target': 3
             }
         ]
+    },
+    {
+        'id': 2,
+        'hdl': {
+            'en': 'industrial disaster at monteasalvo\'s labs',
+            'es': 'se quema el bosque'
+        },
+        'ovw': {
+            'en': 'monteasalvo\'s reputation...enviromental alert...salunio river at risk',
+            'es': 'se quema el bosque'
+        },
+        'gol': {
+            'en': 'whitewash monteasalvo\'s reputation',
+            'es': 'que les valga verga'
+        },
+        'ico': 'biohazard.png',
+        'material': [
+            {
+                'label': {
+                    'en': ['community in', 'danger'],
+                    'es': ['???', '???']
+                },
+                'color': [0xf7, 0x5a, 0xff],
+                'img': 'politician_angry.png'
+            },
+            {
+                'label': {
+                    'en': ['deny risky alert', constants.EMPTY_LCD_LABEL],
+                    'es': ['???', '???']
+                },
+                'color': [0x27, 0xff, 0x93],
+                'img': 'politician_interview.png'
+            },
+            {
+                'label': {
+                    'en': ['activist', 'overreact'],
+                    'es': ['???', '???']
+                },
+                'color': [0x8b, 0x27, 0xff],
+                'img': 'woman_crying.png',
+                'target': 2
+            },
+            {
+                'label': {
+                    'en': ['leakage', 'contained'],
+                    'es': ['???', '???']
+                },
+                'color': [0x00, 0x5f, 0xff],
+                'img': 'prostitutes.png',
+                'target': 2
+            },
+            {
+                'label': {
+                    'en': ['severe ecosystem', 'damage'],
+                    'es': ['???', '???']
+                },
+                'color': [0x11, 0xf4, 0xb3],
+                'img': 'city.png',
+                'target': 3
+            },
+            {
+                'label': {
+                    'en': ['20 dead', '65 injured'],
+                    'es': ['???', '???']
+                },
+                'color': [0xc6, 0x99, 0xff],
+                'img': 'people_poor.png',
+                'target': 1
+            }
+        ]
     }
 ]
