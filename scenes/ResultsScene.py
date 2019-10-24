@@ -33,14 +33,14 @@ class ResultsScene(SceneBase):
         # be more too much information could overwhelm the player.
         self.consequences = []
 
-        # self.LoadConsequences([
-        #     'Gobierno invita a los ciudadanos a no preocuparse por la situación.',
-        #     'El fuego continúa alimentándose de hectáreas de bosque diariamente.',
-        #     'El impacto al ecosistema es irreparable.',
-        #     'El hogar nativo de la tribu xxx fue consumido por las llamas.',
-        #     'Enorme perdida arqueologica.',
-        #     'Se firma TLC con Hunuragha.'
-        # ])
+        self.LoadConsequences([
+            'Gobierno invita a los ciudadanos a no preocuparse por la situación.',
+            'El fuego continúa alimentándose de hectáreas de bosque diariamente.',
+            'El impacto al ecosistema es irreparable.',
+            'El hogar nativo de la tribu xxx fue consumido por las llamas.',
+            'Enorme perdida arqueologica.',
+            'Se firma TLC con Hunuragha.'
+        ])
 
     def LoadConsequences(self, lines):
 
