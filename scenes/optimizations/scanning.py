@@ -27,6 +27,10 @@ class ScanningScene(OptimizationScene):
         self.detected_contact = False
         self.countdown = 45000
         self.current_time = 45000
+        self.countdown_shadow = 0
+        self.guess_mode = 2
+        self.guess_direction = 1
+        self.guess_color = False
         
         self.colors = [
             [0x00, 0x5f, 0xff], #blue 
@@ -120,11 +124,16 @@ class ScanningScene(OptimizationScene):
 
     def UpdateLineMov(self):
         self.index += self.direction
-        if self.index < -8:
+        if self.index < -12:
             self.playing = False
-        elif self.index > 15:
+            graphics.clear()
+            self.detected_contact = False
+        elif self.index > 19:
             self.playing = False
+            graphics.clear()
+            self.detected_contact = False
 
+        self.countdown_shadow -= 1
         
 
     def RenderBody(self, screen):
@@ -132,7 +141,11 @@ class ScanningScene(OptimizationScene):
         for figure in FIGURES[self.level]:
             self.DrawFigure(screen, figure, index)
             index += 1
-
+        
+        if self.detected_contact:
+            if self.countdown_shadow <= 0:
+                self.display_figure_shadow()
+        
         if self.playing == False: return
         self.draw_color_line(0xfff&self.line_color, self.index)
         self.draw_color_line(0xddd&self.line_color, self.index-self.direction)
@@ -142,33 +155,39 @@ class ScanningScene(OptimizationScene):
         self.draw_color_line(0x555&self.line_color, self.index-self.direction*5)
         self.draw_color_line(0x333&self.line_color, self.index-self.direction*6)
         self.draw_color_line(0x111&self.line_color, self.index-self.direction*7)
+        self.draw_color_line(0x0&self.line_color, self.index-self.direction*8)
         
-        graphics.setColor(0)
+        if self.guess_color and not self.detected_contact:
+            for j in range(0, 8):
+                y = j
+                for i in range(0, 8):
+                    x = i
+                    if self.mode == 2:
+                        y = i
+                        x = j
+                        if self.direction == -1:
+                            y = 7-y
+                    elif self.direction == -1:
+                        x = 7-x
+                    if self.radar_matrix[y][x]==1:
+                        self.Lock()
+
+        graphics.render()
+    
+    def display_figure_shadow(self):
+        color = [0x111, 0x222, 0x333, 0x444, 0xaaa, 0xddd, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xddd, 0xddd, 0xbbb, 0x999, 0x999, 0x666, 0x666, 0x111, 0x0][-self.countdown_shadow]
+        graphics.setColor(color&self.line_color)
         for j in range(0, 8):
-            lock = False
             y = j
             for i in range(0, 8):
                 x = i
-                if self.mode == 2:
-                    y = i
-                    x = j
-                    if self.direction == -1:
-                        y = 7-y
-                elif self.direction == -1:
-                    x = 7-x
-
-                if self.radar_matrix[y][x]==1 or lock:
-                    lock = True
-                    if not self.detected_contact and graphics._buffer[y][x] !=0:
-                        self.Lock()
+                if self.radar_matrix[y][x] == 1:
                     graphics.plot(x, y)
-
-        graphics.render()
-        
 
     def Lock(self):
         if self.detected_contact: return
         self.detected_contact = True
+        self.countdown_shadow = 4
         print("detected collision")
 
     def draw_color_line(self, color, idx):
@@ -189,7 +208,12 @@ class ScanningScene(OptimizationScene):
 
     def NewScan(self, mode, direction):
         self.MG1_Sweep.play()
-        self.line_color = 0xf82
+        self.line_color = 0xfff
+        if mode == 1:
+            self.line_color = 0xf0f if direction == 1 else 0x0f0
+        else:
+            self.line_color = 0x0ff if direction == 1 else 0x80f
+
         self.mode = mode
         self.direction = int(direction)
         if self.direction == 1:
@@ -199,6 +223,8 @@ class ScanningScene(OptimizationScene):
             
         self.playing = True
         self.detected_contact = False
+
+        self.guess_color = mode == self.guess_mode and direction == self.guess_direction
 
 
     def SwipeHorizontal(self, distance):
@@ -227,11 +253,36 @@ class ScanningScene(OptimizationScene):
         shuffle(FIGURES[self.level])
         self.displayed_figure_index = int(random()*len(FIGURES[self.level]))
         self.figure = FIGURES[self.level][self.displayed_figure_index]
-        x = 1 + int(random()*(6-len(self.figure[0])))
-        y = 1+ int(random()*(6-len(self.figure[0])))
+        x = 4 - int(len(self.figure[0])/2)
+        y = 4 - int(len(self.figure)/2)
         for j in range(0,len(self.figure)):
             for i in range(0, len(self.figure[0])):
                 self.radar_matrix[j+y][i+x] = self.figure[j][i]
+
+        # f0f pink #2
+        # mode 1, direction 1
+
+        # 0f0 green #1
+        # mode 1, direction -1
+
+        # 0ff blue #0
+        # mode 2, direction 1
+
+        # 80f purple #3
+        # mode 2, direction -1
+
+        if self.displayed_figure_index == 0:
+            self.guess_mode = 2
+            self.guess_direction = 1
+        elif self.displayed_figure_index == 1:
+            self.guess_mode = 1
+            self.guess_direction = -1
+        elif self.displayed_figure_index == 2:
+            self.guess_mode = 1
+            self.guess_direction = 1
+        elif self.displayed_figure_index == 3:
+            self.guess_mode = 2
+            self.guess_direction = -1
 
         self.MG1_ObjSort.play()
         # display options in screen 

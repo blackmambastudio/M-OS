@@ -458,7 +458,7 @@ class EditEventScene(SceneBase):
                 break
             slot_index += 1
 
-        self.can_optimize = self.busy_slots == 4
+        self.can_optimize = self.busy_slots > 0
 
         mimo.set_material_buttons_light([6, 0xf7, 0x5a, 0xff])
         mimo.set_material_buttons_active_status([6, int(self.can_optimize)])
@@ -479,28 +479,28 @@ class EditEventScene(SceneBase):
         self.UI_MatSel[int(random()*3)].play()
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index]+material['color'])
-        line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '*')
-        line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '*')
-        mimo.lcd_display_at(index, line1_text, 1)
-        mimo.lcd_display_at(index, line2_text, 2)
+        #line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '*')
+        #line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '*')
+        #mimo.lcd_display_at(index, line1_text, 1)
+        #mimo.lcd_display_at(index, line2_text, 2)
 
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index, 0,0,0])
-        line1_text = utils.align_text(
-            material['label'][constants.language][0],
-            index < 3,
-            16,
-            '-'
-        )
-        line2_text = utils.align_text(
-            material['label'][constants.language][1],
-            index < 3,
-            16,
-            '-'
-        )
-        mimo.lcd_display_at(index, line1_text, 1)
-        mimo.lcd_display_at(index, line2_text, 2)
+        #line1_text = utils.align_text(
+        #    material['label'][constants.language][0],
+        #    index < 3,
+        #    16,
+        #    '-'
+        #)
+        #line2_text = utils.align_text(
+        #    material['label'][constants.language][1],
+        #    index < 3,
+        #    16,
+        #    '-'
+        #)
+        #mimo.lcd_display_at(index, line1_text, 1)
+        #mimo.lcd_display_at(index, line2_text, 2)
 
     def OpenPopup(self):
         self.SetupPopupLayout()
