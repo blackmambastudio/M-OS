@@ -45,6 +45,14 @@ PALLETE_DARK_BLUE = (0x1D, 0x72, 0xA7)
 PALLETE_BACKGROUND_BLUE = (0x20, 0xF5, 0xFF)
 PALLETE_BACKGROUND_TITLE_BLUE = (0x00,0x5f,0xff)
 
+# La nueva paleta --------------------------------------------------------------
+PALETTE_TEXT_PURPLE = (0xA3, 0x8A, 0xFF)
+PALETTE_TEXT_RED = (0xFF, 0x40, 0x7A)
+PALETTE_TEXT_CYAN = (0x20, 0xF5, 0xFF)
+PALETTE_TEXT_BLACK = (0x04, 0x00, 0x00)
+PALETTE_TEXT_WHITE = (0xEA, 0xE1, 0xF3)
+# ------------------------------------------------------------------------------
+
 MINIGAME_LEFT = 0
 MINIGAME_RIGHT = 1
 
@@ -66,3 +74,4 @@ SESSION_TIME = 4.8
 
 currento_evento = 0
 language = 'es'
+score = 0

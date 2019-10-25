@@ -19,7 +19,11 @@ class ResultsScene(SceneBase):
         SceneBase.__init__(self)
         self.AddTrigger(5, self, 'Terminate')
         titlefont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 44)
-        self.title = utils.Text("Consecuencias", titlefont)
+        self.title = utils.Text(
+            "Consecuencias",
+            titlefont,
+            color = constants.PALETTE_TEXT_RED
+        )
         self.title.SetPosition(1280/2, 100)
         self.UI_EndGame = utils.get_sound('assets/audio/SFX/M_OS/UI_EndGame.ogg')
         self.end_game_played = False
@@ -33,22 +37,60 @@ class ResultsScene(SceneBase):
         # be more too much information could overwhelm the player.
         self.consequences = []
 
-        self.LoadConsequences([
-            'Gobierno invita a los ciudadanos a no preocuparse por la situación.',
-            'El fuego continúa alimentándose de hectáreas de bosque diariamente.',
-            'El impacto al ecosistema es irreparable.',
-            'El hogar nativo de la tribu xxx fue consumido por las llamas.',
-            'Enorme perdida arqueologica.',
-            'Se firma TLC con Hunuragha.'
-        ])
+        # obtener las consecuencias con base al puntaje obtenido por el jugador
+        session_consequences = []
+        consequences = {
+            'bad': {
+                'en': [],
+                'es': [
+                    'Continúan las protestas en la sede de gobierno.',
+                    'El fuego continúa alimentándose de hectáreas de bosque diariamente.',
+                    'Telmar sufre enorme pérdida arqueológica.',
+                    'Gobierno invita a los ciudadanos a no preocuparse por la situación.'
+                ]
+            },
+            'good': {
+                'en': [],
+                'es': [
+                    'La sociedad rechaza sistemáticamente a la población nativa.',
+                    'El impacto al ecosistema es irreparable.',
+                    'Gobierno muestra pruebas de las ayudas que se han brindado a los nativos.',
+                    'Los nativos son desplazados y viven en condiciones precarias.'
+                ]
+            },
+            'excellent': {
+                'en': [],
+                'es': [
+                    'La tribu Kayoc es culpada de los recientes actos delictivos en la ciudad.',
+                    'Corporacion se compromete a recuperar el espacio del bosque.',
+                    'Telmar firma TLC tras sorpresivo hallazgo de fuente de hidrocarburos.',
+                    'El hogar nativo de la tribu Kayoc fue consumido por las llamas.',
+                    'Ciudadanos toman justicia a mano propia contra los nativos.'
+                ]
+            }
+        }
+        if constants.score >= 36:
+            session_consequences = consequences['excellent'][constants.language]
+        elif constants.score >= 24:
+            session_consequences = consequences['good'][constants.language]
+        else:
+            session_consequences = consequences['bad'][constants.language]
+
+        self.LoadConsequences(session_consequences)
 
     def LoadConsequences(self, lines):
-
-        consequenceFont = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", constants.FONT_NORMAL)
+        consequenceFont = pygame.font.Font(
+            "assets/fonts/VCR_OSD_MONO_1.001.ttf",
+            constants.FONT_NORMAL
+        )
         index = 0
         for line in lines:
-            consequence = utils.Text('* ' + line, consequenceFont)
-            consequence.SetPosition(60, 250 + index*40)
+            consequence = utils.Text(
+                '* ' + line,
+                consequenceFont,
+                color = constants.PALETTE_TEXT_CYAN
+            )
+            consequence.SetPosition(32, 250 + index * 40)
             consequence.setAnchor(0, 0.5)
             consequence.opacity = 0
             self.consequences.append(consequence)
@@ -77,9 +119,7 @@ class ResultsScene(SceneBase):
         if not self.end_game_played:
             self.UI_EndGame.play()
             self.end_game_played = True
-        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
+        screen.fill(constants.PALETTE_TEXT_BLACK)
         self.title.RenderWithAlpha(screen)
         for consequence in self.consequences:
             consequence.RenderWithAlpha(screen)
-    
-

@@ -65,7 +65,14 @@ class ScanningScene(OptimizationScene):
         self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_purple.png', 0, 0))
         self.piece_sprites.append(utils.Sprite(constants.SPRITES_SCANNING + 'piece_white.png', 0, 0))
         index = 0
-            
+
+        self.progress = utils.Text(
+            'Nivel 1',
+            self.normal_font,
+            color = constants.PALETTE_TEXT_CYAN
+        )
+        self.progress.SetPosition(640, 160)
+
         # sfx and audio
         audio_path = 'assets/audio/SFX/Scanning/'
         self.MG1_ObjSort = utils.get_sound(audio_path + 'MG1_ObjSort.ogg')
@@ -145,7 +152,9 @@ class ScanningScene(OptimizationScene):
         if self.detected_contact:
             if self.countdown_shadow <= 0:
                 self.display_figure_shadow()
-        
+
+        self.progress.RenderWithAlpha(screen)
+
         if self.playing == False: return
         self.draw_color_line(0xfff&self.line_color, self.index)
         self.draw_color_line(0xddd&self.line_color, self.index-self.direction)
@@ -171,9 +180,8 @@ class ScanningScene(OptimizationScene):
                         x = 7-x
                     if self.radar_matrix[y][x]==1:
                         self.Lock()
-
         graphics.render()
-    
+
     def display_figure_shadow(self):
         color = [0x111, 0x222, 0x333, 0x444, 0xaaa, 0xddd, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0xddd, 0xddd, 0xbbb, 0x999, 0x999, 0x666, 0x666, 0x111, 0x0][-self.countdown_shadow]
         graphics.setColor(color&self.line_color)
@@ -292,9 +300,11 @@ class ScanningScene(OptimizationScene):
         if index == self.displayed_figure_index:
             self.level += 1
             self.MG1_Success.play()
+            self.progress.SetText('Nivel {}'.format(self.level + 1))
         else:
             self.fails += 1
             self.MG1_Failed.play()
+            self.progress.SetText('Nivel {}'.format(self.level + 1))
             if self.fails >= 10:
                 self.score = self.level/5
                 self.FinishOptimization()

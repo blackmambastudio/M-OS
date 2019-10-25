@@ -110,7 +110,7 @@ class EditEventScene(SceneBase):
             constants.currento_evento = 0
 
         self.current_event = news[constants.currento_evento]
-        self.current_frame = ''
+        self.current_frame = '???'
 
         constants.currento_evento += 1
 
@@ -122,15 +122,26 @@ class EditEventScene(SceneBase):
         self.SetupLayout()
 
         self.images = []
+        self.details = []
         for mtl in self.event_mtl:
-            self.images.append(utils.Sprite(constants.MATERIAL + mtl['img']))
+            mtl_dtl = utils.Text(
+                mtl['detail'][constants.language],
+                self.normal_font,
+                color = constants.PALETTE_TEXT_CYAN
+            )
+            mtl_dtl.setAnchor(0, 0)
+            mtl_img = utils.Sprite(constants.MATERIAL + mtl['img'])
+            mtl_img.SetOpacity(64)
+
+            self.images.append(mtl_img)
+            self.details.append(mtl_dtl)
 
         material_indexes = [0, 1, 2, 4, 5, 6]
         index = 0
         # set buttons to switch mode
         for material in self.current_event['material']:
-            line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '-')
-            line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '-')
+            line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, ' ')
+            line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, ' ')
             
             mimo.set_material_buttons_light([index] + material['color'])
             #mimo.set_material_leds_color([material_indexes[index]] + material['color'])
@@ -178,20 +189,20 @@ class EditEventScene(SceneBase):
                 ('goal' if constants.language == 'en' else 'objetivo') +
                 ': ' + self.current_event['gol'][constants.language],
             self.normal_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
+            color = constants.PALETTE_TEXT_PURPLE
         )
         self.fact_title.setAnchor(0, 0)
         self.fact_title.SetPosition(274, 84)
 
         # TODO: reemplazar esto por un número o una barra que muestre el impacto que está generando la edición
         # El sesgo generado
-        default_text = 'no opinion bias set yet. select material to start framing the news.'
+        self.default_framing = 'no opinion bias set yet. select material to start framing the news.'
         if constants.language == 'es':
-            default_text = 'seleccione material para generar una opinión'
+            self.default_framing = 'seleccione material para generar una opinión'
         self.news_framing = utils.Text(
-            default_text,
+            self.default_framing,
             self.normal_font,
-            color = constants.PALLETE_KING_BLUE
+            color = constants.PALETTE_TEXT_RED
         )
         self.news_framing.setAnchor(0, 0)
         self.news_framing.SetPosition(274, 218)
@@ -227,25 +238,25 @@ class EditEventScene(SceneBase):
         self.news_hook = utils.Text(
             story_layout['1'][constants.language][0],
             self.subtitle_font,
-            color = constants.PALLETE_BACKGROUND_BLUE
+            color = constants.PALETTE_TEXT_BLACK
         )   
         self.news_hook.SetPosition(story_layout['1'][constants.language][1], 605)
 
         self.news_conflict = utils.Text(
             story_layout['2'][constants.language][0],
             self.subtitle_font,
-            color = constants.PALLETE_BACKGROUND_BLUE
+            color = constants.PALETTE_TEXT_BLACK
         )
         self.news_conflict.SetPosition(story_layout['2'][constants.language][1], 605)
 
         self.news_conclusion = utils.Text(
             story_layout['3'][constants.language][0],
             self.subtitle_font,
-            color = constants.PALLETE_BACKGROUND_BLUE
+            color = constants.PALETTE_TEXT_BLACK
         )
         self.news_conclusion.SetPosition(story_layout['3'][constants.language][1], 605)
 
-        #--- aca voy
+        # ???
         self.popupLabel = utils.Text('popup', self.subtitle_font)
         self.popupLabel.setAnchor(0.5, 0)
         self.popupLabel.SetPosition(640, 120)
@@ -280,7 +291,7 @@ class EditEventScene(SceneBase):
         self.popup_title = utils.Text(
             self.current_event['hdl'][constants.language],
             self.subtitle_font,
-            color = constants.PALLETE_BACKGROUND_BLUE
+            color = constants.PALETTE_TEXT_CYAN
         )
         self.popup_title.setAnchor(0.5, 0)
         self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 100)
@@ -288,7 +299,7 @@ class EditEventScene(SceneBase):
         self.popup_framing = utils.Text(
             self.current_frame,
             self.normal_font,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            color= constants.PALETTE_TEXT_PURPLE
         )
         self.popup_framing.setAnchor(0, 0)
         self.popup_framing.SetPosition(
@@ -315,14 +326,14 @@ class EditEventScene(SceneBase):
             self.subtitle_font,
             336,
             480,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            color= constants.PALETTE_TEXT_CYAN
         )
         self.description_minigame_a = utils.Text(
             minigame_data_a["pitch"][constants.language],
             self.normal_font,
             111,
             500,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            color= constants.PALETTE_TEXT_PURPLE
         )
         self.description_minigame_a.setAnchor(0,0)
 
@@ -342,7 +353,7 @@ class EditEventScene(SceneBase):
             self.subtitle_font,
             937,
             480,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            color= constants.PALETTE_TEXT_CYAN
         )
 
         self.description_minigame_b = utils.Text(
@@ -350,7 +361,7 @@ class EditEventScene(SceneBase):
             self.normal_font,
             712,
             500,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            color= constants.PALETTE_TEXT_PURPLE
         )
         self.description_minigame_b.setAnchor(0,0)
 
@@ -424,6 +435,12 @@ class EditEventScene(SceneBase):
                     self.mtl_slots_frames[index].y
                 )
                 self.images[slot].RenderWithAlpha(screen)
+
+                self.details[slot].SetPosition(
+                    self.mtl_slots_frames[index].x - 138 + 16,
+                    self.mtl_slots_frames[index].y - 132 + 16
+                )
+                self.details[slot].render_multiline_truncated(screen, 260, 248)
             index += 1
 
         if self.can_optimize:
@@ -473,34 +490,25 @@ class EditEventScene(SceneBase):
         val = self.mtl_switcher.get(slot_index)(right_mtl, self.event_mtl[index])
         self.impact += val if sum else -val
 
-        self.news_framing.SetText('Impacto: %d' % self.impact)
+        if self.impact >= 16:
+            self.current_frame = self.current_event['framing']['excellent'][constants.language] + ' [ ! ]'
+        elif self.impact >= 6:
+            self.current_frame = self.current_event['framing']['good'][constants.language]
+        elif self.impact > 0:
+            self.current_frame = self.current_event['framing']['bad'][constants.language]
+        else:
+            self.current_frame = self.default_framing
+            
+        self.news_framing.SetText(self.current_frame)
 
     def set_material_active(self, index, slot_index):
         self.UI_MatSel[int(random()*3)].play()
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index]+material['color'])
-        #line1_text = utils.align_text(material['label'][constants.language][0], index < 3, 16, '*')
-        #line2_text = utils.align_text(material['label'][constants.language][1], index < 3, 16, '*')
-        #mimo.lcd_display_at(index, line1_text, 1)
-        #mimo.lcd_display_at(index, line2_text, 2)
 
     def set_material_inactive(self, index, slot_index):
         material = self.current_event['material'][index]
         mimo.set_material_leds_color([24+slot_index, 0,0,0])
-        #line1_text = utils.align_text(
-        #    material['label'][constants.language][0],
-        #    index < 3,
-        #    16,
-        #    '-'
-        #)
-        #line2_text = utils.align_text(
-        #    material['label'][constants.language][1],
-        #    index < 3,
-        #    16,
-        #    '-'
-        #)
-        #mimo.lcd_display_at(index, line1_text, 1)
-        #mimo.lcd_display_at(index, line2_text, 2)
 
     def OpenPopup(self):
         self.SetupPopupLayout()
@@ -533,14 +541,14 @@ class EditEventScene(SceneBase):
             },
             'pos': {
                 'en': 907,
-                'es': 969
+                'es': 968 - 60
             }
         }
         self.right_progress_label.SetText(
             right_label_layout['text'][constants.language] + self.available_minigames[1]["title"][constants.language]
         )
         self.right_progress_label.setAnchor(0, 0.5)
-        self.right_progress_label.SetPosition(760, 675)
+        self.right_progress_label.SetPosition(730 - 30, 675)
         self.right_progress_icon.setAnchor(0.5, 0.5)
         self.right_progress_icon.SetPosition(
             right_label_layout['pos'][constants.language],
@@ -559,7 +567,7 @@ class EditEventScene(SceneBase):
             },
             'pos': {
                 'en': [170, 316],
-                'es': [80, 290]
+                'es': [50 - 20, 290 - 50]
             }
         }
         self.left_progress_label.SetText(
@@ -604,7 +612,7 @@ class EditEventScene(SceneBase):
         )
 
         if not self.showing_minigame_tutorial:
-            self.popup_framing.render_multiline_truncated(screen, 1088, 86)
+            self.popup_framing.render_multiline_truncated(screen, 1088 - 32, 86)
             self.icon_back_a.RenderWithAlpha(screen)
             self.icon_minigame_a.RenderWithAlpha(screen)
             self.title_minigame_a.render(screen)
@@ -618,9 +626,9 @@ class EditEventScene(SceneBase):
             self.minigame_optimization_sub.render(screen)
             self.minigame_icon_back.RenderWithAlpha(screen)
             self.minigame_icon.RenderWithAlpha(screen)
-            self.minigame_desc.render_multiline_truncated(screen, 350, 500)
+            self.minigame_desc.render_multiline_truncated(screen, 480, 500)
             self.minigame_goal_label.render(screen)
-            self.minigame_goal.render_multiline_truncated(screen, 350, 500)
+            self.minigame_goal.render_multiline_truncated(screen, 550, 500)
             self.minigame_preview.RenderFrame(screen)
 
     # load images for minigames
@@ -634,17 +642,18 @@ class EditEventScene(SceneBase):
             if side == constants.MINIGAME_LEFT else self.right_progress_label.color
 
         self.minigame_title = utils.Text(
-            selected_minigame["title"][constants.language],
+            'how to play?' if constants.language == 'en' else 'funcionamiento',
             self.subtitle_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
+            color = constants.PALETTE_TEXT_CYAN
         )
         self.minigame_title.setAnchor(0, 0)
         self.minigame_title.SetPosition(310, 240)
 
         self.minigame_optimization_sub = utils.Text(
-            'optimization' if constants.language == 'en' else 'optimización',
+            # 'optimization' if constants.language == 'en' else 'optimización',
+            selected_minigame["title"][constants.language],
             self.subtitle_font,
-            color = constants.PALLETE_BACKGROUND_TITLE_BLUE
+            color = constants.PALETTE_TEXT_RED
         )
         self.minigame_optimization_sub.SetPosition(constants.VIEWPORT_CENTER_X, 175)
 
@@ -656,7 +665,7 @@ class EditEventScene(SceneBase):
         self.minigame_icon_back.setAnchor(0,0.5)
         self.minigame_icon = utils.Sprite(
             'assets/minigame_icons/'+selected_minigame["icon"],
-            110,
+            114,
             240+87
         )
         self.minigame_icon.setAnchor(0,0.5)
@@ -666,7 +675,7 @@ class EditEventScene(SceneBase):
             self.normal_font,
             310,
             300,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            color= constants.PALETTE_TEXT_PURPLE
         )
         self.minigame_desc.setAnchor(0,0)
 
@@ -675,16 +684,16 @@ class EditEventScene(SceneBase):
             'goal:' if constants.language == 'en' else 'objetivo:',
             self.subtitle_font,
             300,
-            450,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            500,
+            color= constants.PALETTE_TEXT_PURPLE
         )
         self.minigame_goal_label.setAnchor(1,0)
         self.minigame_goal = utils.Text(
             selected_minigame["goal"][constants.language],
             self.normal_font,
             310,
-            450,
-            color= constants.PALETTE_TITLES_DARK_BLUE
+            500,
+            color= constants.PALETTE_TEXT_PURPLE
         )
         self.minigame_goal.setAnchor(0,0)
 
@@ -708,7 +717,7 @@ class EditEventScene(SceneBase):
             },
             'pos': {
                 'en': 907,
-                'es': 968
+                'es': 968 - 60
             }
         }
         self.right_progress_label.SetColor(minigame_color)
@@ -723,7 +732,7 @@ class EditEventScene(SceneBase):
         mimo.set_material_buttons_active_status([6,1, 7,0])
 
     def PlayMinigame(self, name):
-        print(name)
+        constants.score += self.impact
         self.CloseEvent(1.1)
         self.AddTween("easeInSine", 1.1, self, "percentage", 0, 1.1, 0)
         self.AddTrigger(1.2, self, 'SwitchToScene', name)

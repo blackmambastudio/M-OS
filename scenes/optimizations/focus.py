@@ -11,9 +11,15 @@ class FocusScene(OptimizationScene):
     def __init__(self):
         self.minigametitle = 'focus.opt'
         OptimizationScene.__init__(self)
+
         self.pieces = []
         self.rendering_order = [0,1,2,3,4]
         self.render_background = True
+        self.customRotation = 0
+        self.correct_pieces = 0
+        self.current_time = 20000
+
+        # Agregar las cosas pa' renderizar en la pantalla
         self.background = utils.Sprite(
             constants.SPRITES_FOCUS + 'focus-background.png', 
             1280/2,
@@ -35,9 +41,12 @@ class FocusScene(OptimizationScene):
             utils.Sprite(constants.SPRITES_FOCUS + 'focus-pieceE.png', 747, 447)
         )
 
-        self.customRotation = 0
-        self.correct_pieces = 0
-        self.current_time = 20000
+        self.progress = utils.Text(
+            '0 de 5',
+            self.normal_font,
+            color = constants.PALETTE_TEXT_CYAN
+        )
+        self.progress.SetPosition(640, 160)
 
         for piece in self.pieces:
             rotation = int(random()*4)
@@ -72,13 +81,11 @@ class FocusScene(OptimizationScene):
             sfx.set_volume(0.1)
             sfx.play(-1)
 
-
         self.UI_OptWin = utils.get_sound('assets/audio/SFX/M_OS/UI_OptWin.ogg')
         self.UI_OptWin.set_volume(0.5)
 
         self.UI_OptFail = utils.get_sound('assets/audio/SFX/M_OS/UI_OptFail.ogg')
         self.UI_OptFail.set_volume(1)
-
 
         # base loop
         utils.play_music(audio_path + 'MG2_BasicLoop.ogg', -1, 0.1)
@@ -111,8 +118,8 @@ class FocusScene(OptimizationScene):
 
     def Update(self, dt):
         OptimizationScene.Update(self, dt)
-        self.background.opacity = (0.5 + self.correct_pieces*0.1)*255
-        
+        # self.background.opacity = (0.5 + self.correct_pieces * 0.1) * 255
+
         self.dirty_rects = [(0, 77, 1280, 38), (490, 10, 300, 50)]
         for index, locked in enumerate(self.locked_pieces):
             if locked:
@@ -139,6 +146,7 @@ class FocusScene(OptimizationScene):
     def RenderBody(self, screen):
         for index in self.rendering_order:
             self.pieces[index].RenderWithAlpha(screen)
+        self.progress.RenderWithAlpha(screen)
 
     def SpinPiece(self, index):
         piece = self.pieces[index]
@@ -149,6 +157,7 @@ class FocusScene(OptimizationScene):
         if piece.rotation%360 == 0: # dont fix this
             self.sfx_pieces[self.correct_pieces-1].set_volume(0) # in milliseconds
             self.correct_pieces -= 1
+            self.progress.SetText('{} de 5'.format(self.correct_pieces))
 
         self.rendering_order.remove(index)
         self.rendering_order.append(index)
@@ -163,12 +172,11 @@ class FocusScene(OptimizationScene):
             #self.sfx_pieces[self.correct_pieces].play(-1)
             self.sfx_pieces[self.correct_pieces].set_volume(0.6)
             self.correct_pieces += 1
-            
-        
+            self.progress.SetText('{} de 5'.format(self.correct_pieces))
+
         if self.correct_pieces == 5:
             print("you win!")
             self.FinishOptimization()
-            
 
     def FinishOptimization(self):
         utils.stop_music()
@@ -184,8 +192,6 @@ class FocusScene(OptimizationScene):
 
         for index in range(0, 5):
             self.sfx_pieces[index].fadeout(1500)
-
-
 
     def DisplayResults(self):
         OptimizationScene.DisplayResults(self)

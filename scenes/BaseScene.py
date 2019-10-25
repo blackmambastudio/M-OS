@@ -45,7 +45,11 @@ class SceneBase:
         self.closing = False
         #self.AddTrigger(0.1, self, 'OpenEvent')
 
-        self.countdown_label = utils.Text("00:00", self.subtitle_font, color = constants.PALETTE_DARK_BLUE)
+        self.countdown_label = utils.Text(
+            "00:00",
+            self.subtitle_font,
+            color = constants.PALETTE_TEXT_BLACK
+        )
         self.countdown_label.SetPosition(constants.VIEWPORT_CENTER_X, 28)
         self.countdown_in_red = False
 
@@ -81,7 +85,7 @@ class SceneBase:
         self.popup_timer_description = utils.Text(
             finish_text,
             self.subtitle_font,
-            color=(0,0x55, 0xff)
+            color = constants.PALETTE_TEXT_RED
         )
         self.popup_timer_description.SetPosition(constants.VIEWPORT_CENTER_X, 427)
         self.timeoutends_popup_active = False
@@ -140,7 +144,7 @@ class SceneBase:
         self.loading_label = utils.Text(
             "loading" if constants.language == 'en' else 'cargando',
             self.subtitle_font,
-            color=constants.PALLETE_BACKGROUND_TITLE_BLUE
+            color = constants.PALETTE_TEXT_CYAN
         )
         self.loading_label.SetPosition(constants.VIEWPORT_CENTER_X, 330)
         # -- end popup elements
@@ -188,9 +192,9 @@ class SceneBase:
     def RenderCortain(self, screen):
         if self.transition_cortain:
             interval = (int(self.height_cortain*15))/15
-            pygame.draw.rect(screen, [0x20, 0xF4, 0xFE], (400, 270, 480, 180))
-            pygame.draw.rect(screen, [0x00, 0x60, 0xFF], (400, 270, 480, 180), 2)
-            pygame.draw.rect(screen, [0x0, 0x60, 0xFF], (450, 360, interval*380, 50))
+            pygame.draw.rect(screen, [0x04, 0x00, 0x00], (400, 270, 480, 180))
+            pygame.draw.rect(screen, [0xFF, 0x40, 0x7A], (400, 270, 480, 180), 2)
+            pygame.draw.rect(screen, [0xFF, 0x40, 0x7A], (450, 360, interval*380, 50))
             self.loading_label.render(screen)
 
     # in milliseconds
@@ -263,7 +267,7 @@ class SceneBase:
         self.right_progress_label = utils.Text(
             start_edit_layout['text'][constants.language],
             self.subtitle_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
+            color = constants.PALETTE_TEXT_CYAN
         )
         self.right_progress_label.setAnchor(1, 0)
         self.right_progress_label.SetPosition(1200, 660)
@@ -274,7 +278,11 @@ class SceneBase:
         )
         self.right_progress_icon.setAnchor(1, 0)
 
-        self.left_progress_label = utils.Text("press    to stop editing", self.subtitle_font, color = constants.PALETTE_TITLES_DARK_BLUE)
+        self.left_progress_label = utils.Text(
+            "press    to stop editing",
+            self.subtitle_font,
+            color = constants.PALETTE_TEXT_CYAN
+        )
         self.left_progress_label.setAnchor(0.5, 0.5)
         self.left_progress_label.SetPosition(
             constants.VIEWPORT_PADDING_X,
@@ -287,7 +295,6 @@ class SceneBase:
         )
 
     def RenderUI(self, screen):
-
         if self.render_right_progress:
             self.right_progress_label.RenderWithAlpha(screen)
             self.right_progress_icon.RenderWithAlpha(screen)
@@ -299,7 +306,6 @@ class SceneBase:
         self.countdown_label.RenderWithAlpha(screen)
 
     def OpenEvent(self):
-    
         self.transition_cortain = True
         self.AddTween("easeOutSine", 0.5, self, "height_cortain", 1, 0, 0)
         self.AddTrigger(0.51, self, 'StopTransition')

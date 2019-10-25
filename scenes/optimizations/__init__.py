@@ -9,24 +9,25 @@ minigames = [{
     "icon": "focus.png",
     "title": {
         'en': "focus",
-        'es': "enfoque"
+        'es': "Overclock"
     },
     'pitch': {
         'en': '???',
-        'es': 'conecta los puntos de forma correcta'
+        'es': 'Modifica el circuito correctamente para mejorar la eficiencia de MiMo'
     },
     "description": {
         'en': "Rotate the images using the triangular inputs",
-        'es': 'Rota las figuras usando los botones triangulares'
+        'es': '''- Gira las figuras usando los botones triangulares.
+- Conecta las líneas del circuito antes de que la máquina se sobrecargue.'''
     },
     "goal": {
         'en': "Connect all circuits before the time runs out",
-        'es': 'conecta el circuito antes de que termine el tiempo'
+        'es': 'Ajusta el cableado interno de MiMo para hacerle overclock y reforzar el impacto de la noticia.'
     },
     "preview": "focus_preview.png",
-    "preview_width": 317,
-    "preview_height": 374,
-    "preview_frames": [0,1,2,3,4,5,6],
+    "preview_width": 320,
+    "preview_height": 358,
+    "preview_frames": [0,1,2,3,4,5],
     "preview_x": 816,
     "preview_y": 227,
     "preview_rate": 0.75
@@ -35,24 +36,26 @@ minigames = [{
     "icon": "scanning.png",
     "title": {
         'en': "scanning",
-        'es': 'radar'
+        'es': 'scanner'
     },
     'pitch': {
         'en': '???',
-        'es': 'escanea y encuentra la figura correcta'
+        'es': 'identifica las figuras escondidas para incrementar el alcance de MiMo'
     },
     "description": {
         'en': "Use the knobs to scan the panel and triangular inputs to select the correct shape",
-        'es': 'usa las perillas para escanear y los botones triangulares para escoger la figura correcta'
+        'es': '''- Usa las perillas para escanear el panel central.
+- El color del barrido revelará la figura oculta.
+- Selecciona la figura descubierta usando los botones triangulares.'''
     },
     "goal": {
         'en': "Guess as many shapes as possible in the given time",
-        'es': 'encuentra tantas figuras como sea posible en el tiempo dado'
+        'es': 'Mejora el alcance de la transmisión identificando las figuras que corrompen el algoritmo geométrico de MiMo.'
     },
     "preview": "scanning_preview.png",
-    "preview_width": 359,
-    "preview_height": 286,
-    "preview_frames": [0,1,2,3,4,5,6],
+    "preview_width": 388,
+    "preview_height": 318,
+    "preview_frames": [0,1,2,3,4,5],
     "preview_x": 795,
     "preview_y": 262,
     "preview_rate": 1.2

@@ -62,7 +62,7 @@ class OptimizationScene(SceneBase):
         self.title = utils.Text(
             opt_text + ' - ' + self.minigametitle,
             self.subtitle_font,
-            color=constants.PALLETE_BACKGROUND_BLUE
+            color=constants.PALETTE_TEXT_PURPLE
         )
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 40)
 
@@ -73,8 +73,6 @@ class OptimizationScene(SceneBase):
             77
         )
         self.timerBackground.setAnchor(0,0)
-        #self.timer = utils.Text("00:00:00", self.title_font)
-        #self.timer.SetPosition(constants.VIEWPORT_CENTER_X, 30)
 
     def SetupPopup(self):
         bg_image_name = 'optimization_results-popup.png'
@@ -89,11 +87,15 @@ class OptimizationScene(SceneBase):
         self.popup_description = utils.Text(
             "you are awesome!",
             self.subtitle_font,
-            color=constants.PALLETE_BACKGROUND_BLUE
+            color=constants.PALETTE_TEXT_RED
         )
         self.popup_description.SetPosition(constants.VIEWPORT_CENTER_X, 380)
 
-        self.bonus_text = utils.Text("++!", self.subtitle_font, color=constants.PALLETE_BACKGROUND_BLUE)
+        self.bonus_text = utils.Text(
+            "++!",
+            self.subtitle_font,
+            color=constants.PALETTE_TEXT_CYAN
+        )
         self.bonus_text.SetPosition(constants.VIEWPORT_CENTER_X, 420)
 
 
@@ -103,7 +105,7 @@ class OptimizationScene(SceneBase):
         self.right_progress_label = utils.Text(
             next_news_text,
             self.subtitle_font,
-            color = constants.PALETTE_TITLES_DARK_BLUE
+            color = constants.PALETTE_TEXT_CYAN
         )
         self.right_progress_label.setAnchor(1, 0)
         self.right_progress_label.SetPosition(1200, 660)
@@ -177,11 +179,9 @@ class OptimizationScene(SceneBase):
 
     def RenderTimer(self, screen):
         self.timerBackground.RenderWithAlpha(screen)
-        #pygame.draw.rect(screen, [0x00, 0x5F, 0xFF], (0, 77, self.timerprogress*1280, 38))
         interval = (int(self.timerprogress*35))/35
-        pygame.draw.rect(screen, [0xf7, 0x5a, 0xff], (0, 77, interval*1280, 38))
-        pygame.draw.rect(screen, [0x21, 0x1c, 0x7F], (0, 77, 1280, 38), 2)
-        
+        pygame.draw.rect(screen, [0xFF, 0x40, 0x7A], (0, 77, interval * 1280, 38))
+        pygame.draw.rect(screen, [0x04, 0x00, 0x00], (0, 77, 1280, 38), 2)
 
     # should display the results
     # then shutdown this scene and change it to next one

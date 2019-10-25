@@ -40,7 +40,7 @@ class BootScene(SceneBase):
         font = pygame.font.Font("assets/fonts/VCR_OSD_MONO_1.001.ttf", 24)
         self.title = utils.Text("M-OS STARTING", font)
         self.title.SetOpacity(0)
-        self.title.SetColor(constants.PALLETE_DARK_BLUE)
+        self.title.SetColor(constants.PALETTE_TEXT_RED)
         self.title.SetPosition(constants.VIEWPORT_CENTER_X, 500)
         self.text_updater_counter = 0
         self.text_updater_frequency = 0.06
@@ -82,7 +82,7 @@ class BootScene(SceneBase):
             self.title.DecorateText(self.text_updater_values[self.text_updater_index] + ' ', ' '+self.text_updater_values[-self.text_updater_index])
     
     def Render(self, screen):
-        screen.fill(constants.PALLETE_BACKGROUND_BLUE)
+        screen.fill(constants.PALETTE_TEXT_BLACK)
         self.logo.RenderWithAlpha(screen)
         self.title.RenderWithAlpha(screen)
         graphics.setColor(0xfff)
