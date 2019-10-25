@@ -178,7 +178,7 @@ class EditEventScene(SceneBase):
         self.icon = utils.Sprite(
             constants.EVENTS + self.current_event['ico']
         )
-        self.icon.Scale([0.75, 0.75])
+        # self.icon.Scale([0.75, 0.75])
         self.icon.SetPosition(146, 183)
 
         # El título del hecho y el objetivo a alcanzar con la noticia
@@ -297,7 +297,8 @@ class EditEventScene(SceneBase):
         self.popup_title.SetPosition(constants.VIEWPORT_CENTER_X, 100)
 
         self.popup_framing = utils.Text(
-            self.current_frame,
+            # self.current_frame, # por si se quiere mostrar el framing generado
+            'Selecciona una de las siguientes mejoras para optimizar el impacto que tendrá la noticia',
             self.normal_font,
             color= constants.PALETTE_TEXT_PURPLE
         )

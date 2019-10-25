@@ -16,7 +16,7 @@ news = [
             'en': 'whitewash monteasalvo\'s reputation',
             'es': 'generar rechazo hacia nativos'
         },
-        'ico': 'biohazard.png',
+        'ico': 'migrants.png',
         'framing': {
             'bad': {
                 'en': '???',
@@ -124,7 +124,7 @@ news = [
             'en': 'whitewash monteasalvo\'s reputation',
             'es': 'Justificar la quema del bosque y para permitir su destrucción.'
         },
-        'ico': 'biohazard.png',
+        'ico': 'surveillance.png',
         'framing': {
             'bad': {
                 'en': '???',
